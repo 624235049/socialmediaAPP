@@ -1,5 +1,8 @@
+
+
 import 'package:flutter/material.dart';
 import 'package:mfecinternship/feature/regis/presentation/pages/regis_pages.dart';
+import 'package:mfecinternship/utils/theme.dart';
 
 void main() {
   runApp(const MyApp());
@@ -13,9 +16,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
+
       home: RegistrationPage(),
     );
   }

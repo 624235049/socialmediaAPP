@@ -3,11 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:mfecinternship/utils/theme.dart';
 
 class TextFormFieldRegis extends StatelessWidget {
+  final TextEditingController textController;
   final String labelText;
   final bool obscureText;
   final TextInputType keyboardType;
 
   TextFormFieldRegis({
+    required this.textController,
     required this.labelText,
     this.obscureText = false,
     required this.keyboardType,
@@ -22,29 +24,33 @@ class TextFormFieldRegis extends StatelessWidget {
         style: const TextStyle(
           color: Colors.black,
         ),
+        controller: textController,
         obscureText: obscureText,
         keyboardType: keyboardType,
         decoration: InputDecoration(
           label: Text(labelText),
           floatingLabelBehavior: FloatingLabelBehavior.always, // set always to show label
-          border: const OutlineInputBorder(
-            borderSide: BorderSide(
-              width: 1,
-            ),
-          ),
-          focusedBorder: const OutlineInputBorder(
-            borderSide: BorderSide(
-              color: AppTheme.buttonBackgroundColor,
-              width: 1,
-            ),
-          ),
-          enabledBorder: const OutlineInputBorder(
-            borderSide: BorderSide(
-              width: 1,
-            ),
-          ),
-          filled: true,
-          fillColor: Colors.transparent,
+          border: OutlineInputBorder(),
+          // border: const OutlineInputBorder(
+          //   borderSide: BorderSide(
+          //     color: Colors.black,
+          //     width: 1.5,
+          //   ),
+          // ),
+          // focusedBorder: const OutlineInputBorder(
+          //   borderSide: BorderSide(
+          //     color: AppTheme.buttonBackgroundColor,
+          //     width: 1.5,
+          //   ),
+          // ),
+          // enabledBorder: const OutlineInputBorder(
+          //   borderSide: BorderSide(
+          //     color: AppTheme.buttonBackgroundColor,
+          //     width: 1.5,
+          //   ),
+          // ),
+          // filled: true,
+          // fillColor: Colors.transparent,
         ),
       ),
     );
