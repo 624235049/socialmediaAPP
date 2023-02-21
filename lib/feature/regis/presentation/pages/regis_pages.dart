@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:mfecinternship/feature/regis/widget/widget_text.dart';
 import 'package:mfecinternship/utils/theme.dart';
 
+import '../../widget/widget_bigtext.dart';
+import '../../widget/widget_dialog.dart';
 import '../../widget/widget_textformfield.dart';
 
 class RegistrationPage extends StatefulWidget {
@@ -12,6 +13,7 @@ class RegistrationPage extends StatefulWidget {
 class _RegistrationPageState extends State<RegistrationPage> {
   int _activeStepIndex = 0;
   String _selectedGender = '';
+  bool _accepted = false;
   String _selectedLocation = 'Mobile Developper';
   DateTime? _selectedDate = DateTime.now();
   TextEditingController dateController = TextEditingController();
@@ -22,6 +24,11 @@ class _RegistrationPageState extends State<RegistrationPage> {
   TextEditingController phone = TextEditingController();
   TextEditingController skill = TextEditingController();
   TextEditingController expect = TextEditingController();
+  TextEditingController password = TextEditingController();
+  TextEditingController confirm_password = TextEditingController();
+  String? imageUrl;
+  String _value =
+      "ข้อ 1 คำนิยามภายในข้อกำหนดนี้(ก) แอปพลิเคชัน หมายความว่าแอปพลิเคชันชื่อว่า มะลิซ้อน TGIA x Farmfeed ซึ่งดำเนินการและให้บริการในลักษณะดังต่อไปนี้แอปพลิเคชันที่ช่วยเหลือเกษตรกรที่ประสบภัยพิบัติแต่ไม่ได้อยู่ในพื้นที่ที่ประกาศภัยพิบัติ(ข) เจ้าของแอปพลิเคชัน หมายความว่า บริษัท อินฟิวส์ จำกัด ทะเบียนนิติบุคคลเลขที่ 0105556133084 สำนักงานตั้งอยู่ที่ 41 ถนนแก้วเงินทองแขวงคลองชักพระเขตตลิ่งชันกรุงเทพมหานคร 10170(ค) ผู้ใช้งาน หมายความว่าผู้เยี่ยมชมผู้ใช้สมาชิกของแอปพลิเคชันหรือบุคคลอื่นใดที่เข้าถึงแอปพลิเคชันไม่ว่าการเยี่ยมชมการใช้การเป็นสมาชิกหรือการเข้าถึงนั้นจะกระทำด้วยวิธีใดลักษณะใดผ่านอุปกรณ์ใดผ่านช่องทางใดและไม่ว่ามีค่าใช้จ่ายหรือไม่ก็ตาม(ง) ข้อมูลส่วนบุคคล หมายความว่าข้อมูลใด ๆ ก็ตามไม่ว่าของผู้ใช้งานหรือบุคคลอื่นใดที่สามารถใช้ในการระบุตัวตนของบุคคลบุคคลนั้นได้ไม่ว่าทางตรงหรือทางอ้อม(จ) เนื้อหา หมายความว่าข้อความ บทความ ความคิดเห็น บทวิเคราะห์ รูปภาพ สัญลักษณ์ เครื่องหมาย รูปภาพประดิษฐ์ภาพถ่าย ภาพเคลื่อนไหว ภาพยนตร์ เสียง สิ่งบันทึกเสียง การออกแบบ คำสั่ง ชุดคำสั่ง หรือการสื่อสาร ไม่ว่าในลักษณะใดและวิธีใด ๆ ในแอปพลิเคชัน และไม่ว่าเนื้อหานั้นจะมีการจำกัดการเข้าถึงหรือไม่ก็ตาม";
 
   @override
   void dispose() {
@@ -33,6 +40,8 @@ class _RegistrationPageState extends State<RegistrationPage> {
     phone.dispose();
     skill.dispose();
     expect.dispose();
+    password.dispose();
+    confirm_password.dispose();
     super.dispose();
   }
 
@@ -56,54 +65,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
                 'ทักษะ     ',
                 style: TextStyle(fontWeight: FontWeight.bold),
               ),
-        content: Column(
-          children: [
-            const SizedBox(
-              height: 20,
-            ),
-            TextFormFieldRegis(
-              textController: skill,
-              labelText: "ทักษะที่มี",
-              keyboardType: TextInputType.text,
-            ),
-            const SizedBox(
-              height: 20,
-            ),
-            Container(
-              margin: const EdgeInsets.only(
-                  left: 30, right: 30),
-              child: DropdownButtonFormField(
-                value: _selectedLocation,
-                  decoration: const InputDecoration(
-                    border: OutlineInputBorder(),
-                    labelText: 'ต้องการฝึกงานตำแห่น่งใด',
-                  ),
-                  items: <String>[
-                    'Mobile Developper',
-                    'Fontend Developper',
-                    'Backend Developper',
-                    'DevOps'
-                  ].map<DropdownMenuItem<String>>((String value) {
-                    return DropdownMenuItem<String>(
-                      value: value,
-                      child: Text(value),
-                    );
-                  }).toList(),
-                  onChanged: (value) {
-                    setState(() {});
-                  }),
-            ),
-            const SizedBox(
-              height: 20,
-            ),
-            TextFormFieldRegis(
-              textController: expect,
-              labelText: "สิ่งที่คาดหวังจากการฝึกงาน",
-              keyboardType: TextInputType.text,
-            ),
-
-          ],
-        ),
+        content: skillContent(),
         isActive: _activeStepIndex == 1,
       ),
       Step(
@@ -113,17 +75,34 @@ class _RegistrationPageState extends State<RegistrationPage> {
                 'อัปโหลดรูปโปรไฟล์   ',
                 style: TextStyle(fontWeight: FontWeight.bold),
               ),
-        content: const Text('3'),
+        content: skillProfileUpload(),
         isActive: _activeStepIndex == 2,
       ),
       Step(
         title: _activeStepIndex != 3
             ? const Text('')
             : const Text(
-                'ตั้งค่ารหัสผ่าน    ',
+                'ตั้งค่ารหัสผ่าน ',
                 style: TextStyle(fontWeight: FontWeight.bold),
               ),
-        content: const Text('4'),
+        content: Column(
+          children: [
+            TextFormFieldRegis(
+                textController: password,
+                labelText: "รหัสผ่าน",
+                keyboardType: TextInputType.visiblePassword),
+            const SizedBox(
+              height: 20.0,
+            ),
+            TextFormFieldRegis(
+                textController: confirm_password,
+                labelText: "ยืนยันรหัสผ่าน",
+                keyboardType: TextInputType.visiblePassword),
+            SizedBox(
+              height: MediaQuery.of(context).size.height / 2,
+            ),
+          ],
+        ),
         isActive: _activeStepIndex == 3,
       ),
       Step(
@@ -133,15 +112,204 @@ class _RegistrationPageState extends State<RegistrationPage> {
                 'เงื่อนไขและข้อตกลง',
                 style: TextStyle(fontWeight: FontWeight.bold),
               ),
-        content: const Text('5'),
+        content: Column(
+          children: [
+            Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(8),
+              ),
+              child: Text(
+                'บันทึกการยินยอมให้เก็บ-ใช้และเปิดเผยข้อมูลส่วนบุคคล',
+                style: AppTheme.h5Style,
+              ),
+            ),
+            const SizedBox(
+              height: 10.0,
+            ),
+            Container(
+              child: TextFormField(
+                initialValue: _value,
+                enabled: false,
+                maxLines: 20,
+                decoration: const InputDecoration(
+                  labelText: 'เงื่อนไขและข้อตกลง',
+                  contentPadding: EdgeInsets.all(16),
+                  border: OutlineInputBorder(),
+                  floatingLabelBehavior:
+                      FloatingLabelBehavior.always, // set always to show label
+                ),
+              ),
+            ),
+            const SizedBox(
+              height: 10.0,
+            ),
+            Container(
+              padding: const EdgeInsets.all(2),
+              decoration: BoxDecoration(
+                color: Colors.grey[200],
+                borderRadius: BorderRadius.circular(8),
+              ),
+              child: Row(
+                children: [
+                  Checkbox(
+                    value: _accepted,
+                    onChanged: (value) {
+                      setState(() {
+                        _accepted = value!;
+                      });
+                    },
+                  ),
+                  const Text(
+                    'ข้าพเจ้าได้อ่านและเข้าใจข้อความในบันทึก',
+                    style: TextStyle(fontSize: 14),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
         isActive: _activeStepIndex == 4,
       ),
     ];
   }
 
+// Form Step 3 Form Step 3 Form Step 3 Form Step 3 Form Step 3 Form Step 3 Form Step 3 Form Step 3 Form Step 3 Form Step 3
+  //===================================================================================================================================
+
+  Column skillProfileUpload() {
+    return Column(
+      children: [
+        Container(
+          width: 320.0,
+          height: 320.0,
+          decoration: BoxDecoration(
+            color: Colors.white,
+            shape: BoxShape.circle,
+            border: Border.all(
+              color: Colors.blue,
+              width: 2.0,
+            ),
+          ),
+          child: Stack(
+            children: [
+              Center(
+                child: ClipOval(
+                  child: Image.asset(
+                    'asset/images/login/real-photo.png',
+                    width: 250.0,
+                    height: 250.0,
+                    fit: BoxFit.cover,
+                  ),
+                ),
+              ),
+              Positioned(
+                right: 35.0,
+                bottom: 0.0,
+                child: Container(
+                  width: 50.0,
+                  height: 50.0,
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    shape: BoxShape.circle,
+                    border: Border.all(
+                      color: Colors.blue,
+                      width: 2.0,
+                    ),
+                  ),
+                  child: IconButton(
+                    icon: Icon(
+                      Icons.camera_alt,
+                      color: Colors.blue,
+                    ),
+                    onPressed: () {
+                      showImagePickerDialog(context);
+                    },
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+        Container(
+          margin: EdgeInsets.only(top: 20.0),
+          height: 50,
+          width: MediaQuery.of(context).size.width,
+          child: Center(
+              child: Text(
+            "เพิ่มรูปโปรไฟล์กันเถอะ",
+            style: AppTheme.h2Style,
+          )),
+        ),
+        SizedBox(
+          height: MediaQuery.of(context).size.height / 5,
+        ),
+      ],
+    );
+  }
+
+// Form Step 3 Form Step 3 Form Step 3 Form Step 3 Form Step 3 Form Step 3 Form Step 3 Form Step 3 Form Step 3 Form Step 3
+  //===================================================================================================================================
+
+// Form Step 2 Form Step 2 Form Step 2 Form Step 2 Form Step 2 Form Step 2 Form Step 2 Form Step 2
+  //===================================================================================================================================
+  Column skillContent() {
+    return Column(
+      children: [
+        const SizedBox(
+          height: 20,
+        ),
+        TextFormFieldRegis(
+          textController: skill,
+          labelText: "ทักษะที่มี",
+          keyboardType: TextInputType.text,
+        ),
+        const SizedBox(
+          height: 20,
+        ),
+        Container(
+          margin: const EdgeInsets.only(left: 30, right: 30),
+          child: DropdownButtonFormField(
+              value: _selectedLocation,
+              decoration: const InputDecoration(
+                border: OutlineInputBorder(),
+                labelText: 'ต้องการฝึกงานตำแห่น่งใด',
+              ),
+              items: <String>[
+                'Mobile Developper',
+                'Fontend Developper',
+                'Backend Developper',
+                'DevOps'
+              ].map<DropdownMenuItem<String>>((String value) {
+                return DropdownMenuItem<String>(
+                  value: value,
+                  child: Text(value),
+                );
+              }).toList(),
+              onChanged: (value) {
+                setState(() {});
+              }),
+        ),
+        const SizedBox(
+          height: 20,
+        ),
+        TextFormFieldRegis(
+          textController: expect,
+          labelText: "สิ่งที่คาดหวังจากการฝึกงาน",
+          keyboardType: TextInputType.text,
+        ),
+        const SizedBox(
+          height: 200,
+        ),
+      ],
+    );
+  }
+
+  // Form Step 2 Form Step 2 Form Step 2 Form Step 2 Form Step 2 Form Step 2 Form Step 2 Form Step 2
+  //===================================================================================================================================
+
   //Form Step 1 personal information  //Form Step 1 personal information  //Form Step 1 personal information  //Form Step 1 personal information  //Form Step 1 personal information
   //=========================================================================================================================================================================
-  //=========================================================================================================================================================================
+
   Widget formContentPersonal() {
     return Column(
       children: [
@@ -282,14 +450,14 @@ class _RegistrationPageState extends State<RegistrationPage> {
 
   //Form Step 1 personal information //Form Step 1 personal information //Form Step 1 personal information
   //=========================================================================================================================================================================
-  //=========================================================================================================================================================================
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.white,
-        title:  BigText(text: "ลงทะเบียน"),
+        title: BigText(text: "ลงทะเบียน"),
+        iconTheme: const IconThemeData(color: Colors.black),
       ),
       body: Column(
         children: [
@@ -346,17 +514,68 @@ class _RegistrationPageState extends State<RegistrationPage> {
                       children: [
                         Visibility(
                           visible: _activeStepIndex > 0,
-                          child: ElevatedButton(
+                          child: OutlinedButton(
                             onPressed: controlsDetails.onStepCancel,
-                            child: Text('ย้อนกลับ'),
+                            child: Row(
+                              children: const [
+                                Icon(Icons.arrow_back),
+                                Text('ย้อนกลับ'),
+                              ],
+                            ),
+                            style: OutlinedButton.styleFrom(
+                              backgroundColor: Colors.transparent,
+                              primary: AppTheme.buttonBackgroundColor,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(16.0),
+                              ),
+                              side: BorderSide(
+                                  color: AppTheme.buttonBackgroundColor),
+                            ),
                           ),
                         ),
                         Visibility(
-                          visible: _activeStepIndex < stepList().length - 1,
-                          child: ElevatedButton(
-                            onPressed: controlsDetails.onStepContinue,
-                            child: Text('ต่อไป'),
-                          ),
+                          visible: _activeStepIndex < stepList().length,
+                          child: _activeStepIndex == 4
+                              ? OutlinedButton(
+                                  onPressed: controlsDetails.onStepContinue,
+                                  child: Row(
+                                    children: const [
+                                      Text(
+                                        'ยืนยัน',
+                                        style: TextStyle(color: Colors.white),
+                                      ),
+                                    ],
+                                  ),
+                                  style: OutlinedButton.styleFrom(
+                                    backgroundColor:
+                                        AppTheme.buttonBackgroundColor,
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(16.0),
+                                    ),
+                                  ),
+                                )
+                              : OutlinedButton(
+                                  onPressed: controlsDetails.onStepContinue,
+                                  child: Row(
+                                    children: const [
+                                      Text(
+                                        'ต่อไป',
+                                        style: TextStyle(color: Colors.white),
+                                      ),
+                                      Icon(
+                                        Icons.arrow_forward,
+                                        color: Colors.white,
+                                      ),
+                                    ],
+                                  ),
+                                  style: OutlinedButton.styleFrom(
+                                    backgroundColor:
+                                        AppTheme.buttonBackgroundColor,
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(16.0),
+                                    ),
+                                  ),
+                                ),
                         ),
                       ],
                     ),

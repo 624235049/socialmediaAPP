@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+
 import 'package:mfecinternship/feature/auth/presentation/widget/widget_textformfield.dart';
 import 'package:mfecinternship/utils/theme.dart';
+
+import '../../../../common/config/app_route.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -42,29 +45,21 @@ class _LoginPageState extends State<LoginPage> {
   Widget regisButton() {
     return Container(
       margin: const EdgeInsets.only(left: 50, right: 50),
-      child: ElevatedButton(
+      child: OutlinedButton(
         onPressed: () {
-          // Perform registration action here
+          Navigator.pushNamed(context, AppRoute.registerRoute);
         },
-        style: ElevatedButton.styleFrom(
-          primary: Colors.transparent,
+        child: const Center(
+          child: Text('สมัครสมาชิก',style: TextStyle(fontWeight: FontWeight.bold,fontSize: 16),),
+        ),
+        style: OutlinedButton.styleFrom(
+          backgroundColor: Colors.transparent,
+          primary: AppTheme.buttonBackgroundColor,
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(20),
-            side: const BorderSide(
-                color: AppTheme.buttonBackgroundColor, width: 2),
+            borderRadius: BorderRadius.circular(16.0),
           ),
           minimumSize: const Size(180, 45),
-        ),
-        child: Container(
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(20),
-          ),
-          child: Center(
-            child: Text(
-              'ลงทะเบียน',
-              style: AppTheme.h5Style,
-            ),
-          ),
+          side: const BorderSide(color: AppTheme.buttonBackgroundColor,width: 2.2),
         ),
       ),
     );

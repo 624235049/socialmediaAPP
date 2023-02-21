@@ -1,8 +1,11 @@
 
 
 import 'package:flutter/material.dart';
-import 'package:mfecinternship/feature/regis/presentation/pages/regis_pages.dart';
-import 'package:mfecinternship/utils/theme.dart';
+import 'package:mfecinternship/feature/auth/presentation/pages/login_pages.dart';
+import 'package:mfecinternship/feature/home/presentation/pages/home_pages.dart';
+import 'common/config/app_route.dart';
+
+
 
 void main() {
   runApp(const MyApp());
@@ -16,8 +19,8 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-
-      home: RegistrationPage(),
+      routes: AppRoute().getAll,
+      home: HomePage(),
     );
   }
 }

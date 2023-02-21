@@ -5,7 +5,7 @@ class AppTheme {
 
 
   static const Color buttonBackgroundColor = Color(0xFF005B9E);
-
+  static final Color paraColor = const Color(0xFF8f837f);
 
   static TextStyle h1Style =
   const TextStyle(fontSize: 24, fontWeight: FontWeight.bold);
