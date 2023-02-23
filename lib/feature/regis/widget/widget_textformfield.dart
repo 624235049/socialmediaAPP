@@ -7,12 +7,14 @@ class TextFormFieldRegis extends StatelessWidget {
   final String labelText;
   final bool obscureText;
   final TextInputType keyboardType;
+  final String hintText;
 
   TextFormFieldRegis({
     required this.textController,
     required this.labelText,
     this.obscureText = false,
     required this.keyboardType,
+    this.hintText = ''
   });
 
   @override
@@ -29,8 +31,9 @@ class TextFormFieldRegis extends StatelessWidget {
         keyboardType: keyboardType,
         decoration: InputDecoration(
           label: Text(labelText),
+          hintText: hintText,
           floatingLabelBehavior: FloatingLabelBehavior.always, // set always to show label
-          border: OutlineInputBorder(),
+          border: const OutlineInputBorder(),
           // border: const OutlineInputBorder(
           //   borderSide: BorderSide(
           //     color: Colors.black,

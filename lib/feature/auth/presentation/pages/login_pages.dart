@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:language_builder/language_builder.dart';
 
 import 'package:mfecinternship/feature/auth/presentation/widget/widget_textformfield.dart';
 import 'package:mfecinternship/utils/theme.dart';
@@ -49,8 +50,11 @@ class _LoginPageState extends State<LoginPage> {
         onPressed: () {
           Navigator.pushNamed(context, AppRoute.registerRoute);
         },
-        child: const Center(
-          child: Text('สมัครสมาชิก',style: TextStyle(fontWeight: FontWeight.bold,fontSize: 16),),
+        child: Center(
+          child: Text(
+            LanguageBuilder.texts!['login']['register_button'],
+            style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+          ),
         ),
         style: OutlinedButton.styleFrom(
           backgroundColor: Colors.transparent,
@@ -59,7 +63,8 @@ class _LoginPageState extends State<LoginPage> {
             borderRadius: BorderRadius.circular(16.0),
           ),
           minimumSize: const Size(180, 45),
-          side: const BorderSide(color: AppTheme.buttonBackgroundColor,width: 2.2),
+          side: const BorderSide(
+              color: AppTheme.buttonBackgroundColor, width: 2.2),
         ),
       ),
     );
@@ -83,9 +88,9 @@ class _LoginPageState extends State<LoginPage> {
         ),
         TextButton(
           onPressed: () {},
-          child: const Text(
-            "ยังไม่ได้เข้าสู่ระบบใช่ไหม?",
-            style: TextStyle(color: Colors.white),
+          child: Text(
+            LanguageBuilder.texts!['login']['title_not_registered'],
+            style: const TextStyle(color: Colors.white),
           ),
         ),
         Expanded(
@@ -126,7 +131,7 @@ class _LoginPageState extends State<LoginPage> {
           ),
           child: Center(
             child: Text(
-              'เข้าสู่ระบบ',
+              LanguageBuilder.texts!['login']['login_button'],
               style: AppTheme.h5Style,
             ),
           ),
@@ -137,14 +142,14 @@ class _LoginPageState extends State<LoginPage> {
 
   Widget passwordForm() {
     return CustomTextFormField(
-      labelText: "Password",
+      labelText: LanguageBuilder.texts!['login']['password_field'],
       keyboardType: TextInputType.visiblePassword,
     );
   }
 
   Widget emailForm() {
     return CustomTextFormField(
-      labelText: "Email",
+      labelText: LanguageBuilder.texts!['login']['email_field'],
       keyboardType: TextInputType.emailAddress,
     );
   }

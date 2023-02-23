@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:language_builder/language_builder.dart';
 import 'package:mfecinternship/utils/theme.dart';
 
 class Menu {
@@ -19,25 +20,25 @@ class MenuViewModel {
 
   List<Menu> get items => <Menu>[
         Menu(
-          title: 'หน้าแรก',
+          title: LanguageBuilder.texts!['home_drawer']['home_page'],
           icon: Icons.home,
           iconColor: AppTheme.buttonBackgroundColor,
           onTap: (context) {},
         ),
         Menu(
-          title: 'เกี่ยวกับ MFEC',
+          title: LanguageBuilder.texts!['home_drawer']['about_page'],
           icon: Icons.home_repair_service_sharp,
           iconColor: AppTheme.buttonBackgroundColor,
           onTap: (context) {},
         ),
     Menu(
-      title: 'เปลี่ยนภาษา',
+      title: LanguageBuilder.texts!['home_drawer']['term_page'],
       icon: Icons.language,
       iconColor: AppTheme.buttonBackgroundColor,
       onTap: (context) {},
     ),
         Menu(
-          title: 'เงื่อนไขและข้อตกลง',
+          title: LanguageBuilder.texts!['home_drawer']['language_page'],
           icon: Icons.import_contacts,
           iconColor: AppTheme.buttonBackgroundColor,
           onTap: (context) {},

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:language_builder/language_builder.dart';
 import 'package:mfecinternship/utils/theme.dart';
 
 import '../../../../model/data_model.dart';
@@ -80,12 +81,13 @@ class _HomePageState extends State<HomePage> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  "เพื่อน",
+                  LanguageBuilder.texts!['home_page']['friend_title'],
                   style: AppTheme.h5Style,
                 ),
                 TextButton(
                   onPressed: () {},
-                  child: Text("ดูทั้งหมด", style: AppTheme.h5Style),
+                  child: Text(LanguageBuilder.texts!['home_page']['friend_all'],
+                      style: AppTheme.h5Style),
                 ),
               ],
             ),
@@ -109,124 +111,125 @@ class _HomePageState extends State<HomePage> {
 
   Widget listPostContent() {
     return Expanded(
-          child: ListView.builder(
-            shrinkWrap: true,
-            physics: const ScrollPhysics(),
-            itemCount: _posts.length,
-            itemBuilder: (BuildContext context, int index) {
-              return Card(
-                color: Colors.white,
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+      child: ListView.builder(
+        shrinkWrap: true,
+        physics: const ScrollPhysics(),
+        itemCount: _posts.length,
+        itemBuilder: (BuildContext context, int index) {
+          return Card(
+            color: Colors.white,
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    children: [
+                      Container(
+                        margin: const EdgeInsets.only(right: 8.0),
+                        child: const CircleAvatar(
+                          radius: 20,
+                          backgroundColor: Colors.white,
+                          backgroundImage:
+                              AssetImage("asset/images/login/avatar_img.png"),
+                        ),
+                      ),
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            _posts[index].name,
+                            style: const TextStyle(
+                                fontWeight: FontWeight.bold, fontSize: 16),
+                          ),
+                          const SizedBox(
+                            width: 10,
+                          ),
+                          Text(
+                            _posts[index].time,
+                            style: TextStyle(color: Colors.grey),
+                          )
+                        ],
+                      )
+                    ],
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 8.0),
+                    child: Text(_posts[index].post),
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
                       Row(
                         children: [
-                          Container(
-                            margin: const EdgeInsets.only(right: 8.0),
-                            child: const CircleAvatar(
-                              radius: 20,
-                              backgroundColor: Colors.white,
-                              backgroundImage: AssetImage(
-                                  "asset/images/login/avatar_img.png"),
-                            ),
-                          ),
-                          Row(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                _posts[index].name,
-                                style: const TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 16),
+                          IconButton(
+                              icon: Icon(
+                                Icons.favorite_border,
+                                color: _liked[index]
+                                    ? AppTheme.buttonBackgroundColor
+                                    : Colors.grey,
                               ),
-                              const SizedBox(
-                                width: 10,
-                              ),
-                              Text(
-                                _posts[index].time,
-                                style: TextStyle(color: Colors.grey),
-                              )
-                            ],
-                          )
+                              onPressed: () {
+                                setState(() {
+                                  _liked[index] = !_liked[index];
+                                });
+                              }),
+                          const Text("None"),
                         ],
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 8.0),
-                        child: Text(_posts[index].post),
                       ),
                       Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
-                        Row(
-                          children: [
-                            IconButton(
-                                icon: Icon(
-                                  Icons.favorite_border,
-                                  color:
-                                  _liked[index] ? AppTheme.buttonBackgroundColor: Colors.grey,
-                                ),
-                                onPressed: () {
-                                  setState(() {
-                                    _liked[index] = !_liked[index];
-                                  });
-                                }),
-                            const Text("None"),
-                          ],
-                        ),
-                         Row(
-                           children: [
-                             IconButton(
-                                 icon: const Icon(Icons.mode_comment_outlined), onPressed: () {}),
-                             const Text("3 ความคิดเห็น"),
-                           ],
-                         )
+                          IconButton(
+                              icon: const Icon(Icons.mode_comment_outlined),
+                              onPressed: () {}),
+                          Text("3" + " " + LanguageBuilder.texts!['post_page']['comment']),
                         ],
-                      ),
+                      )
                     ],
                   ),
-                ),
-              );
-            },
-          ),
-        );
+                ],
+              ),
+            ),
+          );
+        },
+      ),
+    );
   }
 
   Widget listFriendsContent() {
     return Container(
-          height: 120,
-          child: ListView.builder(
-            scrollDirection: Axis.horizontal,
-            itemCount: dataList.length,
-            itemBuilder: (context, index) {
-              return Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Column(
-                  children: [
-                    Container(
-                      width: 80,
-                      height: 80,
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        border: Border.all(
-                          color: Colors.blue,
-                          width: 2,
-                        ),
-                        image: DecorationImage(
-                          fit: BoxFit.cover,
-                          image: NetworkImage(dataList[index].imageUrl),
-                        ),
-                      ),
+      height: 120,
+      child: ListView.builder(
+        scrollDirection: Axis.horizontal,
+        itemCount: dataList.length,
+        itemBuilder: (context, index) {
+          return Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Column(
+              children: [
+                Container(
+                  width: 80,
+                  height: 80,
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    border: Border.all(
+                      color: Colors.blue,
+                      width: 2,
                     ),
-                    const SizedBox(height: 8),
-                    Text(dataList[index].name),
-                  ],
+                    image: DecorationImage(
+                      fit: BoxFit.cover,
+                      image: NetworkImage(dataList[index].imageUrl),
+                    ),
+                  ),
                 ),
-              );
-            },
-          ),
-        );
+                const SizedBox(height: 8),
+                Text(dataList[index].name),
+              ],
+            ),
+          );
+        },
+      ),
+    );
   }
 
   Widget drawerHome(BuildContext context) {
@@ -287,7 +290,7 @@ class _HomePageState extends State<HomePage> {
               color: AppTheme.buttonBackgroundColor,
             ),
             title: Text(
-              'Logout',
+              LanguageBuilder.texts!['home_drawer']['signout'],
               style: AppTheme.h5Style,
             ),
             onTap: () async {

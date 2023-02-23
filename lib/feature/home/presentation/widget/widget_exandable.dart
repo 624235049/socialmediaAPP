@@ -1,5 +1,6 @@
 
 import 'package:flutter/material.dart';
+import 'package:language_builder/language_builder.dart';
 import 'package:mfecinternship/feature/home/presentation/widget/widget_small_text.dart';
 import 'package:mfecinternship/utils/theme.dart';
 
@@ -21,7 +22,7 @@ class _ExpandableTextWidgetState extends State<ExpandableTextWidget> {
 
   @override
   void initState() {
-    // TODO: implement initState
+    // Implement initState
     super.initState();
     if (widget.text.length > textHeight) {
       firstHalf = widget.text.substring(0, textHeight.toInt());
@@ -59,7 +60,7 @@ class _ExpandableTextWidgetState extends State<ExpandableTextWidget> {
             child: Row(
               children: [
                 SmallText(
-                  text: "ดูเพิ่มเติม",
+                  text: LanguageBuilder.texts!['home_page']['post_more'],
                   color: AppTheme.buttonBackgroundColor,
                 ),
                 Icon(
