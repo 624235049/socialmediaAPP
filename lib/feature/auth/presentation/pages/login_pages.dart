@@ -129,10 +129,10 @@ class _LoginPageState extends State<LoginPage> {
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(20),
           ),
-          child: Center(
+          child:  Center(
             child: Text(
               LanguageBuilder.texts!['login']['login_button'],
-              style: AppTheme.h5Style,
+              style: TextStyle(fontSize: 16,fontWeight: FontWeight.bold),
             ),
           ),
         ),

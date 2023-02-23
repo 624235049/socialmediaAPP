@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:language_builder/language_builder.dart';
 import 'package:mfecinternship/utils/theme.dart';
 
+import '../../../../common/config/app_route.dart';
 import '../../../../model/data_model.dart';
 import '../widget/widget_menu_drawer.dart';
+import 'comment_detail.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -42,19 +44,22 @@ class _HomePageState extends State<HomePage> {
         name: "แคชชี่",
         time: "07 ก.ค 2565",
         post:
-            "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."),
+            "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+        image: 'https://quizizz.com/media/resource/gs/quizizz-media/quizzes/f76e8618-4e2f-45a2-a6fa-b42104a31409'),
     Post(
         name: "แคชชี่",
         time: "10 ก.ค 2565",
         post:
-            "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."),
+            "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua..",
+        image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQRKsbw1znNtMpTRem56z54Hkl1A7qOrsKGYmH77cugSuW-ug9cMP-_VfrdPOaeFE4WFJA&usqp=CAU'),
     Post(
         name: "แคชชี่",
         time: "12 ก.ค 2565",
         post:
-            "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur."),
+            "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+        image: 'https://i.ytimg.com/vi/Q-qAQzexStc/maxresdefault.jpg'),
   ];
-  List<bool> _liked = [false, false, false];
+  final List<bool> _liked = [false, false, false];
   final List<TextEditingController> _commentControllers = [
     TextEditingController(),
     TextEditingController(),
@@ -126,6 +131,12 @@ class _HomePageState extends State<HomePage> {
                   Row(
                     children: [
                       Container(
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          border: Border.all(
+                              color: AppTheme.buttonBackgroundColor, width: 2),
+                          borderRadius: BorderRadius.circular(20),
+                        ),
                         margin: const EdgeInsets.only(right: 8.0),
                         child: const CircleAvatar(
                           radius: 20,
@@ -177,13 +188,26 @@ class _HomePageState extends State<HomePage> {
                           const Text("None"),
                         ],
                       ),
-                      Row(
-                        children: [
-                          IconButton(
-                              icon: const Icon(Icons.mode_comment_outlined),
-                              onPressed: () {}),
-                          Text("3" + " " + LanguageBuilder.texts!['post_page']['comment']),
-                        ],
+                      GestureDetector(
+                        onTap: () {
+                          // Navigator.pushNamed(context, AppRoute.commentDetail);
+                        },
+                        child: Row(
+                          children: [
+                            IconButton(
+                                icon: const Icon(Icons.mode_comment_outlined),
+                                onPressed: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) =>
+                                          CommentDetail(post: _posts[index]),
+                                    ),
+                                  );
+                                }),
+                            const Text("3 ความคิดเห็น"),
+                          ],
+                        ),
                       )
                     ],
                   ),
@@ -294,7 +318,7 @@ class _HomePageState extends State<HomePage> {
               style: AppTheme.h5Style,
             ),
             onTap: () async {
-              // ...
+              Navigator.pushNamed(context, AppRoute.loginRoute);
             },
           ),
         ],
