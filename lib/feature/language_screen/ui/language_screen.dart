@@ -24,9 +24,14 @@ class _LanguageScreenState extends State<LanguageScreen> {
         body: Center(
           child: Column(
             children: [
+              const SizedBox(height: 5,),
               ElevatedButton(
                 style: ElevatedButton.styleFrom(backgroundColor: Colors.white),
-                onPressed: () {},
+                onPressed: () {
+                  setState(() {
+                    LanguageBuilder.changeLanguage('th', context);
+                  });
+                },
                 child: SizedBox(
                   height: 50,
                   child: Row(
@@ -43,12 +48,18 @@ class _LanguageScreenState extends State<LanguageScreen> {
                   ),
                 ),
               ),
+              const SizedBox(height: 5,),
               const Divider(
                 height: 1,
               ),
+              const SizedBox(height: 5,),
               ElevatedButton(
                 style: ElevatedButton.styleFrom(backgroundColor: Colors.white),
-                onPressed: () {},
+                onPressed: () {
+                  setState(() {
+                    LanguageBuilder.changeLanguage('en', context);
+                  });
+                },
                 child: SizedBox(
                   height: 50,
                   child: Row(
@@ -61,12 +72,6 @@ class _LanguageScreenState extends State<LanguageScreen> {
                       (LanguageBuilder.getCurrentLang() == 'en')
                           ? const Icon(Icons.check, color: Colors.black)
                           : const Icon(null)
-                      // if (currentLan == 'en') ...[
-                      //   const Icon(
-                      //     Icons.check,
-                      //     color: Colors.black,
-                      //   )
-                      // ]
                     ],
                   ),
                 ),
