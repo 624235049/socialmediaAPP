@@ -222,7 +222,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
                     ),
                   ),
                   child: IconButton(
-                    icon: Icon(
+                    icon: const Icon(
                       Icons.camera_alt,
                       color: Colors.blue,
                     ),
@@ -549,24 +549,29 @@ class _RegistrationPageState extends State<RegistrationPage> {
                         Visibility(
                           visible: _activeStepIndex < stepList().length,
                           child: _activeStepIndex == 4
-                              ? OutlinedButton(
-                                  onPressed: controlsDetails.onStepContinue,
-                                  child: Row(
-                                    children: [
-                                      Text(
-                                        LanguageBuilder.texts!['register_page']['confirm_button'],
-                                        style: const TextStyle(color: Colors.white),
+                              ? GestureDetector(
+                            onTap: () {
+
+                            },
+                                child: OutlinedButton(
+                                    onPressed: controlsDetails.onStepContinue,
+                                    child: Row(
+                                      children: [
+                                        Text(
+                                          LanguageBuilder.texts!['register_page']['confirm_button'],
+                                          style: const TextStyle(color: Colors.white),
+                                        ),
+                                      ],
+                                    ),
+                                    style: OutlinedButton.styleFrom(
+                                      backgroundColor:
+                                          AppTheme.buttonBackgroundColor,
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(16.0),
                                       ),
-                                    ],
-                                  ),
-                                  style: OutlinedButton.styleFrom(
-                                    backgroundColor:
-                                        AppTheme.buttonBackgroundColor,
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(16.0),
                                     ),
                                   ),
-                                )
+                              )
                               : OutlinedButton(
                                   onPressed: controlsDetails.onStepContinue,
                                   child: Row(

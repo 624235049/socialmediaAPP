@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:language_builder/language_builder.dart';
-import 'package:mfecinternship/feature/auth/presentation/pages/login_pages.dart';
 import 'package:mfecinternship/feature/home/presentation/pages/home_pages.dart';
 import 'common/Language/language.dart';
 import 'common/config/app_route.dart';
@@ -19,10 +18,10 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       routes: AppRoute().getAll,
       home: LanguageBuilder(
-        defaultLanguage: 'th',
+        defaultLanguage: 'en',
         useDeviceLanguage: false,
         textsMap: Languages.languages,
-        child: const LoginPage()),
+        child:  HomePage()),
     );
   }
 }

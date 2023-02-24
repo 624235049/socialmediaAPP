@@ -86,7 +86,7 @@ class _CommentDetailState extends State<CommentDetail> {
                       ),
                       Text(
                         post!.time,
-                        style: TextStyle(color: Colors.grey),
+                        style: const TextStyle(color: Colors.grey),
                       )
                     ],
                   ),

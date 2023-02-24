@@ -14,6 +14,7 @@ class AppTheme {
   static TextStyle h4Style = const TextStyle(fontSize: 18);
   static TextStyle h5Style = const TextStyle(fontSize: 16,fontWeight: FontWeight.bold,color: AppTheme.buttonBackgroundColor);
   static TextStyle h6Style = const TextStyle(fontSize: 14);
+  static TextStyle titleStyle =  TextStyle(color: Colors.black,fontFamily: 'Roboto',fontSize: 20.0,fontWeight: FontWeight.w500);
 
   static List<BoxShadow> shadow = <BoxShadow>[
     BoxShadow(color: Color(0xfff8f8f8), blurRadius: 10, spreadRadius: 15),
