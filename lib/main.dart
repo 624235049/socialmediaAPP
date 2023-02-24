@@ -22,7 +22,7 @@ class MyApp extends StatelessWidget {
         defaultLanguage: 'th',
         useDeviceLanguage: false,
         textsMap: Languages.languages,
-        child: const LoginPage()),
+        child: const HomePage()),
     );
   }
 }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:language_builder/language_builder.dart';
+import 'package:mfecinternship/feature/language_screen/ui/language_screen.dart';
 import 'package:mfecinternship/utils/theme.dart';
 
 class Menu {
@@ -41,7 +42,12 @@ class MenuViewModel {
           title: LanguageBuilder.texts!['home_drawer']['language_page'],
           icon: Icons.import_contacts,
           iconColor: AppTheme.buttonBackgroundColor,
-          onTap: (context) {},
+          onTap: (context) {
+            Navigator.of(context)
+                  .push(MaterialPageRoute(builder: (BuildContext context) {
+                return const LanguageScreen();
+              }));
+          },
         ),
       ];
 }
