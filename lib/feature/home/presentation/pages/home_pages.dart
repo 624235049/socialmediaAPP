@@ -123,7 +123,9 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver{
       floatingActionButton: Padding(
         padding: const EdgeInsets.all(8.0),
         child: FloatingActionButton(
-          onPressed: () {},
+          onPressed: () {
+            Navigator.pushNamed(context, AppRoute.createPost);
+          },
           child: const Icon(Icons.add, size: 30.0),
           backgroundColor: AppTheme.buttonBackgroundColor,
         ),
