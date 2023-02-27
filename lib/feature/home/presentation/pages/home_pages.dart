@@ -14,7 +14,24 @@ class HomePage extends StatefulWidget {
   State<HomePage> createState() => _HomePageState();
 }
 
-class _HomePageState extends State<HomePage> {
+
+class _HomePageState extends State<HomePage> with WidgetsBindingObserver{
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if(state == AppLifecycleState.resumed) {
+      debugPrint('Hello');
+      setState(() {
+        Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+            builder: (BuildContext context) => super.widget));
+      });
+    }
+    super.didChangeAppLifecycleState(state);
+    
+  } 
+
   final String logoApp = "asset/images/home/logo_appbar.png";
   final List<Data> dataList = [
     Data(
@@ -235,7 +252,7 @@ class _HomePageState extends State<HomePage> {
               children: [
                 Container(
                   width: 80,
-                  height: 80,
+                  height: 79,
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
                     border: Border.all(

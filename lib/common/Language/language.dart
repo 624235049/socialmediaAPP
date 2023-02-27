@@ -105,6 +105,7 @@ class Languages {
         "post_page": {
           "like": "like",
           "comment": "comment",
+          "no_comment": "No ",
           "send": "send",
           "comment_field": "comment",
           "reply": "Reply",
@@ -173,6 +174,29 @@ class Languages {
           "logout_text": "Do you want to logout?",
           "confirm": "Logout",
           "cancel": "Cancel"
+        },
+        "time_stamp": {
+          "just_now": "Just now",
+          "second": "second",
+          "minute": "minute",
+          "hour": "hour",
+          "day": "day",
+          "ago": " ago",
+          "suffix": "s"
+        },
+        "month": {
+          "jan": "January",
+          "feb": "Febuary",
+          "mar": "March",
+          "apr": "April",
+          "may": "May",
+          "jun": "June",
+          "jul": "July",
+          "aug": "August",
+          "sep": "September",
+          "oct": "October",
+          "nov": "November",
+          "dec": "December"
         }
     }""",
     "th": """{
@@ -273,6 +297,7 @@ class Languages {
         "post_page": {
           "like": "ถูกใจ",
           "comment": "ความคิดเห็น",
+          "no_comment": "ไม่มี",
           "send": "ส่ง",
           "comment_field": "แสดงความคิดเห็น",
           "reply": "ตอบกลับ",
@@ -341,6 +366,15 @@ class Languages {
           "logout_text": "ต้องการออกจากระบบใช่ไหม",
           "confirm": "ออกจากระบบ",
           "cancel": "ยกเลิก"
+        },
+        "time_stamp": {
+          "just_now": "ตอนนี้",
+          "second": "วินาที",
+          "minute": "นาที",
+          "hour": "ชั่วโมง",
+          "day": "วัน",
+          "ago": "ที่แล้ว",
+          "suffix": ""
         }
     }"""
   };
