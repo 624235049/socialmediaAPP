@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:language_builder/language_builder.dart';
 import 'package:mfecinternship/model/data_model.dart';
 import 'package:mfecinternship/utils/theme.dart';
 
@@ -25,27 +26,29 @@ class _CommentDetailState extends State<CommentDetail> {
       id: 1,
       avatarImageUrl: 'https://example.com/avatar1.jpg',
       name: 'John Doe',
-      time: '2 hours ago',
+      time: '1675270414002',
       comment: 'This is a great post!',
     ),
     Comment(
       id: 2,
       avatarImageUrl: 'https://example.com/avatar2.jpg',
       name: 'Jane Smith',
-      time: '1 hour ago',
+      time: '1677070414002',
       comment: 'I agree with you!',
     ),
     Comment(
       id: 3,
       avatarImageUrl: 'https://example.com/avatar3.jpg',
       name: 'Bob Johnson',
-      time: '5 minutes ago',
+      time: '1677472418973',
       comment: 'Thanks for sharing!',
     ),
   ];
 
   @override
   Widget build(BuildContext context) {
+    bool _favorited = true;
+    int _likeCount = 2;
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.white,
@@ -97,7 +100,10 @@ class _CommentDetailState extends State<CommentDetail> {
               margin: const EdgeInsets.only(right: 15.0, left: 15.0),
               child: Padding(
                 padding: const EdgeInsets.symmetric(vertical: 8.0),
-                child: Text(post!.post,style: const TextStyle(fontSize: 16.0),),
+                child: Text(
+                  post!.post,
+                  style: const TextStyle(fontSize: 16.0),
+                ),
               ),
             ),
             Container(
@@ -105,24 +111,38 @@ class _CommentDetailState extends State<CommentDetail> {
                 child: post!.image != null
                     ? Image.network(post!.image)
                     : Container()),
-
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Row(
                   children: [
                     IconButton(
-                      icon: const Icon(
-                        Icons.favorite,
-                        color: AppTheme.buttonBackgroundColor,
-                      ),
+                      icon: (_favorited == true)
+                          ? const Icon(
+                              Icons.favorite,
+                              color: AppTheme.buttonBackgroundColor,
+                            )
+                          : const Icon(
+                              Icons.favorite_border,
+                              color: AppTheme.buttonBackgroundColor,
+                            ),
                       onPressed: () {
-                        // setState(() {
-                        //   _favorited = !_favorited;
-                        // });
+                        setState(() {
+                          _favorited = !_favorited;
+                          if (_favorited == true) {
+                            _likeCount++;
+                          } else {
+                            _likeCount--;
+                          }
+                        });
                       },
                     ),
-                    const Text(' 2 ถูกใจ'),
+                    Text(_likeCount.toString() +
+                        ' ' +
+                        LanguageBuilder.texts!['post_page']['like'] +
+                        ((_likeCount > 1)
+                            ? (LanguageBuilder.texts!['time_stamp']['suffix'])
+                            : '')),
                   ],
                 ),
                 const SizedBox(
@@ -137,14 +157,19 @@ class _CommentDetailState extends State<CommentDetail> {
                       ),
                       onPressed: () {},
                     ),
-                    Text(_comments.length.toString() + ' comments'),
+                    Text(((_comments.isNotEmpty)
+                            ? (_comments.length.toString() + ' ')
+                            : LanguageBuilder.texts!['post_page']['no_comment']) +
+                        LanguageBuilder.texts!['post_page']['comment'] +
+                        ((_comments.length > 1) ? (LanguageBuilder.texts!['time_stamp']['suffix'])
+                    : '')),
                   ],
                 ),
               ],
             ),
             ListView.builder(
               shrinkWrap: true,
-              physics: ScrollPhysics(),
+              physics: const ScrollPhysics(),
               itemCount: _comments.length,
               itemBuilder: (BuildContext context, int index) {
                 return Card(
@@ -174,7 +199,8 @@ class _CommentDetailState extends State<CommentDetail> {
                                 style: const TextStyle(fontSize: 16),
                               ),
                               Text(
-                                _comments[index].time,
+                                extractTime(_comments[index].time) +
+                                    LanguageBuilder.texts!['time_stamp']['ago'],
                                 style: const TextStyle(color: Colors.grey),
                               )
                             ],
@@ -189,10 +215,11 @@ class _CommentDetailState extends State<CommentDetail> {
             ),
             Container(
               margin: const EdgeInsets.only(left: 30, right: 30),
-              child:  TextFormField(
-                decoration: const InputDecoration(
-                  hintText: 'แสดงความคิดเห็น',
-                  border: OutlineInputBorder(),
+              child: TextFormField(
+                decoration: InputDecoration(
+                  hintText: LanguageBuilder.texts!['post_page']
+                      ['comment_field'],
+                  border: const OutlineInputBorder(),
                 ),
               ),
             ),
@@ -200,5 +227,44 @@ class _CommentDetailState extends State<CommentDetail> {
         ),
       ),
     );
+  }
+
+  // Calculating different of timestamp and current time
+  Duration timeDifNow(String timeStamp) {
+    return DateTime.now()
+        .difference(DateTime.fromMillisecondsSinceEpoch(int.parse(timeStamp)));
+  }
+
+  // returning sentence of time (ex. 15 minutes ago, 1 hour ago, just now)
+  String extractTime(String timeStamp) {
+    return ((timeDifNow(timeStamp).inHours > 23)
+        ? (timeDifNow(timeStamp).inHours ~/ 24).toString() +
+            ' ' +
+            LanguageBuilder.texts!['time_stamp']['day'] +
+            (((timeDifNow(timeStamp).inHours ~/ 24) > 1)
+                ? (LanguageBuilder.texts!['time_stamp']['suffix'])
+                : ' ')
+        : (timeDifNow(timeStamp).inHours > 0)
+            ? (timeDifNow(timeStamp).inHours).toString() +
+                ' ' +
+                LanguageBuilder.texts!['time_stamp']['hour'] +
+                ((timeDifNow(timeStamp).inHours > 1)
+                    ? (LanguageBuilder.texts!['time_stamp']['suffix'])
+                    : ' ')
+            : (timeDifNow(timeStamp).inMinutes > 0)
+                ? (timeDifNow(timeStamp).inMinutes).toString() +
+                    ' ' +
+                    LanguageBuilder.texts!['time_stamp']['minute'] +
+                    ((timeDifNow(timeStamp).inMinutes > 1)
+                        ? (LanguageBuilder.texts!['time_stamp']['suffix'])
+                        : ' ')
+                : (timeDifNow(timeStamp).inSeconds > 5)
+                    ? (timeDifNow(timeStamp).inSeconds).toString() +
+                        ' ' +
+                        LanguageBuilder.texts!['time_stamp']['second'] +
+                        ((timeDifNow(timeStamp).inSeconds > 1)
+                            ? (LanguageBuilder.texts!['time_stamp']['suffix'])
+                            : ' ')
+                    : LanguageBuilder.texts!['time_stamp']['just_now']);
   }
 }
