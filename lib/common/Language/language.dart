@@ -182,7 +182,21 @@ class Languages {
           "hour": "hour",
           "day": "day",
           "ago": " ago",
-          "suffix": ""
+          "suffix": "s"
+        },
+        "month": {
+          "jan": "January",
+          "feb": "Febuary",
+          "mar": "March",
+          "apr": "April",
+          "may": "May",
+          "jun": "June",
+          "jul": "July",
+          "aug": "August",
+          "sep": "September",
+          "oct": "October",
+          "nov": "November",
+          "dec": "December"
         }
     }""",
     "th": """{

@@ -21,7 +21,7 @@ class MyApp extends StatelessWidget {
         defaultLanguage: 'en',
         useDeviceLanguage: false,
         textsMap: Languages.languages,
-        child:  HomePage()),
+        child: HomePage()),
     );
   }
 }

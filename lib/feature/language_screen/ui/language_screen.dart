@@ -24,7 +24,9 @@ class _LanguageScreenState extends State<LanguageScreen> {
         body: Center(
           child: Column(
             children: [
-              const SizedBox(height: 5,),
+              const SizedBox(
+                height: 5,
+              ),
               ElevatedButton(
                 style: ElevatedButton.styleFrom(backgroundColor: Colors.white),
                 onPressed: () {
@@ -48,11 +50,15 @@ class _LanguageScreenState extends State<LanguageScreen> {
                   ),
                 ),
               ),
-              const SizedBox(height: 5,),
+              const SizedBox(
+                height: 5,
+              ),
               const Divider(
                 height: 1,
               ),
-              const SizedBox(height: 5,),
+              const SizedBox(
+                height: 5,
+              ),
               ElevatedButton(
                 style: ElevatedButton.styleFrom(backgroundColor: Colors.white),
                 onPressed: () {
@@ -78,43 +84,6 @@ class _LanguageScreenState extends State<LanguageScreen> {
               ),
             ],
           ),
-        )
-        // Flex(
-        //   direction: Axis.vertical,
-        //   //we get the number of available language configs at our custom language.dart file.
-        //   //for this example we have 3 language options. [turkish,english,german]
-        //   children: LanguageBuilder.getAvailableLanguages().map((e) {
-        //     return Column(
-        //       children: [
-        //         SizedBox(
-        //           height: 50,
-        //           child: TextButton(
-        //             onPressed: () {
-        //               //if click at the current language do nothing.\
-        //               if (e != LanguageBuilder.getCurrentLang()) {
-        //                 LanguageBuilder.changeLanguage(e, context);
-        //               }
-        //             },
-        //             child: Builder(
-        //               builder: (context) {
-        //                 if (e == 'en') {
-        //                   return const Text('English');
-        //                 } else if (e == 'th') {
-        //                   return const Text('Thai');
-        //                 } else {
-        //                   return Text('');
-        //                 }
-        //               },
-        //             ),
-        //           ),
-        //         ),
-        //         const Divider(
-        //           height: 0,
-        //         ),
-        //       ],
-        //     );
-        //   }).toList(),
-        // ),
-        );
+        ));
   }
 }

@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:language_builder/language_builder.dart';
+import 'package:mfecinternship/common/function/time_converting.dart';
 import 'package:mfecinternship/model/data_model.dart';
 import 'package:mfecinternship/utils/theme.dart';
 
 class CommentDetail extends StatefulWidget {
   final Post post;
 
-  CommentDetail({Key? key, required this.post}) : super(key: key);
+  const CommentDetail({Key? key, required this.post}) : super(key: key);
 
   @override
   State<CommentDetail> createState() => _CommentDetailState();
@@ -43,12 +44,20 @@ class _CommentDetailState extends State<CommentDetail> {
       time: '1677472418973',
       comment: 'Thanks for sharing!',
     ),
+    Comment(
+      id: 4,
+      avatarImageUrl: 'https://example.com/avatar3.jpg',
+      name: 'Prayut Chanocha',
+      time: DateTime.now().millisecondsSinceEpoch.toString(),
+      comment: 'Thanks for sharing!',
+    ),
   ];
 
   @override
   Widget build(BuildContext context) {
-    bool _favorited = true;
-    int _likeCount = 2;
+    TimeConverting timeConvert = TimeConverting();
+    bool _favorited = true; // for mocking this user liked
+    int _likeCount = 2; // mock counting of like
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.white,
@@ -159,10 +168,12 @@ class _CommentDetailState extends State<CommentDetail> {
                     ),
                     Text(((_comments.isNotEmpty)
                             ? (_comments.length.toString() + ' ')
-                            : LanguageBuilder.texts!['post_page']['no_comment']) +
+                            : LanguageBuilder.texts!['post_page']
+                                ['no_comment']) +
                         LanguageBuilder.texts!['post_page']['comment'] +
-                        ((_comments.length > 1) ? (LanguageBuilder.texts!['time_stamp']['suffix'])
-                    : '')),
+                        ((_comments.length > 1)
+                            ? (LanguageBuilder.texts!['time_stamp']['suffix'])
+                            : '')),
                   ],
                 ),
               ],
@@ -199,8 +210,9 @@ class _CommentDetailState extends State<CommentDetail> {
                                 style: const TextStyle(fontSize: 16),
                               ),
                               Text(
-                                extractTime(_comments[index].time) +
-                                    LanguageBuilder.texts!['time_stamp']['ago'],
+                                timeConvert.extractTime(_comments[index].time) +
+                                  ((timeConvert.timeDifNow(_comments[index].time).inSeconds < 2) ? '': LanguageBuilder.texts!['time_stamp']['ago'])
+                                    ,
                                 style: const TextStyle(color: Colors.grey),
                               )
                             ],
@@ -229,42 +241,5 @@ class _CommentDetailState extends State<CommentDetail> {
     );
   }
 
-  // Calculating different of timestamp and current time
-  Duration timeDifNow(String timeStamp) {
-    return DateTime.now()
-        .difference(DateTime.fromMillisecondsSinceEpoch(int.parse(timeStamp)));
-  }
-
-  // returning sentence of time (ex. 15 minutes ago, 1 hour ago, just now)
-  String extractTime(String timeStamp) {
-    return ((timeDifNow(timeStamp).inHours > 23)
-        ? (timeDifNow(timeStamp).inHours ~/ 24).toString() +
-            ' ' +
-            LanguageBuilder.texts!['time_stamp']['day'] +
-            (((timeDifNow(timeStamp).inHours ~/ 24) > 1)
-                ? (LanguageBuilder.texts!['time_stamp']['suffix'])
-                : ' ')
-        : (timeDifNow(timeStamp).inHours > 0)
-            ? (timeDifNow(timeStamp).inHours).toString() +
-                ' ' +
-                LanguageBuilder.texts!['time_stamp']['hour'] +
-                ((timeDifNow(timeStamp).inHours > 1)
-                    ? (LanguageBuilder.texts!['time_stamp']['suffix'])
-                    : ' ')
-            : (timeDifNow(timeStamp).inMinutes > 0)
-                ? (timeDifNow(timeStamp).inMinutes).toString() +
-                    ' ' +
-                    LanguageBuilder.texts!['time_stamp']['minute'] +
-                    ((timeDifNow(timeStamp).inMinutes > 1)
-                        ? (LanguageBuilder.texts!['time_stamp']['suffix'])
-                        : ' ')
-                : (timeDifNow(timeStamp).inSeconds > 5)
-                    ? (timeDifNow(timeStamp).inSeconds).toString() +
-                        ' ' +
-                        LanguageBuilder.texts!['time_stamp']['second'] +
-                        ((timeDifNow(timeStamp).inSeconds > 1)
-                            ? (LanguageBuilder.texts!['time_stamp']['suffix'])
-                            : ' ')
-                    : LanguageBuilder.texts!['time_stamp']['just_now']);
-  }
+  
 }

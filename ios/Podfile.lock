@@ -10,6 +10,9 @@ PODS:
   - path_provider_foundation (0.0.1):
     - Flutter
     - FlutterMacOS
+  - photo_manager (1.0.0):
+    - Flutter
+    - FlutterMacOS
   - sqflite (0.0.2):
     - Flutter
     - FMDB (>= 2.7.5)
@@ -19,6 +22,7 @@ DEPENDENCIES:
   - Flutter (from `Flutter`)
   - image_picker_ios (from `.symlinks/plugins/image_picker_ios/ios`)
   - path_provider_foundation (from `.symlinks/plugins/path_provider_foundation/ios`)
+  - photo_manager (from `.symlinks/plugins/photo_manager/ios`)
   - sqflite (from `.symlinks/plugins/sqflite/ios`)
 
 SPEC REPOS:
@@ -34,6 +38,8 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/image_picker_ios/ios"
   path_provider_foundation:
     :path: ".symlinks/plugins/path_provider_foundation/ios"
+  photo_manager:
+    :path: ".symlinks/plugins/photo_manager/ios"
   sqflite:
     :path: ".symlinks/plugins/sqflite/ios"
 
@@ -43,6 +49,7 @@ SPEC CHECKSUMS:
   FMDB: 2ce00b547f966261cd18927a3ddb07cb6f3db82a
   image_picker_ios: 58b9c4269cb176f89acea5e5d043c9358f2d25f8
   path_provider_foundation: c68054786f1b4f3343858c1e1d0caaded73f0be9
+  photo_manager: 84fa94fbeb82e607333ea9a13c43b58e0903a463
   sqflite: 6d358c025f5b867b29ed92fc697fd34924e11904
 
 PODFILE CHECKSUM: ef19549a9bc3046e7bb7d2fab4d021637c0c58a3
