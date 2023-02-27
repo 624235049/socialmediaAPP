@@ -97,7 +97,10 @@ class _CommentDetailState extends State<CommentDetail> {
               margin: const EdgeInsets.only(right: 15.0, left: 15.0),
               child: Padding(
                 padding: const EdgeInsets.symmetric(vertical: 8.0),
-                child: Text(post!.post,style: const TextStyle(fontSize: 16.0),),
+                child: Text(
+                  post!.post,
+                  style: const TextStyle(fontSize: 16.0),
+                ),
               ),
             ),
             Container(
@@ -105,7 +108,6 @@ class _CommentDetailState extends State<CommentDetail> {
                 child: post!.image != null
                     ? Image.network(post!.image)
                     : Container()),
-
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -144,7 +146,7 @@ class _CommentDetailState extends State<CommentDetail> {
             ),
             ListView.builder(
               shrinkWrap: true,
-              physics: ScrollPhysics(),
+              physics: const ScrollPhysics(),
               itemCount: _comments.length,
               itemBuilder: (BuildContext context, int index) {
                 return Card(
@@ -178,7 +180,7 @@ class _CommentDetailState extends State<CommentDetail> {
                                 style: const TextStyle(color: Colors.grey),
                               )
                             ],
-                          )
+                          ),
                         ],
                       ),
                       const Divider(),
@@ -188,12 +190,34 @@ class _CommentDetailState extends State<CommentDetail> {
               },
             ),
             Container(
-              margin: const EdgeInsets.only(left: 30, right: 30),
-              child:  TextFormField(
-                decoration: const InputDecoration(
-                  hintText: 'แสดงความคิดเห็น',
-                  border: OutlineInputBorder(),
-                ),
+              margin: const EdgeInsets.only(left: 15, right: 15),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Container(
+                    margin: const EdgeInsets.only(right: 8.0),
+                    child: const CircleAvatar(
+                      radius: 20,
+                      backgroundImage:
+                          AssetImage("asset/images/login/avatar_img.png"),
+                    ),
+                  ),
+                  const SizedBox(width: 10),
+                  Expanded(
+                    child: TextFormField(
+                      decoration: InputDecoration(
+                        hintText: 'แสดงความคิดเห็น',
+                        border: OutlineInputBorder(),
+                        suffixIcon: TextButton(
+                          onPressed: () {
+                            // โค้ดที่ต้องการให้ TextButton ทำงาน
+                          },
+                          child: Text('ส่ง'),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
               ),
             ),
           ],
