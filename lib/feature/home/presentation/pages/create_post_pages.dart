@@ -1,13 +1,13 @@
 import 'dart:io';
-
+import 'dart:typed_data';
 import 'package:flutter/material.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:mfecinternship/utils/theme.dart';
-
-import 'image_select.dart';
+import 'package:photo_manager/photo_manager.dart';
+import 'gallery_pages.dart';
 
 class CreatePost extends StatefulWidget {
-  const CreatePost({Key? key}) : super(key: key);
+  final List<AssetEntity> images;
+  const CreatePost({Key? key, required this.images}) : super(key: key);
 
   @override
   State<CreatePost> createState() => _CreatePostState();
@@ -43,7 +43,7 @@ class _CreatePostState extends State<CreatePost> {
               padding: const EdgeInsets.all(12),
               child: ElevatedButton(
                 onPressed: () {},
-                child: Text(
+                child: const Text(
                   'โพสต์',
                   style: TextStyle(fontWeight: FontWeight.w800),
                 ),
@@ -99,8 +99,14 @@ class _CreatePostState extends State<CreatePost> {
                     TextFormField(
                       decoration: const InputDecoration(
                         hintText: 'What\'s on your mind?',
+                        border: InputBorder.none,
+                        focusedBorder: InputBorder.none,
+                        enabledBorder: InputBorder.none,
+                        errorBorder: InputBorder.none,
+                        disabledBorder: InputBorder.none,
                       ),
-                      maxLines: 30,
+
+                      maxLines: null,
                       onChanged: (value) {
                         setState(() {
                           _postMessage = value;
@@ -112,6 +118,30 @@ class _CreatePostState extends State<CreatePost> {
                         _selectedImage!,
                         height: 200,
                       ),
+
+                    SizedBox(
+                      height: 300,
+                      child: ListView.builder(
+                        scrollDirection: Axis.horizontal,
+                        itemCount: widget.images.length,
+                        itemBuilder: (BuildContext context, int index) {
+                          return Expanded(
+                            child: FutureBuilder<Uint8List?>(
+                              future: widget.images[index].thumbData,
+                              builder: (context, snapshot) {
+                                if (snapshot.connectionState == ConnectionState.done && snapshot.data != null) {
+                                  return Image.memory(
+                                    snapshot.data!,
+                                    height: 200,
+                                  );
+                                }
+                                return const SizedBox();
+                              },
+                            ),
+                          );
+                        },
+                      ),
+                    ),
                   ],
                 ),
               ),
