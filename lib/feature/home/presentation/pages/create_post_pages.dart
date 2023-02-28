@@ -179,7 +179,7 @@ class _CreatePostState extends State<CreatePost> {
                 ),
               ],
             ),
-          )
+          ),
         ],
       ),
     );

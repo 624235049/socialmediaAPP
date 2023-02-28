@@ -13,6 +13,8 @@ class CommentDetail extends StatefulWidget {
 
 class _CommentDetailState extends State<CommentDetail> {
   Post? post;
+  TextEditingController _commentController = TextEditingController();
+  String? _replyingTo;
 
   @override
   void initState() {
@@ -198,112 +200,122 @@ class _CommentDetailState extends State<CommentDetail> {
             ),
             ListView.builder(
               shrinkWrap: true,
-              physics: const ScrollPhysics(),
+              physics: const NeverScrollableScrollPhysics(),
               itemCount: _comments.length,
               itemBuilder: (BuildContext context, int index) {
-                List<Widget> replyWidgets = [];
-                if (_comments[index].replies.isNotEmpty) {
-                  for (int i = 0; i < _comments[index].replies.length; i++) {
-                    replyWidgets.add(
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Row(
-                            children: [
-                              Container(
-                                margin: const EdgeInsets.only(right: 8.0),
-                                child: CircleAvatar(
-                                  radius: 20,
-                                  backgroundImage: NetworkImage(_comments[index]
-                                      .replies[i]
-                                      .avatarImageUrl),
-                                ),
-                              ),
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    _comments[index].replies[i].name,
-                                    style: const TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 16),
-                                  ),
-                                  Text(
-                                    _comments[index].replies[i].comment,
-                                    style: const TextStyle(fontSize: 16),
-                                  ),
-                                  Text(
-                                    _comments[index].replies[i].time,
-                                    style: const TextStyle(color: Colors.grey),
-                                  )
-                                ],
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                    );
-                  }
-                }
                 return Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Row(
-                      children: [
-                        Container(
-                          margin: const EdgeInsets.only(right: 8.0),
-                          child: CircleAvatar(
-                            radius: 20,
-                            backgroundImage:
-                                NetworkImage(_comments[index].avatarImageUrl),
+                    ListTile(
+                      leading: CircleAvatar(
+                        backgroundImage:
+                            NetworkImage(_comments[index].avatarImageUrl),
+                      ),
+                      title: Text(
+                        _comments[index].name,
+                        style: const TextStyle(
+                            fontWeight: FontWeight.bold, fontSize: 16),
+                      ),
+                      subtitle: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            _comments[index].comment,
+                            style: const TextStyle(fontSize: 16),
                           ),
-                        ),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              _comments[index].name,
+                          Row(
+                            children: [
+                              Text(
+                                _comments[index].time,
+                                style: const TextStyle(color: Colors.grey),
+                              ),
+                              const SizedBox(
+                                width: 5,
+                              ),
+                              const Text(
+                                "2 ถูกใจ",
+                                style: TextStyle(color: Colors.grey),
+                              ),
+                              const SizedBox(
+                                width: 5,
+                              ),
+                              TextButton(
+                                onPressed: () {
+                                  setState(() {
+                                    _replyingTo = _comments[index].name;
+                                  });
+                                  _commentController.text =
+                                      '@${_comments[index].name} ';
+                                },
+                                child: const Text(
+                                  "ตอบกลับ",
+                                  style: TextStyle(color: Colors.indigoAccent),
+                                ),
+                              ),
+                            ],
+                          )
+                        ],
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 72.0),
+                      child: Column(
+                        children: _comments[index].replies.map((reply) {
+                          return ListTile(
+                            leading: CircleAvatar(
+                              backgroundImage:
+                                  NetworkImage(reply.avatarImageUrl),
+                            ),
+                            title: Text(
+                              reply.name,
                               style: const TextStyle(
                                   fontWeight: FontWeight.bold, fontSize: 16),
                             ),
-                            Text(
-                              _comments[index].comment,
-                              style: const TextStyle(fontSize: 16),
-                            ),
-                            Row(
+                            subtitle: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  _comments[index].time,
-                                  style: const TextStyle(color: Colors.grey),
+                                  reply.comment,
+                                  style: const TextStyle(fontSize: 16),
                                 ),
-                                const SizedBox(
-                                  width: 5,
-                                ),
-                                const Text(
-                                  "2 ถูกใจ",
-                                  style: TextStyle(color: Colors.grey),
-                                ),
-                                const SizedBox(
-                                  width: 5,
-                                ),
-                                TextButton(
-                                  onPressed: () {},
-                                  child: const Text(
-                                    "ตอบกลับ",
-                                    style:
-                                        TextStyle(color: Colors.indigoAccent),
-                                  ),
+                                Row(
+                                  children: [
+                                    Text(
+                                      reply.time,
+                                      style:
+                                          const TextStyle(color: Colors.grey),
+                                    ),
+                                  ],
                                 )
                               ],
-                            )
-                          ],
-                        ),
-                      ],
+                            ),
+                          );
+                        }).toList(),
+                      ),
                     ),
-                    Column(children: replyWidgets),
                   ],
                 );
               },
+            ),
+            Container(
+              margin: const EdgeInsets.all(15),
+              width: double.infinity,
+              child: _replyingTo != null
+                  ? Row(
+                      children: [
+                        Text('ตอบกลับ: @${_replyingTo}'),
+                        TextButton(
+                          onPressed: () {
+                            setState(() {
+                              _replyingTo = null;
+                              _commentController.clear();
+                            });
+                          },
+                          child: const Text('ยกเลิก'),
+                        ),
+                      ],
+                    )
+                  : SizedBox(),
             ),
             Container(
               margin: const EdgeInsets.only(left: 15, right: 15),
@@ -321,14 +333,19 @@ class _CommentDetailState extends State<CommentDetail> {
                   const SizedBox(width: 10),
                   Expanded(
                     child: TextFormField(
+                      controller: _commentController,
                       decoration: InputDecoration(
                         hintText: 'แสดงความคิดเห็น',
                         border: OutlineInputBorder(),
                         suffixIcon: TextButton(
                           onPressed: () {
-                            // โค้ดที่ต้องการให้ TextButton ทำงาน
+                            if (_replyingTo != null) {
+                              // logic ส่งความคิดเห็นโดยตอบกลับคนนั้น
+                            } else {
+                              // logic ส่งความคิดเห็นโดยไม่ตอบกลับใคร
+                            }
                           },
-                          child: Text('ส่ง'),
+                          child: const Text('ส่ง'),
                         ),
                       ),
                     ),
