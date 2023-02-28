@@ -184,7 +184,8 @@ class Languages {
           "day": "day",
           "ago": " ago",
           "suffix": "s",
-          "year_diff": "0"
+          "year_diff": "0",
+          "default_month": "[month]"
         },
         "month": {
           "jan": "January",
@@ -391,7 +392,8 @@ class Languages {
           "day": "วัน",
           "ago": "ที่แล้ว",
           "suffix": "",
-          "year_diff": "543"
+          "year_diff": "543",
+          "default_month": "[เดือน]"
         },
         "month": {
           "jan": "มกราคม",

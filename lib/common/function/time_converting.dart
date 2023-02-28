@@ -39,24 +39,24 @@ class TimeConverting {
   }
 
   static String getDate(String dateText, bool fullMonth) {
-    String monthSelect = (fullMonth == true) ? 'month' : 'month_less';
-    String year = dateText.toString().substring(0,4);
-    String month = dateText.toString().substring(5,7);
-    String day = dateText.toString().substring(8,10);
+    String _monthSelect = (fullMonth == true) ? 'month' : 'month_less';
+    int _year = int.parse(dateText.toString().substring(0,4)) + int.parse(LanguageBuilder.texts!['time_stamp']['year_diff']);
+    int _month = int.parse(dateText.toString().substring(5,7));
+    int _day = int.parse(dateText.toString().substring(8,10));
 
-    month = (month == '01') ? LanguageBuilder.texts![monthSelect]['jan']
-                            : (month == '02') ? LanguageBuilder.texts![monthSelect]['feb']
-                            : (month == '03') ? LanguageBuilder.texts![monthSelect]['mar']
-                            : (month == '04') ? LanguageBuilder.texts![monthSelect]['apr']
-                            : (month == '05') ? LanguageBuilder.texts![monthSelect]['may']
-                            : (month == '06') ? LanguageBuilder.texts![monthSelect]['jun']
-                            : (month == '07') ? LanguageBuilder.texts![monthSelect]['jul']
-                            : (month == '08') ? LanguageBuilder.texts![monthSelect]['aug']
-                            : (month == '09') ? LanguageBuilder.texts![monthSelect]['sep']
-                            : (month == '10') ? LanguageBuilder.texts![monthSelect]['oct']
-                            : (month == '11') ? LanguageBuilder.texts![monthSelect]['nov']
-                            : (month == '12') ? LanguageBuilder.texts![monthSelect]['dec']
+    String _monthConverted = (_month == 1) ? LanguageBuilder.texts![_monthSelect]['jan']
+                            : (_month == 2) ? LanguageBuilder.texts![_monthSelect]['feb']
+                            : (_month == 3) ? LanguageBuilder.texts![_monthSelect]['mar']
+                            : (_month == 4) ? LanguageBuilder.texts![_monthSelect]['apr']
+                            : (_month == 5) ? LanguageBuilder.texts![_monthSelect]['may']
+                            : (_month == 6) ? LanguageBuilder.texts![_monthSelect]['jun']
+                            : (_month == 7) ? LanguageBuilder.texts![_monthSelect]['jul']
+                            : (_month == 8) ? LanguageBuilder.texts![_monthSelect]['aug']
+                            : (_month == 9) ? LanguageBuilder.texts![_monthSelect]['sep']
+                            : (_month == 10) ? LanguageBuilder.texts![_monthSelect]['oct']
+                            : (_month == 11) ? LanguageBuilder.texts![_monthSelect]['nov']
+                            : (_month == 12) ? LanguageBuilder.texts![_monthSelect]['dec']
                             : '[invalid]';
-    return '$day $month $year'; 
+    return '$_day $_monthConverted $_year'; 
   }
 }
