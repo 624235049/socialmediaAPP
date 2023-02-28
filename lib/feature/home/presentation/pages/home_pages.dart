@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:language_builder/language_builder.dart';
+import 'package:mfecinternship/common/function/time_converting.dart';
 import 'package:mfecinternship/utils/theme.dart';
 
 import '../../../../common/config/app_route.dart';
@@ -59,19 +60,19 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver{
   final List<Post> _posts = [
     Post(
         name: "แคชชี่",
-        time: "07 ก.ค 2565",
+        time: "2022-07-07 00:00:00.000",//2565 07 07 - 2022 07 07
         post:
             "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
         image: 'https://quizizz.com/media/resource/gs/quizizz-media/quizzes/f76e8618-4e2f-45a2-a6fa-b42104a31409'),
     Post(
         name: "แคชชี่",
-        time: "10 ก.ค 2565",
+        time: "2022-07-10 00:00:00.000",//2565 07 10 - 2022 07 10
         post:
             "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua..",
         image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQRKsbw1znNtMpTRem56z54Hkl1A7qOrsKGYmH77cugSuW-ug9cMP-_VfrdPOaeFE4WFJA&usqp=CAU'),
     Post(
         name: "แคชชี่",
-        time: "12 ก.ค 2565",
+        time: "2022-07-12 00:00:00.000",//2565 07 10 - 2022 07 12
         post:
             "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
         image: 'https://i.ytimg.com/vi/Q-qAQzexStc/maxresdefault.jpg'),
@@ -176,7 +177,7 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver{
                             width: 10,
                           ),
                           Text(
-                            _posts[index].time,
+                            TimeConverting.getDate(_posts[index].time, false),
                             style: TextStyle(color: Colors.grey),
                           )
                         ],

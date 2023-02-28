@@ -55,7 +55,6 @@ class _CommentDetailState extends State<CommentDetail> {
 
   @override
   Widget build(BuildContext context) {
-    TimeConverting timeConvert = TimeConverting();
     bool _favorited = true; // for mocking this user liked
     int _likeCount = 2; // mock counting of like
     return Scaffold(
@@ -97,7 +96,7 @@ class _CommentDetailState extends State<CommentDetail> {
                         height: 5,
                       ),
                       Text(
-                        post!.time,
+                        TimeConverting.getDate(post!.time, false),
                         style: const TextStyle(color: Colors.grey),
                       )
                     ],
@@ -210,8 +209,8 @@ class _CommentDetailState extends State<CommentDetail> {
                                 style: const TextStyle(fontSize: 16),
                               ),
                               Text(
-                                timeConvert.extractTime(_comments[index].time) +
-                                  ((timeConvert.timeDifNow(_comments[index].time).inSeconds < 2) ? '': LanguageBuilder.texts!['time_stamp']['ago'])
+                                TimeConverting.extractTime(_comments[index].time) +
+                                  ((TimeConverting.timeDifNow(_comments[index].time).inSeconds < 2) ? '': LanguageBuilder.texts!['time_stamp']['ago'])
                                     ,
                                 style: const TextStyle(color: Colors.grey),
                               )

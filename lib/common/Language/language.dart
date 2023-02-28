@@ -3,6 +3,7 @@
 /* 
   - Edit profile can use register_personal
   - Term and condition detail can use in register page
+  - 'year_diff' use for different calendar ex. CE-2022 BE-2565
   * Time text is not set here  
  */
 class Languages {
@@ -182,7 +183,8 @@ class Languages {
           "hour": "hour",
           "day": "day",
           "ago": " ago",
-          "suffix": "s"
+          "suffix": "s",
+          "year_diff": "0"
         },
         "month": {
           "jan": "January",
@@ -197,6 +199,20 @@ class Languages {
           "oct": "October",
           "nov": "November",
           "dec": "December"
+        },
+        "month_less": {
+          "jan": "Jan",
+          "feb": "Feb",
+          "mar": "Mar",
+          "apr": "Apr",
+          "may": "May",
+          "jun": "Jun",
+          "jul": "Jul",
+          "aug": "Aug",
+          "sep": "Sep",
+          "oct": "Oct",
+          "nov": "Nov",
+          "dec": "Dec"
         }
     }""",
     "th": """{
@@ -374,7 +390,36 @@ class Languages {
           "hour": "ชั่วโมง",
           "day": "วัน",
           "ago": "ที่แล้ว",
-          "suffix": ""
+          "suffix": "",
+          "year_diff": "543"
+        },
+        "month": {
+          "jan": "มกราคม",
+          "feb": "กุมพาพันธ์",
+          "mar": "มีนาคม",
+          "apr": "เมษายน",
+          "may": "พฤษภาคม",
+          "jun": "มิถุยายน",
+          "jul": "กรกฎาคม",
+          "aug": "สิงหาคม",
+          "sep": "กันยายน",
+          "oct": "ตุลาคม",
+          "nov": "พฤศจิกายน",
+          "dec": "ธันวาคม"
+        },
+        "month_less": {
+          "jan": "ม.ก.",
+          "feb": "ก.พ.",
+          "mar": "มี.ค.",
+          "apr": "เม.ย.",
+          "may": "พ.ค.",
+          "jun": "มิ.ย.",
+          "jul": "ก.ค.",
+          "aug": "ส.ค.",
+          "sep": "ก.ย.",
+          "oct": "ต.ค.",
+          "nov": "พ.ย.",
+          "dec": "ธ.ค."
         }
     }"""
   };
