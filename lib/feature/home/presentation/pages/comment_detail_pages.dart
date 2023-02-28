@@ -20,6 +20,29 @@ class _CommentDetailState extends State<CommentDetail> {
     super.initState();
   }
 
+  // final List<Comment> _comments = [
+  //   Comment(
+  //     id: 1,
+  //     avatarImageUrl: 'https://example.com/avatar1.jpg',
+  //     name: 'John Doe',
+  //     time: '2 hours ago',
+  //     comment: 'This is a great post!',
+  //   ),
+  //   Comment(
+  //     id: 2,
+  //     avatarImageUrl: 'https://example.com/avatar2.jpg',
+  //     name: 'Jane Smith',
+  //     time: '1 hour ago',
+  //     comment: 'I agree with you!',
+  //   ),
+  //   Comment(
+  //     id: 3,
+  //     avatarImageUrl: 'https://example.com/avatar3.jpg',
+  //     name: 'Bob Johnson',
+  //     time: '5 minutes ago',
+  //     comment: 'Thanks for sharing!',
+  //   ),
+  // ];
   final List<Comment> _comments = [
     Comment(
       id: 1,
@@ -27,6 +50,16 @@ class _CommentDetailState extends State<CommentDetail> {
       name: 'John Doe',
       time: '2 hours ago',
       comment: 'This is a great post!',
+      replies: [
+        Comment(
+          id: 4,
+          avatarImageUrl: 'https://example.com/avatar4.jpg',
+          name: 'Sarah Lee',
+          time: '1 hour ago',
+          comment: 'I found it really interesting too!',
+          replies: [],
+        ),
+      ],
     ),
     Comment(
       id: 2,
@@ -34,6 +67,24 @@ class _CommentDetailState extends State<CommentDetail> {
       name: 'Jane Smith',
       time: '1 hour ago',
       comment: 'I agree with you!',
+      replies: [
+        Comment(
+          id: 5,
+          avatarImageUrl: 'https://example.com/avatar5.jpg',
+          name: 'Alex Wang',
+          time: '30 minutes ago',
+          comment: 'I think there are some important points to consider.',
+          replies: [],
+        ),
+        Comment(
+          id: 6,
+          avatarImageUrl: 'https://example.com/avatar6.jpg',
+          name: 'David Kim',
+          time: '15 minutes ago',
+          comment: 'Can you explain more about your perspective?',
+          replies: [],
+        ),
+      ],
     ),
     Comment(
       id: 3,
@@ -41,6 +92,7 @@ class _CommentDetailState extends State<CommentDetail> {
       name: 'Bob Johnson',
       time: '5 minutes ago',
       comment: 'Thanks for sharing!',
+      replies: [],
     ),
   ];
 
@@ -149,43 +201,107 @@ class _CommentDetailState extends State<CommentDetail> {
               physics: const ScrollPhysics(),
               itemCount: _comments.length,
               itemBuilder: (BuildContext context, int index) {
-                return Card(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Row(
+                List<Widget> replyWidgets = [];
+                if (_comments[index].replies.isNotEmpty) {
+                  for (int i = 0; i < _comments[index].replies.length; i++) {
+                    replyWidgets.add(
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Container(
-                            margin: const EdgeInsets.only(right: 8.0),
-                            child: const CircleAvatar(
-                              radius: 20,
-                              backgroundImage: AssetImage(
-                                  "asset/images/login/avatar_img.png"),
-                            ),
-                          ),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
+                          Row(
                             children: [
-                              Text(
-                                _comments[index].name,
-                                style: const TextStyle(
-                                    fontWeight: FontWeight.bold, fontSize: 16),
+                              Container(
+                                margin: const EdgeInsets.only(right: 8.0),
+                                child: CircleAvatar(
+                                  radius: 20,
+                                  backgroundImage: NetworkImage(_comments[index]
+                                      .replies[i]
+                                      .avatarImageUrl),
+                                ),
                               ),
-                              Text(
-                                _comments[index].comment,
-                                style: const TextStyle(fontSize: 16),
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    _comments[index].replies[i].name,
+                                    style: const TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 16),
+                                  ),
+                                  Text(
+                                    _comments[index].replies[i].comment,
+                                    style: const TextStyle(fontSize: 16),
+                                  ),
+                                  Text(
+                                    _comments[index].replies[i].time,
+                                    style: const TextStyle(color: Colors.grey),
+                                  )
+                                ],
                               ),
-                              Text(
-                                _comments[index].time,
-                                style: const TextStyle(color: Colors.grey),
-                              )
                             ],
                           ),
                         ],
                       ),
-                      const Divider(),
-                    ],
-                  ),
+                    );
+                  }
+                }
+                return Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      children: [
+                        Container(
+                          margin: const EdgeInsets.only(right: 8.0),
+                          child: CircleAvatar(
+                            radius: 20,
+                            backgroundImage:
+                                NetworkImage(_comments[index].avatarImageUrl),
+                          ),
+                        ),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              _comments[index].name,
+                              style: const TextStyle(
+                                  fontWeight: FontWeight.bold, fontSize: 16),
+                            ),
+                            Text(
+                              _comments[index].comment,
+                              style: const TextStyle(fontSize: 16),
+                            ),
+                            Row(
+                              children: [
+                                Text(
+                                  _comments[index].time,
+                                  style: const TextStyle(color: Colors.grey),
+                                ),
+                                const SizedBox(
+                                  width: 5,
+                                ),
+                                const Text(
+                                  "2 ถูกใจ",
+                                  style: TextStyle(color: Colors.grey),
+                                ),
+                                const SizedBox(
+                                  width: 5,
+                                ),
+                                TextButton(
+                                  onPressed: () {},
+                                  child: const Text(
+                                    "ตอบกลับ",
+                                    style:
+                                        TextStyle(color: Colors.indigoAccent),
+                                  ),
+                                )
+                              ],
+                            )
+                          ],
+                        ),
+                      ],
+                    ),
+                    Column(children: replyWidgets),
+                  ],
                 );
               },
             ),
