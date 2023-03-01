@@ -18,21 +18,6 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> with WidgetsBindingObserver{
 
-  @override
-  void didChangeAppLifecycleState(AppLifecycleState state) {
-    if(state == AppLifecycleState.resumed) {
-      debugPrint('Hello');
-      setState(() {
-        Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(
-            builder: (BuildContext context) => super.widget));
-      });
-    }
-    super.didChangeAppLifecycleState(state);
-    
-  } 
-
   final String logoApp = "asset/images/home/logo_appbar.png";
   final List<Data> dataList = [
     Data(
