@@ -20,8 +20,8 @@ class TextFormFieldRegis extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.only(
-          left: 30, right: 30),
+      // margin: const EdgeInsets.only(
+      //     left: 30, right: 30),
       child: TextFormField(
         style: const TextStyle(
           color: Colors.black,

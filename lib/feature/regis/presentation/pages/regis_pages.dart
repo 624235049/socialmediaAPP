@@ -94,20 +94,24 @@ class _RegistrationPageState extends State<RegistrationPage> {
           children: [
             TextFormFieldRegis(
                 textController: password,
-                labelText: LanguageBuilder.texts!['register_password']['password_field'],
-                hintText: LanguageBuilder.texts!['register_password']['password_field_hint'],
+                labelText: LanguageBuilder.texts!['register_password']
+                    ['password_field'],
+                hintText: LanguageBuilder.texts!['register_password']
+                    ['password_field_hint'],
                 keyboardType: TextInputType.visiblePassword),
             const SizedBox(
               height: 20.0,
             ),
             TextFormFieldRegis(
                 textController: confirm_password,
-                labelText: LanguageBuilder.texts!['register_password']['re_password_field'],
-                hintText: LanguageBuilder.texts!['register_password']['re_password_field_hint'],
+                labelText: LanguageBuilder.texts!['register_password']
+                    ['re_password_field'],
+                hintText: LanguageBuilder.texts!['register_password']
+                    ['re_password_field_hint'],
                 keyboardType: TextInputType.visiblePassword),
-            SizedBox(
-              height: MediaQuery.of(context).size.height / 2,
-            ),
+            // SizedBox(
+            //   height: MediaQuery.of(context).size.height / 2,
+            // ),
           ],
         ),
         isActive: _activeStepIndex == 3,
@@ -138,7 +142,8 @@ class _RegistrationPageState extends State<RegistrationPage> {
               enabled: false,
               maxLines: 20,
               decoration: InputDecoration(
-                labelText: LanguageBuilder.texts!['register_term']['term_field'],
+                labelText: LanguageBuilder.texts!['register_term']
+                    ['term_field'],
                 contentPadding: const EdgeInsets.all(16),
                 border: const OutlineInputBorder(),
                 floatingLabelBehavior:
@@ -149,7 +154,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
               height: 10.0,
             ),
             Container(
-              padding: const EdgeInsets.all(2),
+              padding: const EdgeInsets.all(12),
               decoration: BoxDecoration(
                 color: Colors.grey[200],
                 borderRadius: BorderRadius.circular(8),
@@ -164,9 +169,12 @@ class _RegistrationPageState extends State<RegistrationPage> {
                       });
                     },
                   ),
-                  Text(
-                    LanguageBuilder.texts!['register_term']['agree_text'],
-                    style: const TextStyle(fontSize: 14),
+                  Flexible(
+                    child: Text(
+                      LanguageBuilder.texts!['register_term']['agree_text'],
+                      maxLines: 3,
+                      style: const TextStyle(fontSize: 14),
+                    ),
                   ),
                 ],
               ),
@@ -236,7 +244,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
           ),
         ),
         Container(
-          margin: EdgeInsets.only(top: 20.0),
+          margin: const EdgeInsets.only(top: 20.0),
           height: 50,
           width: MediaQuery.of(context).size.width,
           child: Center(
@@ -245,9 +253,9 @@ class _RegistrationPageState extends State<RegistrationPage> {
             style: AppTheme.h2Style,
           )),
         ),
-        SizedBox(
-          height: MediaQuery.of(context).size.height / 5,
-        ),
+        // SizedBox(
+        //   height: MediaQuery.of(context).size.height / 6,
+        // ),
       ],
     );
   }
@@ -272,40 +280,36 @@ class _RegistrationPageState extends State<RegistrationPage> {
         const SizedBox(
           height: 20,
         ),
-        Container(
-          margin: const EdgeInsets.only(left: 30, right: 30),
-          child: DropdownButtonFormField(
-              value: _selectedLocation,
-              decoration: InputDecoration(
-                border: const OutlineInputBorder(),
-                labelText: LanguageBuilder.texts!['register_skill']['position_field'],
-              ),
-              items: <String>[
-                'Mobile Developper',
-                'Fontend Developper',
-                'Backend Developper',
-                'DevOps'
-              ].map<DropdownMenuItem<String>>((String value) {
-                return DropdownMenuItem<String>(
-                  value: value,
-                  child: Text(value),
-                );
-              }).toList(),
-              onChanged: (value) {
-                setState(() {});
-              }),
-        ),
+        DropdownButtonFormField(
+            value: _selectedLocation,
+            decoration: InputDecoration(
+              border: const OutlineInputBorder(),
+              labelText: LanguageBuilder.texts!['register_skill']
+                  ['position_field'],
+            ),
+            items: <String>[
+              'Mobile Developper',
+              'Fontend Developper',
+              'Backend Developper',
+              'DevOps'
+            ].map<DropdownMenuItem<String>>((String value) {
+              return DropdownMenuItem<String>(
+                value: value,
+                child: Text(value),
+              );
+            }).toList(),
+            onChanged: (value) {
+              setState(() {});
+            }),
         const SizedBox(
           height: 20,
         ),
         TextFormFieldRegis(
           textController: expect,
-          labelText: LanguageBuilder.texts!['register_skill']['expecting_field'],
+          labelText: LanguageBuilder.texts!['register_skill']
+              ['expecting_field'],
           hintText: LanguageBuilder.texts!['register_skill']['expecting_hint'],
           keyboardType: TextInputType.text,
-        ),
-        const SizedBox(
-          height: 200,
         ),
       ],
     );
@@ -322,8 +326,10 @@ class _RegistrationPageState extends State<RegistrationPage> {
       children: [
         TextFormFieldRegis(
           textController: nameSurname,
-          labelText: LanguageBuilder.texts!['register_personal']['fullname_field'],
-          hintText: LanguageBuilder.texts!['register_personal']['fullname_hint'],
+          labelText: LanguageBuilder.texts!['register_personal']
+              ['fullname_field'],
+          hintText: LanguageBuilder.texts!['register_personal']
+              ['fullname_hint'],
           keyboardType: TextInputType.name,
         ),
         const SizedBox(
@@ -331,8 +337,10 @@ class _RegistrationPageState extends State<RegistrationPage> {
         ),
         TextFormFieldRegis(
           textController: nickName,
-          labelText: LanguageBuilder.texts!['register_personal']['nickname_field'],
-          hintText: LanguageBuilder.texts!['register_personal']['nickname_hint'],
+          labelText: LanguageBuilder.texts!['register_personal']
+              ['nickname_field'],
+          hintText: LanguageBuilder.texts!['register_personal']
+              ['nickname_hint'],
           keyboardType: TextInputType.name,
         ),
         const SizedBox(
@@ -371,48 +379,45 @@ class _RegistrationPageState extends State<RegistrationPage> {
 
   //Gender Widget
   Widget selectedGender() {
-    return Container(
-      margin: const EdgeInsets.only(left: 30, right: 30),
-      child: TextFormField(
-        decoration: InputDecoration(
-          labelText: LanguageBuilder.texts!['register_personal']['gender_field'],
-          floatingLabelBehavior: FloatingLabelBehavior.always,
-          border: const OutlineInputBorder(),
-          suffixIcon: Row(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              Radio(
-                value: 'ชาย',
-                groupValue: _selectedGender,
-                onChanged: (value) {
-                  setState(() {
-                    _selectedGender = value.toString();
-                  });
-                },
-              ),
-              Text(LanguageBuilder.texts!['register_personal']['gender_male']),
-              Radio(
-                value: 'หญิง',
-                groupValue: _selectedGender,
-                onChanged: (value) {
-                  setState(() {
-                    _selectedGender = value.toString();
-                  });
-                },
-              ),
-              Text(LanguageBuilder.texts!['register_personal']['gender_female']),
-              Radio(
-                value: 'อื่นๆ',
-                groupValue: _selectedGender,
-                onChanged: (value) {
-                  setState(() {
-                    _selectedGender = value.toString();
-                  });
-                },
-              ),
-              Text(LanguageBuilder.texts!['register_personal']['gender_other']),
-            ],
-          ),
+    return TextFormField(
+      decoration: InputDecoration(
+        labelText: LanguageBuilder.texts!['register_personal']['gender_field'],
+        floatingLabelBehavior: FloatingLabelBehavior.always,
+        border: const OutlineInputBorder(),
+        suffixIcon: Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            Radio(
+              value: 'ชาย',
+              groupValue: _selectedGender,
+              onChanged: (value) {
+                setState(() {
+                  _selectedGender = value.toString();
+                });
+              },
+            ),
+            Text(LanguageBuilder.texts!['register_personal']['gender_male']),
+            Radio(
+              value: 'หญิง',
+              groupValue: _selectedGender,
+              onChanged: (value) {
+                setState(() {
+                  _selectedGender = value.toString();
+                });
+              },
+            ),
+            Text(LanguageBuilder.texts!['register_personal']['gender_female']),
+            Radio(
+              value: 'อื่นๆ',
+              groupValue: _selectedGender,
+              onChanged: (value) {
+                setState(() {
+                  _selectedGender = value.toString();
+                });
+              },
+            ),
+            Text(LanguageBuilder.texts!['register_personal']['gender_other']),
+          ],
         ),
       ),
     );
@@ -420,25 +425,23 @@ class _RegistrationPageState extends State<RegistrationPage> {
 
   //Calender Widget
   Widget birthDayFormField() {
-    return Container(
-      margin: const EdgeInsets.only(left: 30, right: 30),
-      child: TextFormField(
-        decoration: InputDecoration(
-          labelText: LanguageBuilder.texts!['register_personal']['birthdate_field'],
-          hintText: LanguageBuilder.texts!['register_personal']['birthdate_hint'],
-          floatingLabelBehavior: FloatingLabelBehavior.always,
-          border: const OutlineInputBorder(),
-          suffixIcon: IconButton(
-            icon: const Icon(Icons.calendar_today,
-                color: AppTheme.buttonBackgroundColor),
-            onPressed: () {
-              selectDate(context);
-            },
-          ),
+    return TextFormField(
+      decoration: InputDecoration(
+        labelText: LanguageBuilder.texts!['register_personal']
+            ['birthdate_field'],
+        hintText: LanguageBuilder.texts!['register_personal']['birthdate_hint'],
+        floatingLabelBehavior: FloatingLabelBehavior.always,
+        border: const OutlineInputBorder(),
+        suffixIcon: IconButton(
+          icon: const Icon(Icons.calendar_today,
+              color: AppTheme.buttonBackgroundColor),
+          onPressed: () {
+            selectDate(context);
+          },
         ),
-        controller: dateController,
-        readOnly: true,
       ),
+      controller: dateController,
+      readOnly: true,
     );
   }
 
@@ -469,7 +472,8 @@ class _RegistrationPageState extends State<RegistrationPage> {
       appBar: AppBar(
         centerTitle: false,
         backgroundColor: Colors.white,
-        title: BigText(text: LanguageBuilder.texts!['register_page']['appbar_register']),
+        title: BigText(
+            text: LanguageBuilder.texts!['register_page']['appbar_register']),
         iconTheme: const IconThemeData(color: Colors.black),
       ),
       body: Column(
@@ -522,44 +526,75 @@ class _RegistrationPageState extends State<RegistrationPage> {
                             .black, // กำหนดสีไอคอนเมื่อไม่ได้เลือก (inactive)
                       ),
                     ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Visibility(
-                          visible: _activeStepIndex > 0,
-                          child: OutlinedButton(
-                            onPressed: controlsDetails.onStepCancel,
-                            child: Row(
-                              children: [
-                                const Icon(Icons.arrow_back),
-                                Text(LanguageBuilder.texts!['register_page']['back_page']),
-                              ],
-                            ),
-                            style: OutlinedButton.styleFrom(
-                              backgroundColor: Colors.transparent,
-                              primary: AppTheme.buttonBackgroundColor,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(16.0),
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(vertical: 20),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Visibility(
+                            visible: _activeStepIndex > 0,
+                            child: OutlinedButton(
+                              onPressed: controlsDetails.onStepCancel,
+                              child: Row(
+                                children: [
+                                  const Icon(Icons.arrow_back),
+                                  Text(LanguageBuilder.texts!['register_page']
+                                      ['back_page']),
+                                ],
                               ),
-                              side: const BorderSide(
-                                  color: AppTheme.buttonBackgroundColor),
+                              style: OutlinedButton.styleFrom(
+                                backgroundColor: Colors.transparent,
+                                primary: AppTheme.buttonBackgroundColor,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(16.0),
+                                ),
+                                side: const BorderSide(
+                                    color: AppTheme.buttonBackgroundColor),
+                              ),
                             ),
                           ),
-                        ),
-                        Visibility(
-                          visible: _activeStepIndex < stepList().length,
-                          child: _activeStepIndex == 4
-                              ? GestureDetector(
-                            onTap: () {
-
-                            },
-                                child: OutlinedButton(
+                          Visibility(
+                            visible: _activeStepIndex < stepList().length,
+                            child: _activeStepIndex == 4
+                                ? GestureDetector(
+                                    onTap: () {},
+                                    child: OutlinedButton(
+                                      onPressed: controlsDetails.onStepContinue,
+                                      child: Row(
+                                        children: [
+                                          Text(
+                                            LanguageBuilder
+                                                    .texts!['register_page']
+                                                ['confirm_button'],
+                                            style: const TextStyle(
+                                                color: Colors.white),
+                                          ),
+                                        ],
+                                      ),
+                                      style: OutlinedButton.styleFrom(
+                                        backgroundColor:
+                                            AppTheme.buttonBackgroundColor,
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(16.0),
+                                        ),
+                                      ),
+                                    ),
+                                  )
+                                : OutlinedButton(
                                     onPressed: controlsDetails.onStepContinue,
                                     child: Row(
                                       children: [
                                         Text(
-                                          LanguageBuilder.texts!['register_page']['confirm_button'],
-                                          style: const TextStyle(color: Colors.white),
+                                          LanguageBuilder
+                                                  .texts!['register_page']
+                                              ['next_page'],
+                                          style: const TextStyle(
+                                              color: Colors.white),
+                                        ),
+                                        const Icon(
+                                          Icons.arrow_forward,
+                                          color: Colors.white,
                                         ),
                                       ],
                                     ),
@@ -567,35 +602,14 @@ class _RegistrationPageState extends State<RegistrationPage> {
                                       backgroundColor:
                                           AppTheme.buttonBackgroundColor,
                                       shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(16.0),
+                                        borderRadius:
+                                            BorderRadius.circular(16.0),
                                       ),
                                     ),
                                   ),
-                              )
-                              : OutlinedButton(
-                                  onPressed: controlsDetails.onStepContinue,
-                                  child: Row(
-                                    children: [
-                                      Text(
-                                        LanguageBuilder.texts!['register_page']['next_page'],
-                                        style: const TextStyle(color: Colors.white),
-                                      ),
-                                      const Icon(
-                                        Icons.arrow_forward,
-                                        color: Colors.white,
-                                      ),
-                                    ],
-                                  ),
-                                  style: OutlinedButton.styleFrom(
-                                    backgroundColor:
-                                        AppTheme.buttonBackgroundColor,
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(16.0),
-                                    ),
-                                  ),
-                                ),
-                        ),
-                      ],
+                          ),
+                        ],
+                      ),
                     ),
                   );
                 },
