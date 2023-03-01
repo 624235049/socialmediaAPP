@@ -28,12 +28,15 @@ class _LanguageScreenState extends State<LanguageScreen> {
                 height: 5,
               ),
               ElevatedButton(
-                style: ElevatedButton.styleFrom(backgroundColor: Colors.white),
+                style: ElevatedButton.styleFrom(
+                  primary: Colors.white,
+                ),
                 onPressed: () {
                   setState(() {
                     LanguageBuilder.changeLanguage('th', context);
                   });
                 },
+
                 child: SizedBox(
                   height: 50,
                   child: Row(
@@ -60,7 +63,9 @@ class _LanguageScreenState extends State<LanguageScreen> {
                 height: 5,
               ),
               ElevatedButton(
-                style: ElevatedButton.styleFrom(backgroundColor: Colors.white),
+                style: ElevatedButton.styleFrom(
+                  primary: Colors.white,
+                ),
                 onPressed: () {
                   setState(() {
                     LanguageBuilder.changeLanguage('en', context);
