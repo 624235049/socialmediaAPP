@@ -118,7 +118,6 @@ class _CreatePostState extends State<CreatePost> {
                         _selectedImage!,
                         height: 200,
                       ),
-
                     SizedBox(
                       height: 300,
                       child: ListView.builder(

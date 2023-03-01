@@ -177,10 +177,10 @@ class _HomePageState extends State<HomePage> {
                         children: [
                           IconButton(
                               icon: Icon(
-                                Icons.favorite_border,
+                                _liked[index] ? Icons.favorite :Icons.favorite_border,
                                 color: _liked[index]
                                     ? AppTheme.buttonBackgroundColor
-                                    : Colors.grey,
+                                    : AppTheme.buttonBackgroundColor,
                               ),
                               onPressed: () {
                                 setState(() {

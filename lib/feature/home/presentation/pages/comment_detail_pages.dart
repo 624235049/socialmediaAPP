@@ -48,31 +48,33 @@ class _CommentDetailState extends State<CommentDetail> {
   final List<Comment> _comments = [
     Comment(
       id: 1,
-      avatarImageUrl: 'https://example.com/avatar1.jpg',
+      avatarImageUrl: 'https://github.com/624235049/picture01/blob/main/%E0%B8%94%E0%B8%B2%E0%B8%A7%E0%B8%99%E0%B9%8C%E0%B9%82%E0%B8%AB%E0%B8%A5%E0%B8%94%20(3).png?raw=true',
       name: 'John Doe',
       time: '2 hours ago',
       comment: 'This is a great post!',
       replies: [
         Comment(
           id: 4,
-          avatarImageUrl: 'https://example.com/avatar4.jpg',
+          avatarImageUrl: 'https://github.com/624235049/picture01/blob/main/sg-11134201-22100-glhy2yh3qrivb4.jpg?raw=true',
           name: 'Sarah Lee',
           time: '1 hour ago',
           comment: 'I found it really interesting too!',
-          replies: [],
+          replies: [
+
+          ],
         ),
       ],
     ),
     Comment(
       id: 2,
-      avatarImageUrl: 'https://example.com/avatar2.jpg',
+      avatarImageUrl: 'https://github.com/624235049/picture01/blob/main/img01.jpg?raw=true',
       name: 'Jane Smith',
       time: '1 hour ago',
       comment: 'I agree with you!',
       replies: [
         Comment(
           id: 5,
-          avatarImageUrl: 'https://example.com/avatar5.jpg',
+          avatarImageUrl: 'https://github.com/624235049/picture01/blob/main/img01.jpg?raw=true',
           name: 'Alex Wang',
           time: '30 minutes ago',
           comment: 'I think there are some important points to consider.',
@@ -80,7 +82,7 @@ class _CommentDetailState extends State<CommentDetail> {
         ),
         Comment(
           id: 6,
-          avatarImageUrl: 'https://example.com/avatar6.jpg',
+          avatarImageUrl: 'https://github.com/624235049/picture01/blob/main/img01.jpg?raw=true',
           name: 'David Kim',
           time: '15 minutes ago',
           comment: 'Can you explain more about your perspective?',
@@ -90,7 +92,7 @@ class _CommentDetailState extends State<CommentDetail> {
     ),
     Comment(
       id: 3,
-      avatarImageUrl: 'https://example.com/avatar3.jpg',
+      avatarImageUrl: 'https://github.com/624235049/picture01/blob/main/img01.jpg?raw=true',
       name: 'Bob Johnson',
       time: '5 minutes ago',
       comment: 'Thanks for sharing!',
