@@ -3,6 +3,7 @@
 /* 
   - Edit profile can use register_personal
   - Term and condition detail can use in register page
+  - 'year_diff' use for different calendar ex. CE-2022 BE-2565
   * Time text is not set here  
  */
 class Languages {
@@ -105,6 +106,7 @@ class Languages {
         "post_page": {
           "like": "like",
           "comment": "comment",
+          "no_comment": "No ",
           "send": "send",
           "comment_field": "comment",
           "reply": "Reply",
@@ -173,6 +175,45 @@ class Languages {
           "logout_text": "Do you want to logout?",
           "confirm": "Logout",
           "cancel": "Cancel"
+        },
+        "time_stamp": {
+          "just_now": "Just now",
+          "second": "second",
+          "minute": "minute",
+          "hour": "hour",
+          "day": "day",
+          "ago": " ago",
+          "suffix": "s",
+          "year_diff": "0",
+          "default_month": "[month]"
+        },
+        "month": {
+          "jan": "January",
+          "feb": "Febuary",
+          "mar": "March",
+          "apr": "April",
+          "may": "May",
+          "jun": "June",
+          "jul": "July",
+          "aug": "August",
+          "sep": "September",
+          "oct": "October",
+          "nov": "November",
+          "dec": "December"
+        },
+        "month_less": {
+          "jan": "Jan",
+          "feb": "Feb",
+          "mar": "Mar",
+          "apr": "Apr",
+          "may": "May",
+          "jun": "Jun",
+          "jul": "Jul",
+          "aug": "Aug",
+          "sep": "Sep",
+          "oct": "Oct",
+          "nov": "Nov",
+          "dec": "Dec"
         }
     }""",
     "th": """{
@@ -273,6 +314,7 @@ class Languages {
         "post_page": {
           "like": "ถูกใจ",
           "comment": "ความคิดเห็น",
+          "no_comment": "ไม่มี",
           "send": "ส่ง",
           "comment_field": "แสดงความคิดเห็น",
           "reply": "ตอบกลับ",
@@ -341,6 +383,45 @@ class Languages {
           "logout_text": "ต้องการออกจากระบบใช่ไหม",
           "confirm": "ออกจากระบบ",
           "cancel": "ยกเลิก"
+        },
+        "time_stamp": {
+          "just_now": "ตอนนี้",
+          "second": "วินาที",
+          "minute": "นาที",
+          "hour": "ชั่วโมง",
+          "day": "วัน",
+          "ago": "ที่แล้ว",
+          "suffix": "",
+          "year_diff": "543",
+          "default_month": "[เดือน]"
+        },
+        "month": {
+          "jan": "มกราคม",
+          "feb": "กุมพาพันธ์",
+          "mar": "มีนาคม",
+          "apr": "เมษายน",
+          "may": "พฤษภาคม",
+          "jun": "มิถุยายน",
+          "jul": "กรกฎาคม",
+          "aug": "สิงหาคม",
+          "sep": "กันยายน",
+          "oct": "ตุลาคม",
+          "nov": "พฤศจิกายน",
+          "dec": "ธันวาคม"
+        },
+        "month_less": {
+          "jan": "ม.ก.",
+          "feb": "ก.พ.",
+          "mar": "มี.ค.",
+          "apr": "เม.ย.",
+          "may": "พ.ค.",
+          "jun": "มิ.ย.",
+          "jul": "ก.ค.",
+          "aug": "ส.ค.",
+          "sep": "ก.ย.",
+          "oct": "ต.ค.",
+          "nov": "พ.ย.",
+          "dec": "ธ.ค."
         }
     }"""
   };

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:language_builder/language_builder.dart';
+import 'package:mfecinternship/common/function/time_converting.dart';
 import 'package:mfecinternship/utils/theme.dart';
 
 import '../../../../common/config/app_route.dart';
@@ -14,7 +15,7 @@ class HomePage extends StatefulWidget {
   State<HomePage> createState() => _HomePageState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
   final String logoApp = "asset/images/home/logo_appbar.png";
   final List<Data> dataList = [
     Data(
@@ -42,19 +43,21 @@ class _HomePageState extends State<HomePage> {
   final List<Post> _posts = [
     Post(
         name: "แคชชี่",
-        time: "07 ก.ค 2565",
+        time: "2022-07-07 00:00:00.000", //2565 07 07 - 2022 07 07
         post:
             "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-        image: 'https://quizizz.com/media/resource/gs/quizizz-media/quizzes/f76e8618-4e2f-45a2-a6fa-b42104a31409'),
+        image:
+            'https://quizizz.com/media/resource/gs/quizizz-media/quizzes/f76e8618-4e2f-45a2-a6fa-b42104a31409'),
     Post(
         name: "แคชชี่",
-        time: "10 ก.ค 2565",
+        time: "2022-07-10 00:00:00.000", //2565 07 10 - 2022 07 10
         post:
             "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua..",
-        image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQRKsbw1znNtMpTRem56z54Hkl1A7qOrsKGYmH77cugSuW-ug9cMP-_VfrdPOaeFE4WFJA&usqp=CAU'),
+        image:
+            'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQRKsbw1znNtMpTRem56z54Hkl1A7qOrsKGYmH77cugSuW-ug9cMP-_VfrdPOaeFE4WFJA&usqp=CAU'),
     Post(
         name: "แคชชี่",
-        time: "12 ก.ค 2565",
+        time: "2022-07-12 00:00:00.000", //2565 07 10 - 2022 07 12
         post:
             "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
         image: 'https://i.ytimg.com/vi/Q-qAQzexStc/maxresdefault.jpg'),
@@ -65,6 +68,9 @@ class _HomePageState extends State<HomePage> {
     TextEditingController(),
     TextEditingController(),
   ];
+
+  final int _countedComment = 3;
+  final int _countedLike = 2;
 
   @override
   Widget build(BuildContext context) {
@@ -159,7 +165,7 @@ class _HomePageState extends State<HomePage> {
                             width: 10,
                           ),
                           Text(
-                            _posts[index].time,
+                            TimeConverting.getDate(_posts[index].time, false),
                             style: TextStyle(color: Colors.grey),
                           )
                         ],
@@ -187,7 +193,7 @@ class _HomePageState extends State<HomePage> {
                                   _liked[index] = !_liked[index];
                                 });
                               }),
-                          const Text("None"),
+                          Text((_countedLike == 0) ? 'None' : (_countedLike.toString() + ' ' + LanguageBuilder.texts!['post_page']['like']) + ((_countedLike > 1) ? LanguageBuilder.texts!['time_stamp']['suffix'] : '')),
                         ],
                       ),
                       GestureDetector(
@@ -207,7 +213,12 @@ class _HomePageState extends State<HomePage> {
                                     ),
                                   );
                                 }),
-                            const Text("3 ความคิดเห็น"),
+                            Text(((_countedComment == 0) ? LanguageBuilder.texts!['post_page']['no_comment'] : (_countedComment.toString() + ' ')) +
+                                LanguageBuilder.texts!['post_page']['comment'] +
+                                ((_countedComment > 1)
+                                    ? LanguageBuilder.texts!['time_stamp']
+                                        ['suffix']
+                                    : '')),
                           ],
                         ),
                       )
@@ -235,7 +246,7 @@ class _HomePageState extends State<HomePage> {
               children: [
                 Container(
                   width: 80,
-                  height: 80,
+                  height: 79,
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
                     border: Border.all(
