@@ -19,6 +19,14 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
+
+  @override
+  void dispose() {
+    emailController.dispose();
+    passwordController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -121,11 +129,19 @@ class _LoginPageState extends State<LoginPage> {
       child: ElevatedButton(
         onPressed: () async {
           try {
+            String? email, password;
+            email = emailController.text;
+            password = passwordController.text;
             await Firebase.initializeApp();
-            await Auth().login(email: emailController.text, password: passwordController.text);
+            await Auth()
+                .login(
+                    email: emailController.text,
+                    password: passwordController.text)
+                .then((value) =>
+                    Navigator.pushNamed(context, AppRoute.homeRoute));
+            print("email ==${email},password ==${password}");
             print("Login Success");
-            Navigator.pushNamed(context, AppRoute.homeRoute);
-          }on FirebaseAuthException catch (e) {
+          } on FirebaseAuthException catch (e) {
             if (e.code == 'user-not-found') {
               print('No user found for that email.');
             } else if (e.code == 'wrong-password') {
@@ -142,16 +158,15 @@ class _LoginPageState extends State<LoginPage> {
           minimumSize: const Size(180, 45),
         ),
         child: Container(
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(20),
-          ),
-          child:  Center(
-            child: Text(
-              LanguageBuilder.texts!['login']['login_button'],
-              style: TextStyle(fontSize: 16,fontWeight: FontWeight.bold),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(20),
             ),
-          )
-        ),
+            child: Center(
+              child: Text(
+                LanguageBuilder.texts!['login']['login_button'],
+                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+              ),
+            )),
       ),
     );
   }
