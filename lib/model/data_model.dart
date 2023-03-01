@@ -34,3 +34,11 @@ class Comment {
     required this.replies,
   });
 }
+
+class Friend {
+  final String imageUrl;
+  final String name;
+  final String position;
+
+  Friend({required this.imageUrl, required this.name, required this.position});
+}
