@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'dart:typed_data';
 import 'package:flutter/material.dart';
+import 'package:language_builder/language_builder.dart';
 import 'package:mfecinternship/utils/theme.dart';
 import 'package:photo_manager/photo_manager.dart';
 import 'gallery_pages.dart';
@@ -27,7 +28,7 @@ class _CreatePostState extends State<CreatePost> {
       appBar: AppBar(
         backgroundColor: Colors.white,
         title: Text(
-          "เขียนโพสต์",
+          LanguageBuilder.texts!['post_write_page']['post_title'],
           style: AppTheme.titleStyle,
         ),
         iconTheme: const IconThemeData(color: Colors.black),
@@ -43,9 +44,9 @@ class _CreatePostState extends State<CreatePost> {
               padding: const EdgeInsets.all(12),
               child: ElevatedButton(
                 onPressed: () {},
-                child: const Text(
-                  'โพสต์',
-                  style: TextStyle(fontWeight: FontWeight.w800),
+                child: Text(
+                  LanguageBuilder.texts!['post_write_page']['post_button'],
+                  style: const TextStyle(fontWeight: FontWeight.w800),
                 ),
                 style: ElevatedButton.styleFrom(
                   primary: AppTheme.buttonBackgroundColor,
@@ -97,8 +98,8 @@ class _CreatePostState extends State<CreatePost> {
                     ),
                     const SizedBox(height: 10.0),
                     TextFormField(
-                      decoration: const InputDecoration(
-                        hintText: 'What\'s on your mind?',
+                      decoration: InputDecoration(
+                        hintText: LanguageBuilder.texts!['post_write_page']['post_hint'],
                         border: InputBorder.none,
                         focusedBorder: InputBorder.none,
                         enabledBorder: InputBorder.none,

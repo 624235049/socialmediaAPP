@@ -46,7 +46,7 @@ class MenuViewModel {
             Navigator.of(context)
                   .push(MaterialPageRoute(builder: (BuildContext context) {
                 return const LanguageScreen();
-              })).then((value) => (LanguageBuilder.getCurrentLang() == 'en' ? LanguageBuilder.changeLanguage('en', context) : LanguageBuilder.changeLanguage('th', context)))
+              })).then((value) => LanguageBuilder.changeLanguage(LanguageBuilder.getCurrentLang(), context))
               
               ;
           },
