@@ -1,5 +1,7 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:language_builder/language_builder.dart';
+import 'package:mfecinternship/feature/auth/auth.dart';
 import 'package:mfecinternship/utils/theme.dart';
 
 import '../../../../common/config/app_route.dart';
@@ -320,6 +322,9 @@ class _HomePageState extends State<HomePage> {
               style: AppTheme.h5Style,
             ),
             onTap: () async {
+              var Au = Auth().currentUser;
+              print(Au?.uid);
+              await Auth().logout();
               Navigator.pushNamed(context, AppRoute.loginRoute);
             },
           ),

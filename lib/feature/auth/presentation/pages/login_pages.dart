@@ -1,5 +1,8 @@
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:language_builder/language_builder.dart';
+import 'package:mfecinternship/feature/auth/auth.dart';
 
 import 'package:mfecinternship/feature/auth/presentation/widget/widget_textformfield.dart';
 import 'package:mfecinternship/utils/theme.dart';
@@ -14,6 +17,8 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+  TextEditingController emailController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -114,8 +119,19 @@ class _LoginPageState extends State<LoginPage> {
     return Container(
       margin: const EdgeInsets.only(left: 50, right: 50),
       child: ElevatedButton(
-        onPressed: () {
-          // Perform login action here
+        onPressed: () async {
+          try {
+            await Firebase.initializeApp();
+            await Auth().login(email: emailController.text, password: passwordController.text);
+            print("Login Success");
+            Navigator.pushNamed(context, AppRoute.homeRoute);
+          }on FirebaseAuthException catch (e) {
+            if (e.code == 'user-not-found') {
+              print('No user found for that email.');
+            } else if (e.code == 'wrong-password') {
+              print('Wrong password provided for that user.');
+            }
+          }
         },
         style: ElevatedButton.styleFrom(
           primary: AppTheme.buttonBackgroundColor,
@@ -134,7 +150,7 @@ class _LoginPageState extends State<LoginPage> {
               LanguageBuilder.texts!['login']['login_button'],
               style: TextStyle(fontSize: 16,fontWeight: FontWeight.bold),
             ),
-          ),
+          )
         ),
       ),
     );
@@ -144,6 +160,7 @@ class _LoginPageState extends State<LoginPage> {
     return CustomTextFormField(
       labelText: LanguageBuilder.texts!['login']['password_field'],
       keyboardType: TextInputType.visiblePassword,
+      controller: passwordController,
     );
   }
 
@@ -151,6 +168,7 @@ class _LoginPageState extends State<LoginPage> {
     return CustomTextFormField(
       labelText: LanguageBuilder.texts!['login']['email_field'],
       keyboardType: TextInputType.emailAddress,
+      controller: emailController,
     );
   }
 
