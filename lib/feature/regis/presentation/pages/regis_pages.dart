@@ -18,7 +18,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
   int _activeStepIndex = 0;
   String _selectedGender = '';
   bool _accepted = false;
-  String _selectedLocation = 'Mobile Developper';
+  final String _selectedLocation = 'Mobile Developper';
   DateTime? _selectedDate = DateTime.now();
   TextEditingController dateController = TextEditingController();
   TextEditingController nameSurname = TextEditingController();

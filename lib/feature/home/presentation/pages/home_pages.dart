@@ -6,7 +6,7 @@ import 'package:mfecinternship/utils/theme.dart';
 import '../../../../common/config/app_route.dart';
 import '../../../../model/data_model.dart';
 import '../widget/widget_menu_drawer.dart';
-import 'comment_detail.dart';
+import 'comment_detail_pages.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);

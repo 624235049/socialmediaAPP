@@ -1,6 +1,6 @@
 
 import 'package:flutter/material.dart';
-import 'package:mfecinternship/feature/home/presentation/pages/create_post.dart';
+import 'package:mfecinternship/feature/home/presentation/pages/create_post_pages.dart';
 import 'package:mfecinternship/feature/home/presentation/pages/home_pages.dart';
 import 'package:mfecinternship/feature/regis/presentation/pages/regis_pages.dart';
 
@@ -19,8 +19,8 @@ class AppRoute {
   final _route = <String, WidgetBuilder>{
     homeRoute: (context) => HomePage(),
     registerRoute: (context) => RegistrationPage(),
-    loginRoute: (context) => LoginPage(),
-    createPost: (context) => CreatePost(),
+    loginRoute: (context) => const LoginPage(),
+    createPost: (context) =>  const CreatePost(images: [],),
   };
 
   get getAll => _route;

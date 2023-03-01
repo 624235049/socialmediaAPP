@@ -1,8 +1,10 @@
+
 import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:photo_manager/photo_manager.dart';
 
 import '../../../../utils/theme.dart';
+import 'create_post_pages.dart';
 
 class MyGalleryPage extends StatefulWidget {
   @override
@@ -11,7 +13,7 @@ class MyGalleryPage extends StatefulWidget {
 
 class _MyGalleryPageState extends State<MyGalleryPage> {
   List<AssetEntity> _images = [];
-
+  final Set<int> _selectedIndices = {};
   @override
   void initState() {
     super.initState();
@@ -32,6 +34,19 @@ class _MyGalleryPageState extends State<MyGalleryPage> {
     });
   }
 
+  void _navigateToSelectedImages() {
+    final List<AssetEntity> selectedImages = _selectedIndices
+        .map((index) => _images[index])
+        .toList();
+
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => CreatePost(images: selectedImages),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -43,14 +58,13 @@ class _MyGalleryPageState extends State<MyGalleryPage> {
         ),
         iconTheme: const IconThemeData(color: Colors.black),
         actions: [
-          InkWell(
-            onTap: () {
 
-            },
-            child: Padding(
+            Padding(
               padding: const EdgeInsets.all(12),
               child: ElevatedButton(
-                onPressed: () {},
+                onPressed: () {
+                  _navigateToSelectedImages();
+                },
                 child: const Text(
                   'เพิ่ม',
                   style: TextStyle(fontWeight: FontWeight.w800),
@@ -60,19 +74,18 @@ class _MyGalleryPageState extends State<MyGalleryPage> {
                   // กำหนดสีพื้นหลัง
                   onPrimary: Colors.white,
                   // กำหนดสีตัวอักษร
-                  textStyle: TextStyle(fontSize: 14),
+                  textStyle: const TextStyle(fontSize: 14),
                   // กำหนดขนาดตัวอักษร
-                  minimumSize: Size(50, 36),
+                  minimumSize: const Size(50, 36),
                   // กำหนดขนาดของปุ่ม
                   shape: RoundedRectangleBorder(
                     borderRadius:
-                    BorderRadius.circular(16), // กำหนดรูปร่างของปุ่ม
+                        BorderRadius.circular(16), // กำหนดรูปร่างของปุ่ม
                   ),
                   visualDensity: VisualDensity.compact,
                   // ปรับความหนาแน่นของตัวองค์ประกอบในปุ่ม
                 ),
               ),
-            ),
           ),
         ],
       ),
@@ -85,28 +98,49 @@ class _MyGalleryPageState extends State<MyGalleryPage> {
         ),
         itemBuilder: (BuildContext context, int index) {
           return InkWell(
-            onTap: () async {
-              Uint8List? imageData = await _images[index].thumbData;
-              if (imageData != null) {
-                setState(() {
-                  // _selectedImage = imageData;
-                });
-              }
-            },
-            child: FutureBuilder<Uint8List?>(
-              future: _images[index].thumbData,
-              builder:
-                  (BuildContext context, AsyncSnapshot<Uint8List?> snapshot) {
-                if (snapshot.connectionState == ConnectionState.done &&
-                    snapshot.data != null) {
-                  return Image.memory(
-                    snapshot.data!,
-                    fit: BoxFit.cover,
-                  );
+            onTap: () {
+              setState(() {
+                if (_selectedIndices.contains(index)) {
+                  _selectedIndices.remove(index);
                 } else {
-                  return CircularProgressIndicator();
+                  _selectedIndices.add(index);
                 }
-              },
+              });
+            },
+            child: Stack(
+              children: [
+                FutureBuilder<Uint8List?>(
+                  future: _images[index].thumbData,
+                  builder: (BuildContext context,
+                      AsyncSnapshot<Uint8List?> snapshot) {
+                    if (snapshot.connectionState == ConnectionState.done &&
+                        snapshot.data != null) {
+                      return Image.memory(
+                        snapshot.data!,
+                        fit: BoxFit.cover,
+                      );
+                    } else {
+                      return Container(
+                        color: Colors.grey,
+                      );
+                    }
+                  },
+                ),
+                if (_selectedIndices.contains(index))
+                  Container(
+                    decoration: BoxDecoration(
+                      border: Border.all(
+                        color: _selectedIndices.contains(index)
+                            ? Colors.blue
+                            : Colors.transparent,
+                        width: 1.0,
+                      ),
+                    ),
+                    child: Center(
+                      child: Icon(Icons.check_circle, color: Colors.blue),
+                    ),
+                  ),
+              ],
             ),
           );
         },
