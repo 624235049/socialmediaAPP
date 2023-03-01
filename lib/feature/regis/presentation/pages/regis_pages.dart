@@ -98,9 +98,11 @@ class _RegistrationPageState extends State<RegistrationPage> {
                     ['password_field'],
                 hintText: LanguageBuilder.texts!['register_password']
                     ['password_field_hint'],
+                helperText: LanguageBuilder.texts!['register_password']
+                    ['password_require_text'],
                 keyboardType: TextInputType.visiblePassword),
             const SizedBox(
-              height: 20.0,
+              height: 40.0,
             ),
             TextFormFieldRegis(
                 textController: confirm_password,
@@ -268,14 +270,12 @@ class _RegistrationPageState extends State<RegistrationPage> {
   Column skillContent() {
     return Column(
       children: [
-        const SizedBox(
-          height: 20,
-        ),
         TextFormFieldRegis(
           textController: skill,
           labelText: LanguageBuilder.texts!['register_skill']['skill_field'],
           hintText: LanguageBuilder.texts!['register_skill']['skill_hint'],
           keyboardType: TextInputType.text,
+          maxLength: 140,
         ),
         const SizedBox(
           height: 20,
@@ -479,7 +479,8 @@ class _RegistrationPageState extends State<RegistrationPage> {
       body: Column(
         children: [
           LinearProgressIndicator(
-            backgroundColor: Colors.grey[300],
+            color: const Color.fromRGBO(153, 204, 255, 1),
+            backgroundColor: Colors.white,
             value: (_activeStepIndex + 1) / stepList().length,
           ),
           Expanded(
@@ -492,6 +493,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
               ),
               child: Stepper(
                 type: StepperType.horizontal,
+                elevation: 0,
                 currentStep: _activeStepIndex,
                 onStepTapped: (index) {
                   setState(() {

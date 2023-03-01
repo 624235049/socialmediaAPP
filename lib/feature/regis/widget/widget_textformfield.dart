@@ -8,13 +8,17 @@ class TextFormFieldRegis extends StatelessWidget {
   final bool obscureText;
   final TextInputType keyboardType;
   final String hintText;
+  final int? maxLength;
+  final String? helperText;
 
   TextFormFieldRegis({
     required this.textController,
     required this.labelText,
     this.obscureText = false,
     required this.keyboardType,
-    this.hintText = ''
+    this.hintText = '',
+    this.maxLength,
+    this.helperText
   });
 
   @override
@@ -27,11 +31,14 @@ class TextFormFieldRegis extends StatelessWidget {
           color: Colors.black,
         ),
         controller: textController,
+        maxLength: maxLength,
         obscureText: obscureText,
         keyboardType: keyboardType,
         decoration: InputDecoration(
           label: Text(labelText),
           hintText: hintText,
+          helperText: helperText,
+          helperMaxLines: 3,
           floatingLabelBehavior: FloatingLabelBehavior.always, // set always to show label
           border: const OutlineInputBorder(),
           // border: const OutlineInputBorder(
