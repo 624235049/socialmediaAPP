@@ -56,7 +56,8 @@ class _RegistrationPageState extends State<RegistrationPage> {
                       source: ImageSource.camera,
                     );
                     setState(() {
-                      pickedFile = _pickedFile != null ? File(_pickedFile.path) : null;
+                      pickedFile =
+                          _pickedFile != null ? File(_pickedFile.path) : null;
                     });
 
                     // Do something with the image file
@@ -71,12 +72,20 @@ class _RegistrationPageState extends State<RegistrationPage> {
                       source: ImageSource.gallery,
                     );
                     setState(() {
-                      pickedFile = _pickedFile != null ? File(_pickedFile.path) : null;
+                      pickedFile =
+                          _pickedFile != null ? File(_pickedFile.path) : null;
                     });
 
                     // Do something with the image file
                   },
                 ),
+                pickedFile != null ?  SizedBox(height: 16): const SizedBox(),
+                pickedFile != null ? GestureDetector(
+                  child: const Text('ลบรูปโปรไฟล์'),
+                  onTap: () async {
+                    // Do something with the image file
+                  },
+                ): const SizedBox() ,
               ],
             ),
           ),

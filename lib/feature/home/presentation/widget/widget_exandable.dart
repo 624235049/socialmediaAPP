@@ -18,7 +18,7 @@ class _ExpandableTextWidgetState extends State<ExpandableTextWidget> {
   late String secondHalf;
 
   bool hiddenText = true;
-  double textHeight = 16.0;
+  double textHeight = 120.0;
 
   @override
   void initState() {

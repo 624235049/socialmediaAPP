@@ -5,6 +5,7 @@ import 'package:mfecinternship/utils/theme.dart';
 
 import '../../../../common/config/app_route.dart';
 import '../../../../model/data_model.dart';
+import '../widget/widget_exandable.dart';
 import '../widget/widget_menu_drawer.dart';
 import 'comment_detail_pages.dart';
 
@@ -59,7 +60,7 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
         name: "แคชชี่",
         time: "2022-07-12 00:00:00.000", //2565 07 10 - 2022 07 12
         post:
-            "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+            "Duis auteiruredolorin reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
         image: 'https://i.ytimg.com/vi/Q-qAQzexStc/maxresdefault.jpg'),
   ];
   final List<bool> _liked = [false, false, false];
@@ -174,10 +175,14 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
                       )
                     ],
                   ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 8.0),
-                    child: Text(_posts[index].post),
+
+                  SingleChildScrollView(
+                    child: ExpandableTextWidget(text: _posts[index].post),
                   ),
+                  // Padding(
+                  //   padding: const EdgeInsets.symmetric(vertical: 8.0),
+                  //   child: Text(_posts[index].post),
+                  // ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [

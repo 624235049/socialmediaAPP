@@ -50,33 +50,35 @@ class _CommentDetailState extends State<CommentDetail> {
   final List<Comment> _comments = [
     Comment(
       id: 1,
-      avatarImageUrl: 'https://github.com/624235049/picture01/blob/main/%E0%B8%94%E0%B8%B2%E0%B8%A7%E0%B8%99%E0%B9%8C%E0%B9%82%E0%B8%AB%E0%B8%A5%E0%B8%94%20(3).png?raw=true',
+      avatarImageUrl:
+          'https://github.com/624235049/picture01/blob/main/%E0%B8%94%E0%B8%B2%E0%B8%A7%E0%B8%99%E0%B9%8C%E0%B9%82%E0%B8%AB%E0%B8%A5%E0%B8%94%20(3).png?raw=true',
       name: 'John Doe',
       time: '1675270414002',
       comment: 'This is a great post!',
       replies: [
         Comment(
           id: 4,
-          avatarImageUrl: 'https://github.com/624235049/picture01/blob/main/sg-11134201-22100-glhy2yh3qrivb4.jpg?raw=true',
+          avatarImageUrl:
+              'https://github.com/624235049/picture01/blob/main/sg-11134201-22100-glhy2yh3qrivb4.jpg?raw=true',
           name: 'Sarah Lee',
           time: '1 hour ago',
           comment: 'I found it really interesting too!',
-          replies: [
-
-          ],
+          replies: [],
         ),
       ],
     ),
     Comment(
       id: 2,
-      avatarImageUrl: 'https://github.com/624235049/picture01/blob/main/img01.jpg?raw=true',
+      avatarImageUrl:
+          'https://github.com/624235049/picture01/blob/main/img01.jpg?raw=true',
       name: 'Jane Smith',
       time: '1677070414002',
       comment: 'I agree with you!',
       replies: [
         Comment(
           id: 5,
-          avatarImageUrl: 'https://github.com/624235049/picture01/blob/main/img01.jpg?raw=true',
+          avatarImageUrl:
+              'https://github.com/624235049/picture01/blob/main/img01.jpg?raw=true',
           name: 'Alex Wang',
           time: '30 minutes ago',
           comment: 'I think there are some important points to consider.',
@@ -84,7 +86,8 @@ class _CommentDetailState extends State<CommentDetail> {
         ),
         Comment(
           id: 6,
-          avatarImageUrl: 'https://github.com/624235049/picture01/blob/main/img01.jpg?raw=true',
+          avatarImageUrl:
+              'https://github.com/624235049/picture01/blob/main/img01.jpg?raw=true',
           name: 'David Kim',
           time: '15 minutes ago',
           comment: 'Can you explain more about your perspective?',
@@ -176,7 +179,6 @@ class _CommentDetailState extends State<CommentDetail> {
                 child: post!.image != null
                     ? Image.network(post!.image)
                     : Container()),
-
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -334,26 +336,28 @@ class _CommentDetailState extends State<CommentDetail> {
                 );
               },
             ),
-            Container(
-              margin: const EdgeInsets.all(15),
-              width: double.infinity,
-              child: _replyingTo != null
-                  ? Row(
-                      children: [
-                        Text('ตอบกลับ: @${_replyingTo}'),
-                        TextButton(
-                          onPressed: () {
-                            setState(() {
-                              _replyingTo = null;
-                              _commentController.clear();
-                            });
-                          },
-                          child: const Text('ยกเลิก'),
-                        ),
-                      ],
-                    )
-                  : SizedBox(),
-            ),
+            _replyingTo != null
+                ? Container(
+                    margin: const EdgeInsets.only(left: 17),
+                    width: double.infinity,
+                    child: _replyingTo != null
+                        ? Row(
+                            children: [
+                              Text('ตอบกลับ: @${_replyingTo}'),
+                              TextButton(
+                                onPressed: () {
+                                  setState(() {
+                                    _replyingTo = null;
+                                    _commentController.clear();
+                                  });
+                                },
+                                child: const Text('ยกเลิก'),
+                              ),
+                            ],
+                          )
+                        : const SizedBox(),
+                  )
+                : const SizedBox(),
             Container(
               margin: const EdgeInsets.only(left: 15, right: 15),
               child: Row(
