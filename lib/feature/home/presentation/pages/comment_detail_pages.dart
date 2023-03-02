@@ -61,6 +61,7 @@ class _CommentDetailState extends State<CommentDetail> {
       appBar: AppBar(
         backgroundColor: Colors.white,
         iconTheme: const IconThemeData(color: Colors.black),
+        title: Text(post!.name + '\'s posts', style: const TextStyle(color: Colors.black),),
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -234,6 +235,7 @@ class _CommentDetailState extends State<CommentDetail> {
                 ),
               ),
             ),
+            const SizedBox(height: 40,)
           ],
         ),
       ),

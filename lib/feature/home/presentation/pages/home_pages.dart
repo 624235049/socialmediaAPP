@@ -130,102 +130,131 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
         itemCount: _posts.length,
         itemBuilder: (BuildContext context, int index) {
           return Card(
+            elevation: 0,
+            margin: const EdgeInsets.all(0), //set 0 margin between post
             color: Colors.white,
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
+            child: Column(
+              children: [
+                const Divider(
+                  color: AppTheme.dividerPost,
+                  thickness: 1,
+                  height: 0,
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(12.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Container(
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          border: Border.all(
-                              color: AppTheme.buttonBackgroundColor, width: 2),
-                          borderRadius: BorderRadius.circular(20),
-                        ),
-                        margin: const EdgeInsets.only(right: 8.0),
-                        child: const CircleAvatar(
-                          radius: 20,
-                          backgroundColor: Colors.white,
-                          backgroundImage:
-                              AssetImage("asset/images/login/avatar_img.png"),
-                        ),
-                      ),
                       Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(
-                            _posts[index].name,
-                            style: const TextStyle(
-                                fontWeight: FontWeight.bold, fontSize: 16),
+                          Container(
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              border: Border.all(
+                                  color: AppTheme.buttonBackgroundColor,
+                                  width: 2),
+                              borderRadius: BorderRadius.circular(20),
+                            ),
+                            margin: const EdgeInsets.only(right: 8.0),
+                            child: const CircleAvatar(
+                              radius: 20,
+                              backgroundColor: Colors.white,
+                              backgroundImage: AssetImage(
+                                  "asset/images/login/avatar_img.png"),
+                            ),
                           ),
-                          const SizedBox(
-                            width: 10,
-                          ),
-                          Text(
-                            TimeConverting.getDate(_posts[index].time, false),
-                            style: TextStyle(color: Colors.grey),
+                          Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                _posts[index].name,
+                                style: const TextStyle(
+                                    fontWeight: FontWeight.bold, fontSize: 16),
+                              ),
+                              const SizedBox(
+                                width: 10,
+                              ),
+                              Text(
+                                TimeConverting.getDate(
+                                    _posts[index].time, false),
+                                style: TextStyle(color: Colors.grey),
+                              )
+                            ],
                           )
                         ],
-                      )
-                    ],
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 8.0),
-                    child: Text(_posts[index].post),
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 8.0),
+                        child: Text(_posts[index].post),
+                      ),
                       Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
-                          IconButton(
-                              icon: Icon(
-                                Icons.favorite_border,
-                                color: _liked[index]
-                                    ? AppTheme.buttonBackgroundColor
-                                    : Colors.grey,
-                              ),
-                              onPressed: () {
-                                setState(() {
-                                  _liked[index] = !_liked[index];
-                                });
-                              }),
-                          Text((_countedLike == 0) ? 'None' : (_countedLike.toString() + ' ' + LanguageBuilder.texts!['post_page']['like']) + ((_countedLike > 1) ? LanguageBuilder.texts!['time_stamp']['suffix'] : '')),
+                          Row(
+                            children: [
+                              IconButton(
+                                  icon: Icon(
+                                    Icons.favorite_border,
+                                    color: _liked[index]
+                                        ? AppTheme.buttonBackgroundColor
+                                        : Colors.grey,
+                                  ),
+                                  onPressed: () {
+                                    setState(() {
+                                      _liked[index] = !_liked[index];
+                                    });
+                                  }),
+                              Text((_countedLike == 0)
+                                  ? 'None'
+                                  : (_countedLike.toString() +
+                                          ' ' +
+                                          LanguageBuilder.texts!['post_page']
+                                              ['like']) +
+                                      ((_countedLike > 1)
+                                          ? LanguageBuilder.texts!['time_stamp']
+                                              ['suffix']
+                                          : '')),
+                            ],
+                          ),
+                          GestureDetector(
+                            onTap: () {
+                              // Navigator.pushNamed(context, AppRoute.commentDetail);
+                            },
+                            child: Row(
+                              children: [
+                                IconButton(
+                                    icon:
+                                        const Icon(Icons.mode_comment_outlined),
+                                    onPressed: () {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) => CommentDetail(
+                                              post: _posts[index]),
+                                        ),
+                                      );
+                                    }),
+                                Text(((_countedComment == 0)
+                                        ? LanguageBuilder.texts!['post_page']
+                                            ['no_comment']
+                                        : (_countedComment.toString() + ' ')) +
+                                    LanguageBuilder.texts!['post_page']
+                                        ['comment'] +
+                                    ((_countedComment > 1)
+                                        ? LanguageBuilder.texts!['time_stamp']
+                                            ['suffix']
+                                        : '')),
+                              ],
+                            ),
+                          )
                         ],
                       ),
-                      GestureDetector(
-                        onTap: () {
-                          // Navigator.pushNamed(context, AppRoute.commentDetail);
-                        },
-                        child: Row(
-                          children: [
-                            IconButton(
-                                icon: const Icon(Icons.mode_comment_outlined),
-                                onPressed: () {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) =>
-                                          CommentDetail(post: _posts[index]),
-                                    ),
-                                  );
-                                }),
-                            Text(((_countedComment == 0) ? LanguageBuilder.texts!['post_page']['no_comment'] : (_countedComment.toString() + ' ')) +
-                                LanguageBuilder.texts!['post_page']['comment'] +
-                                ((_countedComment > 1)
-                                    ? LanguageBuilder.texts!['time_stamp']
-                                        ['suffix']
-                                    : '')),
-                          ],
-                        ),
-                      )
                     ],
                   ),
-                ],
-              ),
+                ),
+                const Divider(
+                    thickness: 1, color: AppTheme.dividerPost, height: 0),
+              ],
             ),
           );
         },
