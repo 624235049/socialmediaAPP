@@ -51,6 +51,13 @@ class _CommentDetailState extends State<CommentDetail> {
       time: DateTime.now().millisecondsSinceEpoch.toString(),
       comment: 'Thanks for sharing!',
     ),
+    Comment(
+      id: 5,
+      avatarImageUrl: 'https://example.com/avatar3.jpg',
+      name: 'Prayut Chanocha',
+      time: DateTime.now().millisecondsSinceEpoch.toString(),
+      comment: 'Thanks for sharing!',
+    ),
   ];
 
   @override
@@ -61,65 +68,77 @@ class _CommentDetailState extends State<CommentDetail> {
       appBar: AppBar(
         backgroundColor: Colors.white,
         iconTheme: const IconThemeData(color: Colors.black),
-        title: Text(post!.name + '\'s posts', style: const TextStyle(color: Colors.black),),
+        title: Text(
+          post!.name + '\'s posts',
+          style: const TextStyle(color: Colors.black),
+        ),
+        elevation: 1,
+        shadowColor: AppTheme.dividerPost,
       ),
       body: SingleChildScrollView(
         child: Column(
           children: [
             Padding(
-              padding: const EdgeInsets.all(10.0),
-              child: Row(
+              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+              child: Column(
                 children: [
-                  Container(
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      border: Border.all(
-                          color: AppTheme.buttonBackgroundColor, width: 2),
-                      borderRadius: BorderRadius.circular(20),
-                    ),
-                    margin: const EdgeInsets.only(right: 8.0),
-                    child: const CircleAvatar(
-                      radius: 20,
-                      backgroundColor: Colors.white,
-                      backgroundImage:
-                          AssetImage("asset/images/login/avatar_img.png"),
-                    ),
-                  ),
-                  Column(
+                  Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
-                        post!.name,
-                        style: const TextStyle(
-                            fontWeight: FontWeight.bold, fontSize: 16),
+                      Container(
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          border: Border.all(
+                              color: AppTheme.buttonBackgroundColor, width: 2),
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                        margin: const EdgeInsets.only(right: 8.0),
+                        child: const CircleAvatar(
+                          radius: 20,
+                          backgroundColor: Colors.white,
+                          backgroundImage:
+                              AssetImage("asset/images/login/avatar_img.png"),
+                        ),
                       ),
-                      const SizedBox(
-                        height: 5,
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            post!.name,
+                            style: const TextStyle(
+                                fontWeight: FontWeight.bold, fontSize: 16),
+                          ),
+                          const SizedBox(
+                            height: 5,
+                          ),
+                          Text(
+                            TimeConverting.getDate(post!.time, false),
+                            style: const TextStyle(color: Colors.grey),
+                          )
+                        ],
                       ),
-                      Text(
-                        TimeConverting.getDate(post!.time, false),
-                        style: const TextStyle(color: Colors.grey),
-                      )
                     ],
                   ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 8.0),
+                    child: Text(
+                      post!.post,
+                      style: const TextStyle(fontSize: 16.0, height: 1.5),
+                    ),
+                  ),
+                  Container(
+                    padding: const EdgeInsets.only(bottom: 6),
+                      child: ((post!.image != null)
+                          ? Image.network(post!.image)
+                          : Container())),
                 ],
               ),
             ),
-            Container(
-              margin: const EdgeInsets.only(right: 15.0, left: 15.0),
-              child: Padding(
-                padding: const EdgeInsets.symmetric(vertical: 8.0),
-                child: Text(
-                  post!.post,
-                  style: const TextStyle(fontSize: 16.0),
-                ),
-              ),
+            const Divider(
+              color: AppTheme.dividerPost,
+              thickness: 1,
+              height: 0,
             ),
-            Container(
-                margin: const EdgeInsets.only(right: 15.0, left: 15.0),
-                child: post!.image != null
-                    ? Image.network(post!.image)
-                    : Container()),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -178,69 +197,90 @@ class _CommentDetailState extends State<CommentDetail> {
                 ),
               ],
             ),
-            ListView.builder(
-              shrinkWrap: true,
-              physics: const ScrollPhysics(),
-              itemCount: _comments.length,
-              itemBuilder: (BuildContext context, int index) {
-                return Card(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Row(
-                        children: [
-                          Container(
-                            margin: const EdgeInsets.only(right: 8.0),
-                            child: const CircleAvatar(
-                              radius: 20,
-                              backgroundImage: AssetImage(
-                                  "asset/images/login/avatar_img.png"),
-                            ),
-                          ),
-                          Column(
+            const Divider(
+              color: AppTheme.dividerPost,
+              thickness: 1,
+              height: 0,
+            ),
+            Padding(
+              padding: const EdgeInsets.only(bottom: 60),
+              child: ListView.builder(
+                shrinkWrap: true,
+                physics: const ScrollPhysics(),
+                itemCount: _comments.length,
+                itemBuilder: (BuildContext context, int index) {
+                  return Card(
+                    elevation: 0,
+                    margin: const EdgeInsets.all(0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.symmetric(
+                              vertical: 14, horizontal: 20),
+                          child: Row(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text(
-                                _comments[index].name,
-                                style: const TextStyle(
-                                    fontWeight: FontWeight.bold, fontSize: 16),
+                              const CircleAvatar(
+                                radius: 20,
+                                backgroundImage: AssetImage(
+                                    "asset/images/login/avatar_img.png"),
                               ),
-                              Text(
-                                _comments[index].comment,
-                                style: const TextStyle(fontSize: 16),
+                              const SizedBox(
+                                width: 8,
                               ),
-                              Text(
-                                TimeConverting.extractTime(_comments[index].time) +
-                                  ((TimeConverting.timeDifNow(_comments[index].time).inSeconds < 2) ? '': LanguageBuilder.texts!['time_stamp']['ago'])
-                                    ,
-                                style: const TextStyle(color: Colors.grey),
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    _comments[index].name,
+                                    style: const TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 16),
+                                  ),
+                                  Text(
+                                    _comments[index].comment,
+                                    style: const TextStyle(fontSize: 16),
+                                  ),
+                                  Text(
+                                    TimeConverting.extractTime(
+                                            _comments[index].time) +
+                                        ((TimeConverting.timeDifNow(
+                                                        _comments[index].time)
+                                                    .inSeconds <
+                                                2)
+                                            ? ''
+                                            : LanguageBuilder.texts!['time_stamp']
+                                                ['ago']),
+                                    style: const TextStyle(color: Colors.grey),
+                                  )
+                                ],
                               )
                             ],
-                          )
-                        ],
-                      ),
-                      const Divider(),
-                    ],
-                  ),
-                );
-              },
-            ),
-            Container(
-              margin: const EdgeInsets.only(left: 30, right: 30),
-              child: TextFormField(
-                decoration: InputDecoration(
-                  hintText: LanguageBuilder.texts!['post_page']
-                      ['comment_field'],
-                  border: const OutlineInputBorder(),
-                ),
+                          ),
+                        ),
+                        // const Divider(),
+                      ],
+                    ),
+                  );
+                },
               ),
-            ),
-            const SizedBox(height: 40,)
+            )
           ],
+        ),
+      ),
+      bottomSheet: Padding(
+        padding: const EdgeInsets.only(bottom: 30),
+        child: Container(
+          margin: const EdgeInsets.only(left: 30, right: 30),
+          child: TextFormField(
+            decoration: InputDecoration(
+              hintText: LanguageBuilder.texts!['post_page']['comment_field'],
+              border: const OutlineInputBorder(),
+            ),
+          ),
         ),
       ),
     );
   }
-
-  
 }
