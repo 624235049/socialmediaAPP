@@ -183,6 +183,21 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
                   //   padding: const EdgeInsets.symmetric(vertical: 8.0),
                   //   child: Text(_posts[index].post),
                   // ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  _posts[index].image != null
+                      ? Container(
+                          margin:
+                              const EdgeInsets.only(right: 15.0, left: 15.0),
+                          child: _posts[index].image != null
+                              ? Image.network(
+                                  _posts[index].image,
+                                  fit: BoxFit.fill,
+                                )
+                              : Container())
+                      : SizedBox(),
+
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
@@ -190,7 +205,9 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
                         children: [
                           IconButton(
                               icon: Icon(
-                                _liked[index] ? Icons.favorite :Icons.favorite_border,
+                                _liked[index]
+                                    ? Icons.favorite
+                                    : Icons.favorite_border,
                                 color: _liked[index]
                                     ? AppTheme.buttonBackgroundColor
                                     : AppTheme.buttonBackgroundColor,
@@ -200,7 +217,16 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
                                   _liked[index] = !_liked[index];
                                 });
                               }),
-                          Text((_countedLike == 0) ? 'None' : (_countedLike.toString() + ' ' + LanguageBuilder.texts!['post_page']['like']) + ((_countedLike > 1) ? LanguageBuilder.texts!['time_stamp']['suffix'] : '')),
+                          Text((_countedLike == 0)
+                              ? 'None'
+                              : (_countedLike.toString() +
+                                      ' ' +
+                                      LanguageBuilder.texts!['post_page']
+                                          ['like']) +
+                                  ((_countedLike > 1)
+                                      ? LanguageBuilder.texts!['time_stamp']
+                                          ['suffix']
+                                      : '')),
                         ],
                       ),
                       GestureDetector(
@@ -220,7 +246,10 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
                                     ),
                                   );
                                 }),
-                            Text(((_countedComment == 0) ? LanguageBuilder.texts!['post_page']['no_comment'] : (_countedComment.toString() + ' ')) +
+                            Text(((_countedComment == 0)
+                                    ? LanguageBuilder.texts!['post_page']
+                                        ['no_comment']
+                                    : (_countedComment.toString() + ' ')) +
                                 LanguageBuilder.texts!['post_page']['comment'] +
                                 ((_countedComment > 1)
                                     ? LanguageBuilder.texts!['time_stamp']

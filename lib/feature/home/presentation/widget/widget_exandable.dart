@@ -58,6 +58,7 @@ class _ExpandableTextWidgetState extends State<ExpandableTextWidget> {
               });
             },
             child: Row(
+              mainAxisAlignment: MainAxisAlignment.end,
               children: [
                 SmallText(
                   text: LanguageBuilder.texts!['home_page']['post_more'],

@@ -266,8 +266,8 @@ class _RegistrationPageState extends State<RegistrationPage> {
                     ? ClipOval(
                         child: Image.file(
                           pickedFile!,
-                          width: 250.0,
-                          height: 250.0,
+                          width: 318.0,
+                          height: 318.0,
                           fit: BoxFit.cover,
                         ),
                       )
