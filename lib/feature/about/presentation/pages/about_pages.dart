@@ -16,6 +16,7 @@ class _AboutPagesState extends State<AboutPages> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        elevation: 1,
         title: Text(
           LanguageBuilder.texts!['about_page']['about_title'],
           style: const TextStyle(color: Colors.black),
@@ -53,7 +54,8 @@ class _AboutPagesState extends State<AboutPages> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(LanguageBuilder.texts!['about_page']['vision_title'], style: const TextStyle(fontSize: 14)),
+                  Text(LanguageBuilder.texts!['about_page']['vision_title'],
+                      style: const TextStyle(fontSize: 14)),
                   (showVision == false)
                       ? const Icon(Icons.keyboard_arrow_down)
                       : const Icon(Icons.keyboard_arrow_up)
@@ -74,16 +76,30 @@ class _AboutPagesState extends State<AboutPages> {
                     Text(
                       LanguageBuilder.texts!['about_page']
                           ['vision_detail_1_title'],
-                      style: const TextStyle(fontWeight: FontWeight.bold, height: 1.5, fontSize: 16),
+                      style: const TextStyle(
+                          fontWeight: FontWeight.bold,
+                          height: 1.5,
+                          fontSize: 16),
                     ),
-                    Text(LanguageBuilder.texts!['about_page']
-                        ['vision_detail_1'], style: const TextStyle(height: 1.5, fontSize: 16),),
-                        const SizedBox(height: 24,),
-                    Text(LanguageBuilder.texts!['about_page']
-                        ['vision_detail_2_title'],
-                        style: const TextStyle(fontWeight: FontWeight.bold, height: 1.5, fontSize: 16),),
-                    Text(LanguageBuilder.texts!['about_page']
-                        ['vision_detail_2'], style: const TextStyle(height: 1.5, fontSize: 16),),
+                    Text(
+                      LanguageBuilder.texts!['about_page']['vision_detail_1'],
+                      style: const TextStyle(height: 1.5, fontSize: 16),
+                    ),
+                    const SizedBox(
+                      height: 24,
+                    ),
+                    Text(
+                      LanguageBuilder.texts!['about_page']
+                          ['vision_detail_2_title'],
+                      style: const TextStyle(
+                          fontWeight: FontWeight.bold,
+                          height: 1.5,
+                          fontSize: 16),
+                    ),
+                    Text(
+                      LanguageBuilder.texts!['about_page']['vision_detail_2'],
+                      style: const TextStyle(height: 1.5, fontSize: 16),
+                    ),
                   ],
                 ),
               )
@@ -107,7 +123,8 @@ class _AboutPagesState extends State<AboutPages> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(LanguageBuilder.texts!['about_page']['history_title'], style: const TextStyle(fontSize: 14)),
+                  Text(LanguageBuilder.texts!['about_page']['history_title'],
+                      style: const TextStyle(fontSize: 14)),
                   (showHistory == false)
                       ? const Icon(Icons.keyboard_arrow_down)
                       : const Icon(Icons.keyboard_arrow_up)
@@ -123,7 +140,8 @@ class _AboutPagesState extends State<AboutPages> {
             ? Container(
                 margin: const EdgeInsets.symmetric(vertical: 12),
                 child: Text(
-                    LanguageBuilder.texts!['about_page']['history_detail'], style: const TextStyle(fontSize: 16)),
+                    LanguageBuilder.texts!['about_page']['history_detail'],
+                    style: const TextStyle(fontSize: 16)),
               )
             : const SizedBox(),
       ],
