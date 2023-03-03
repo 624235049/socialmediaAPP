@@ -1,6 +1,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:mfecinternship/feature/home/presentation/pages/create_post_pages.dart';
+import 'package:mfecinternship/feature/home/presentation/pages/friend_list.dart';
 import 'package:mfecinternship/feature/home/presentation/pages/home_pages.dart';
 import 'package:mfecinternship/feature/regis/presentation/pages/regis_pages.dart';
 
@@ -13,7 +14,7 @@ class AppRoute {
   static const loginRoute = "Login";
   static const commentDetail = "CommentDetail";
   static const createPost = "CreatePost";
-
+  static const friendlist =  "FriendList";
 
 
   final _route = <String, WidgetBuilder>{
@@ -21,6 +22,7 @@ class AppRoute {
     registerRoute: (context) => RegistrationPage(),
     loginRoute: (context) => const LoginPage(),
     createPost: (context) =>  const CreatePost(images: [],),
+    friendlist: (context) =>   FriendList(),
   };
 
   get getAll => _route;

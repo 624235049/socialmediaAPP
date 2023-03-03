@@ -6,7 +6,7 @@ import 'package:mfecinternship/feature/home/presentation/pages/home_pages.dart';
 import 'common/Language/language.dart';
 import 'common/config/app_route.dart';
 
-void main() async {
+void main() async{
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   runApp(const MyApp());
@@ -25,7 +25,7 @@ class MyApp extends StatelessWidget {
         defaultLanguage: 'en',
         useDeviceLanguage: false,
         textsMap: Languages.languages,
-        child: const LoginPage()),
+        child: HomePage()),
     );
   }
 }

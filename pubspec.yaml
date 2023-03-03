@@ -42,9 +42,11 @@ dependencies:
   photo_manager: ^1.2.6+1
   firebase_core: ^1.20.0
   firebase_auth: ^3.0.0
-  firebase_core_platform_interface: 4.5.1 # note removed ^
-
-
+  firebase_core_platform_interface: 4.5.1
+  firebase_storage: ^10.3.1
+  cloud_firestore: ^3.0.0
+  dio: ^4.0.4
+  equatable: ^2.0.3
 dev_dependencies:
   flutter_test:
     sdk: flutter
