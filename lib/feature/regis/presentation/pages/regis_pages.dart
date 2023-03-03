@@ -533,8 +533,6 @@ class _RegistrationPageState extends State<RegistrationPage> {
         backgroundColor: Colors.white,
         title: BigText(
             text: LanguageBuilder.texts!['register_page']['appbar_register']),
-        title: BigText(
-            text: LanguageBuilder.texts!['register_page']['appbar_register']),
         iconTheme: const IconThemeData(color: Colors.black),
       ),
       body: Column(

@@ -192,12 +192,6 @@ class _CommentDetailState extends State<CommentDetail> {
                 ],
               ),
             ),
-            Container(
-                margin: const EdgeInsets.only(right: 15.0, left: 15.0),
-                child: post!.image != null
-                    ? Image.network(post!.image)
-                    : Container()),
-
             const Divider(
               color: AppTheme.dividerPost,
               thickness: 1,
@@ -261,6 +255,11 @@ class _CommentDetailState extends State<CommentDetail> {
                 ),
               ],
             ),
+            const Divider(
+              color: AppTheme.dividerPost,
+              thickness: 1,
+              height: 0,
+            ),
             ListView.builder(
               shrinkWrap: true,
               physics: const NeverScrollableScrollPhysics(),
@@ -310,8 +309,8 @@ class _CommentDetailState extends State<CommentDetail> {
                                   _commentController.text =
                                       '@${_comments[index].name} ';
                                 },
-                                child: const Text(
-                                  "ตอบกลับ",
+                                child: Text(
+                                  LanguageBuilder.texts!['post_page']['reply'],
                                   style: TextStyle(color: Colors.indigoAccent),
                                 ),
                               ),
@@ -366,7 +365,7 @@ class _CommentDetailState extends State<CommentDetail> {
               child: _replyingTo != null
                   ? Row(
                       children: [
-                        Text('ตอบกลับ: @${_replyingTo}'),
+                        Text(LanguageBuilder.texts!['post_page']['reply'] + ': @${_replyingTo}'),
                         TextButton(
                           onPressed: () {
                             setState(() {
