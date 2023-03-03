@@ -50,33 +50,35 @@ class _CommentDetailState extends State<CommentDetail> {
   final List<Comment> _comments = [
     Comment(
       id: 1,
-      avatarImageUrl: 'https://github.com/624235049/picture01/blob/main/%E0%B8%94%E0%B8%B2%E0%B8%A7%E0%B8%99%E0%B9%8C%E0%B9%82%E0%B8%AB%E0%B8%A5%E0%B8%94%20(3).png?raw=true',
+      avatarImageUrl:
+          'https://github.com/624235049/picture01/blob/main/%E0%B8%94%E0%B8%B2%E0%B8%A7%E0%B8%99%E0%B9%8C%E0%B9%82%E0%B8%AB%E0%B8%A5%E0%B8%94%20(3).png?raw=true',
       name: 'John Doe',
       time: '1675270414002',
       comment: 'This is a great post!',
       replies: [
         Comment(
           id: 4,
-          avatarImageUrl: 'https://github.com/624235049/picture01/blob/main/sg-11134201-22100-glhy2yh3qrivb4.jpg?raw=true',
+          avatarImageUrl:
+              'https://github.com/624235049/picture01/blob/main/sg-11134201-22100-glhy2yh3qrivb4.jpg?raw=true',
           name: 'Sarah Lee',
           time: '1 hour ago',
           comment: 'I found it really interesting too!',
-          replies: [
-
-          ],
+          replies: [],
         ),
       ],
     ),
     Comment(
       id: 2,
-      avatarImageUrl: 'https://github.com/624235049/picture01/blob/main/img01.jpg?raw=true',
+      avatarImageUrl:
+          'https://github.com/624235049/picture01/blob/main/img01.jpg?raw=true',
       name: 'Jane Smith',
       time: '1677070414002',
       comment: 'I agree with you!',
       replies: [
         Comment(
           id: 5,
-          avatarImageUrl: 'https://github.com/624235049/picture01/blob/main/img01.jpg?raw=true',
+          avatarImageUrl:
+              'https://github.com/624235049/picture01/blob/main/img01.jpg?raw=true',
           name: 'Alex Wang',
           time: '30 minutes ago',
           comment: 'I think there are some important points to consider.',
@@ -84,7 +86,8 @@ class _CommentDetailState extends State<CommentDetail> {
         ),
         Comment(
           id: 6,
-          avatarImageUrl: 'https://github.com/624235049/picture01/blob/main/img01.jpg?raw=true',
+          avatarImageUrl:
+              'https://github.com/624235049/picture01/blob/main/img01.jpg?raw=true',
           name: 'David Kim',
           time: '15 minutes ago',
           comment: 'Can you explain more about your perspective?',
@@ -109,13 +112,12 @@ class _CommentDetailState extends State<CommentDetail> {
       replies: [],
     ),
     Comment(
-      id: 5,
-      avatarImageUrl: 'https://example.com/avatar3.jpg',
-      name: 'Prayut Chanocha',
-      time: DateTime.now().millisecondsSinceEpoch.toString(),
-      comment: 'Thanks for sharing!',
-      replies: []
-    ),
+        id: 5,
+        avatarImageUrl: 'https://example.com/avatar3.jpg',
+        name: 'Prayut Chanocha',
+        time: DateTime.now().millisecondsSinceEpoch.toString(),
+        comment: 'Thanks for sharing!',
+        replies: []),
   ];
 
   @override
@@ -127,7 +129,10 @@ class _CommentDetailState extends State<CommentDetail> {
         backgroundColor: Colors.white,
         iconTheme: const IconThemeData(color: Colors.black),
         title: Text(
-          post!.name + LanguageBuilder.texts!['post_page']['post_suffix'] + " " + LanguageBuilder.texts!['post_page']['post_title'],
+          post!.name +
+              LanguageBuilder.texts!['post_page']['post_suffix'] +
+              " " +
+              LanguageBuilder.texts!['post_page']['post_title'],
           style: const TextStyle(color: Colors.black),
         ),
         elevation: 1,
@@ -185,7 +190,7 @@ class _CommentDetailState extends State<CommentDetail> {
                     ),
                   ),
                   Container(
-                    padding: const EdgeInsets.only(bottom: 6),
+                      padding: const EdgeInsets.only(bottom: 6),
                       child: ((post!.image != null)
                           ? Image.network(post!.image)
                           : Container())),
@@ -231,7 +236,8 @@ class _CommentDetailState extends State<CommentDetail> {
                               ' ' +
                               LanguageBuilder.texts!['post_page']['like'] +
                               ((_likeCount > 1)
-                                  ? (LanguageBuilder.texts!['time_stamp']['suffix'])
+                                  ? (LanguageBuilder.texts!['time_stamp']
+                                      ['suffix'])
                                   : '')),
                         ],
                       ),
@@ -253,7 +259,8 @@ class _CommentDetailState extends State<CommentDetail> {
                                       ['no_comment']) +
                               LanguageBuilder.texts!['post_page']['comment'] +
                               ((_comments.length > 1)
-                                  ? (LanguageBuilder.texts!['time_stamp']['suffix'])
+                                  ? (LanguageBuilder.texts!['time_stamp']
+                                      ['suffix'])
                                   : '')),
                         ],
                       ),
@@ -296,25 +303,30 @@ class _CommentDetailState extends State<CommentDetail> {
                             children: [
                               Text(
                                 TimeConverting.extractTime(
-                                            _comments[index].time) +
-                                        ((TimeConverting.timeDifNow(
-                                                        _comments[index].time)
-                                                    .inSeconds <
-                                                2)
-                                            ? ''
-                                            : LanguageBuilder.texts!['time_stamp']
-                                                ['ago']),
+                                        _comments[index].time) +
+                                    ((TimeConverting.timeDifNow(
+                                                    _comments[index].time)
+                                                .inSeconds <
+                                            2)
+                                        ? ''
+                                        : LanguageBuilder.texts!['time_stamp']
+                                            ['ago']),
                                 style: const TextStyle(color: Colors.grey),
                               ),
                               const SizedBox(
                                 width: 5,
                               ),
-                              Text(_likeCount.toString() +
-                              ' ' +
-                              LanguageBuilder.texts!['post_page']['like'] +
-                              ((_likeCount > 1)
-                                  ? (LanguageBuilder.texts!['time_stamp']['suffix'])
-                                  : ''), style: const TextStyle(color: Colors.grey),),
+                              Text(
+                                _likeCount.toString() +
+                                    ' ' +
+                                    LanguageBuilder.texts!['post_page']
+                                        ['like'] +
+                                    ((_likeCount > 1)
+                                        ? (LanguageBuilder.texts!['time_stamp']
+                                            ['suffix'])
+                                        : ''),
+                                style: const TextStyle(color: Colors.grey),
+                              ),
                               const SizedBox(
                                 width: 5,
                               ),
@@ -376,64 +388,76 @@ class _CommentDetailState extends State<CommentDetail> {
                 );
               },
             ),
-            Container(
-              margin: const EdgeInsets.all(15),
-              width: double.infinity,
-              child: _replyingTo != null
-                  ? Row(
-                      children: [
-                        Text(LanguageBuilder.texts!['post_page']['reply'] + ': @${_replyingTo}'),
-                        TextButton(
-                          onPressed: () {
-                            setState(() {
-                              _replyingTo = null;
-                              _commentController.clear();
-                            });
-                          },
-                          child: Text(LanguageBuilder.texts!['post_page']['cancel']),
-                        ),
-                      ],
-                    )
-                  : SizedBox(),
-            ),
-            Container(
-              margin: const EdgeInsets.only(left: 15, right: 15),
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Container(
-                    margin: const EdgeInsets.only(right: 8.0),
-                    child: const CircleAvatar(
-                      radius: 20,
-                      backgroundImage:
-                          AssetImage("asset/images/login/avatar_img.png"),
-                    ),
+            const SizedBox(height: 100,)
+          ],
+        ),
+      ),
+      bottomSheet: Padding(
+        padding: const EdgeInsets.only(bottom: 40), // iphone is overlapping with homebar
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+          Container(
+            margin: const EdgeInsets.symmetric(horizontal: 15),
+            width: double.infinity,
+            child: _replyingTo != null
+                ? Row(
+                    children: [
+                      Text(LanguageBuilder.texts!['post_page']['reply'] +
+                          ': @${_replyingTo}'),
+                      TextButton(
+                        onPressed: () {
+                          setState(() {
+                            _replyingTo = null;
+                            _commentController.clear();
+                          });
+                        },
+                        child:
+                            Text(LanguageBuilder.texts!['post_page']['cancel']),
+                      ),
+                    ],
+                  )
+                : SizedBox(),
+          ),
+          Container(
+            margin: const EdgeInsets.only(left: 15, right: 15),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Container(
+                  margin: const EdgeInsets.only(right: 8.0),
+                  child: const CircleAvatar(
+                    radius: 20,
+                    backgroundImage:
+                        AssetImage("asset/images/login/avatar_img.png"),
                   ),
-                  const SizedBox(width: 10),
-                  Expanded(
-                    child: TextFormField(
-                      controller: _commentController,
-                      decoration: InputDecoration(
-                        hintText: LanguageBuilder.texts!['post_page']['comment_field'],
-                        border: OutlineInputBorder(),
-                        suffixIcon: TextButton(
-                          onPressed: () {
-                            if (_replyingTo != null) {
-                              // logic ส่งความคิดเห็นโดยตอบกลับคนนั้น
-                            } else {
-                              // logic ส่งความคิดเห็นโดยไม่ตอบกลับใคร
-                            }
-                          },
-                          child: Text(LanguageBuilder.texts!['post_page']['send']),
-                        ),
+                ),
+                const SizedBox(width: 10),
+                Expanded(
+                  child: TextFormField(
+                    controller: _commentController,
+                    decoration: InputDecoration(
+                      hintText: LanguageBuilder.texts!['post_page']
+                          ['comment_field'],
+                      border: OutlineInputBorder(),
+                      suffixIcon: TextButton(
+                        onPressed: () {
+                          if (_replyingTo != null) {
+                            // logic ส่งความคิดเห็นโดยตอบกลับคนนั้น
+                          } else {
+                            // logic ส่งความคิดเห็นโดยไม่ตอบกลับใคร
+                          }
+                        },
+                        child: Text(LanguageBuilder.texts!['post_page']['send']),
                       ),
                     ),
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
-          ],
-        ),
+          ),
+        ]),
       ),
     );
   }
