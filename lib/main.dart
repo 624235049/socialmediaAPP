@@ -1,10 +1,13 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:language_builder/language_builder.dart';
 import 'package:mfecinternship/feature/home/presentation/pages/home_pages.dart';
 import 'common/Language/language.dart';
 import 'common/config/app_route.dart';
 
-void main() {
+void main() async{
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   runApp(const MyApp());
 }
 
