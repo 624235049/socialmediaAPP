@@ -8,6 +8,8 @@ import 'package:mfecinternship/feature/auth/presentation/widget/widget_textformf
 import 'package:mfecinternship/utils/theme.dart';
 
 import '../../../../common/config/app_route.dart';
+import '../../../regis/model/registerModel.dart';
+import '../../../regis/viewmodel/registerViewModel.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -132,7 +134,7 @@ class _LoginPageState extends State<LoginPage> {
             String? email, password;
             email = emailController.text;
             password = passwordController.text;
-            await Firebase.initializeApp();
+
             await Auth()
                 .login(
                     email: emailController.text,
@@ -148,6 +150,7 @@ class _LoginPageState extends State<LoginPage> {
               print('Wrong password provided for that user.');
             }
           }
+
         },
         style: ElevatedButton.styleFrom(
           primary: AppTheme.buttonBackgroundColor,

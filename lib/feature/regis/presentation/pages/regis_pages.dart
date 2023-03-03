@@ -1,3 +1,4 @@
+// import 'dart:html';
 import 'dart:io';
 import 'dart:math';
 
@@ -8,6 +9,8 @@ import 'package:mfecinternship/common/config/app_route.dart';
 import 'package:language_builder/language_builder.dart';
 import 'package:mfecinternship/utils/theme.dart';
 
+import '../../model/registerModel.dart';
+import '../../viewmodel/registerViewModel.dart';
 import '../../widget/widget_bigtext.dart';
 import '../../widget/widget_textformfield.dart';
 
@@ -24,7 +27,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
   int _activeStepIndex = 0;
   String _selectedGender = '';
   bool _accepted = false;
-  final String _selectedLocation = 'Mobile Developper';
+  final String _selectedPosition = 'Mobile Developper';
   DateTime? _selectedDate = DateTime.now();
   TextEditingController dateController = TextEditingController();
   TextEditingController nameSurname = TextEditingController();
@@ -355,7 +358,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
         Container(
           margin: const EdgeInsets.only(left: 30, right: 30),
           child: DropdownButtonFormField(
-              value: _selectedLocation,
+              value: _selectedPosition,
               decoration: InputDecoration(
                 border: const OutlineInputBorder(),
                 labelText: LanguageBuilder.texts!['register_skill']
@@ -647,7 +650,25 @@ class _RegistrationPageState extends State<RegistrationPage> {
                                         context, AppRoute.homeRoute);
                                   },
                                   child: OutlinedButton(
-                                    onPressed: controlsDetails.onStepContinue,
+                                    onPressed: () async {
+                                      try {
+                                       String uri = await registerViewModel().uploadImage(image: pickedFile);
+                                       await registerViewModel().register(regisData: RegisterModel(
+                                            fullName: nameSurname.text,
+                                            nickname: nickName.text,
+                                            gender: _selectedGender.toString(),
+                                            birthDate: dateController.text,
+                                            email: email.text,
+                                            expect: expect.text,
+                                            phoneNumber: phone.text,
+                                            skills: skill.text,
+                                            positionOfInternship: _selectedPosition,
+                                            password: password.text, imageUri: uri));
+                                       Navigator.pushNamed(context, AppRoute.loginRoute);
+                                      }catch(e){
+                                        print(e);
+                                      }
+                                    },
                                     child: Row(
                                       children: [
                                         Text(
