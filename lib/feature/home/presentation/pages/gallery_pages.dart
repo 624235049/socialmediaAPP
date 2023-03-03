@@ -1,4 +1,3 @@
-
 import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:photo_manager/photo_manager.dart';
@@ -14,6 +13,7 @@ class MyGalleryPage extends StatefulWidget {
 class _MyGalleryPageState extends State<MyGalleryPage> {
   List<AssetEntity> _images = [];
   final Set<int> _selectedIndices = {};
+
   @override
   void initState() {
     super.initState();
@@ -35,9 +35,8 @@ class _MyGalleryPageState extends State<MyGalleryPage> {
   }
 
   void _navigateToSelectedImages() {
-    final List<AssetEntity> selectedImages = _selectedIndices
-        .map((index) => _images[index])
-        .toList();
+    final List<AssetEntity> selectedImages =
+        _selectedIndices.map((index) => _images[index]).toList();
 
     Navigator.push(
       context,
@@ -58,34 +57,33 @@ class _MyGalleryPageState extends State<MyGalleryPage> {
         ),
         iconTheme: const IconThemeData(color: Colors.black),
         actions: [
-
-            Padding(
-              padding: const EdgeInsets.all(12),
-              child: ElevatedButton(
-                onPressed: () {
-                  _navigateToSelectedImages();
-                },
-                child: const Text(
-                  'เพิ่ม',
-                  style: TextStyle(fontWeight: FontWeight.w800),
-                ),
-                style: ElevatedButton.styleFrom(
-                  primary: AppTheme.buttonBackgroundColor,
-                  // กำหนดสีพื้นหลัง
-                  onPrimary: Colors.white,
-                  // กำหนดสีตัวอักษร
-                  textStyle: const TextStyle(fontSize: 14),
-                  // กำหนดขนาดตัวอักษร
-                  minimumSize: const Size(50, 36),
-                  // กำหนดขนาดของปุ่ม
-                  shape: RoundedRectangleBorder(
-                    borderRadius:
-                        BorderRadius.circular(16), // กำหนดรูปร่างของปุ่ม
-                  ),
-                  visualDensity: VisualDensity.compact,
-                  // ปรับความหนาแน่นของตัวองค์ประกอบในปุ่ม
-                ),
+          Padding(
+            padding: const EdgeInsets.all(12),
+            child: ElevatedButton(
+              onPressed: () {
+                _navigateToSelectedImages();
+              },
+              child: const Text(
+                'เพิ่ม',
+                style: TextStyle(fontWeight: FontWeight.w800),
               ),
+              style: ElevatedButton.styleFrom(
+                primary: AppTheme.buttonBackgroundColor,
+                // กำหนดสีพื้นหลัง
+                onPrimary: Colors.white,
+                // กำหนดสีตัวอักษร
+                textStyle: const TextStyle(fontSize: 14),
+                // กำหนดขนาดตัวอักษร
+                minimumSize: const Size(50, 36),
+                // กำหนดขนาดของปุ่ม
+                shape: RoundedRectangleBorder(
+                  borderRadius:
+                      BorderRadius.circular(16), // กำหนดรูปร่างของปุ่ม
+                ),
+                visualDensity: VisualDensity.compact,
+                // ปรับความหนาแน่นของตัวองค์ประกอบในปุ่ม
+              ),
+            ),
           ),
         ],
       ),
@@ -115,9 +113,12 @@ class _MyGalleryPageState extends State<MyGalleryPage> {
                       AsyncSnapshot<Uint8List?> snapshot) {
                     if (snapshot.connectionState == ConnectionState.done &&
                         snapshot.data != null) {
-                      return Image.memory(
-                        snapshot.data!,
-                        fit: BoxFit.cover,
+                      return ClipRRect(
+                        borderRadius: BorderRadius.circular(10.0),
+                        child: Image.memory(
+                          snapshot.data!,
+                          fit: BoxFit.cover,
+                        ),
                       );
                     } else {
                       return Container(

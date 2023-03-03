@@ -96,7 +96,9 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
                   style: AppTheme.h5Style,
                 ),
                 TextButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.pushNamed(context, AppRoute.fullfriendlist);
+                  },
                   child: Text(LanguageBuilder.texts!['home_page']['friend_all'],
                       style: AppTheme.h5Style),
                 ),

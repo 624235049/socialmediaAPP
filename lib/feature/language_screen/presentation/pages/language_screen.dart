@@ -13,6 +13,7 @@ class _LanguageScreenState extends State<LanguageScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
+          elevation: 1,
           title: Text(
             LanguageBuilder.texts!['language_page']['language_title'],
             style: const TextStyle(color: Colors.black),
@@ -28,7 +29,9 @@ class _LanguageScreenState extends State<LanguageScreen> {
                 height: 5,
               ),
               ElevatedButton(
-                style: ElevatedButton.styleFrom(backgroundColor: Colors.white),
+                style: ElevatedButton.styleFrom(
+                  primary: Colors.white,
+                ),
                 onPressed: () {
                   setState(() {
                     LanguageBuilder.changeLanguage('th', context);
@@ -60,7 +63,9 @@ class _LanguageScreenState extends State<LanguageScreen> {
                 height: 5,
               ),
               ElevatedButton(
-                style: ElevatedButton.styleFrom(backgroundColor: Colors.white),
+                style: ElevatedButton.styleFrom(
+                  primary: Colors.white,
+                ),
                 onPressed: () {
                   setState(() {
                     LanguageBuilder.changeLanguage('en', context);

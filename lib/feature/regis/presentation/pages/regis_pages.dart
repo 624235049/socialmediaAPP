@@ -1,10 +1,12 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:mfecinternship/common/config/app_route.dart';
 import 'package:language_builder/language_builder.dart';
 import 'package:mfecinternship/utils/theme.dart';
 
 import '../../widget/widget_bigtext.dart';
-import '../../widget/widget_dialog.dart';
 import '../../widget/widget_textformfield.dart';
 
 class RegistrationPage extends StatefulWidget {
@@ -31,9 +33,57 @@ class _RegistrationPageState extends State<RegistrationPage> {
   TextEditingController password = TextEditingController();
   TextEditingController confirm_password = TextEditingController();
   String? imageUrl;
+  File? pickedFile;
   final String _value = LanguageBuilder.texts!['register_term']['term_text'];
+
   // String _value =
   //     "ข้อ 1 คำนิยามภายในข้อกำหนดนี้(ก) แอปพลิเคชัน หมายความว่าแอปพลิเคชันชื่อว่า มะลิซ้อน TGIA x Farmfeed ซึ่งดำเนินการและให้บริการในลักษณะดังต่อไปนี้แอปพลิเคชันที่ช่วยเหลือเกษตรกรที่ประสบภัยพิบัติแต่ไม่ได้อยู่ในพื้นที่ที่ประกาศภัยพิบัติ(ข) เจ้าของแอปพลิเคชัน หมายความว่า บริษัท อินฟิวส์ จำกัด ทะเบียนนิติบุคคลเลขที่ 0105556133084 สำนักงานตั้งอยู่ที่ 41 ถนนแก้วเงินทองแขวงคลองชักพระเขตตลิ่งชันกรุงเทพมหานคร 10170(ค) ผู้ใช้งาน หมายความว่าผู้เยี่ยมชมผู้ใช้สมาชิกของแอปพลิเคชันหรือบุคคลอื่นใดที่เข้าถึงแอปพลิเคชันไม่ว่าการเยี่ยมชมการใช้การเป็นสมาชิกหรือการเข้าถึงนั้นจะกระทำด้วยวิธีใดลักษณะใดผ่านอุปกรณ์ใดผ่านช่องทางใดและไม่ว่ามีค่าใช้จ่ายหรือไม่ก็ตาม(ง) ข้อมูลส่วนบุคคล หมายความว่าข้อมูลใด ๆ ก็ตามไม่ว่าของผู้ใช้งานหรือบุคคลอื่นใดที่สามารถใช้ในการระบุตัวตนของบุคคลบุคคลนั้นได้ไม่ว่าทางตรงหรือทางอ้อม(จ) เนื้อหา หมายความว่าข้อความ บทความ ความคิดเห็น บทวิเคราะห์ รูปภาพ สัญลักษณ์ เครื่องหมาย รูปภาพประดิษฐ์ภาพถ่าย ภาพเคลื่อนไหว ภาพยนตร์ เสียง สิ่งบันทึกเสียง การออกแบบ คำสั่ง ชุดคำสั่ง หรือการสื่อสาร ไม่ว่าในลักษณะใดและวิธีใด ๆ ในแอปพลิเคชัน และไม่ว่าเนื้อหานั้นจะมีการจำกัดการเข้าถึงหรือไม่ก็ตาม";
+
+  Future<void> showImagePickerDialog(BuildContext context) async {
+    final picker = ImagePicker();
+    await showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          content: SingleChildScrollView(
+            child: ListBody(
+              children: <Widget>[
+                GestureDetector(
+                  child: const Text('เปิดกล้อง'),
+                  onTap: () async {
+                    Navigator.of(context).pop();
+                    var _pickedFile = await picker.getImage(
+                      source: ImageSource.camera,
+                    );
+                    setState(() {
+                      pickedFile = _pickedFile != null ? File(_pickedFile.path) : null;
+                    });
+
+                    // Do something with the image file
+                  },
+                ),
+                const SizedBox(height: 16),
+                GestureDetector(
+                  child: const Text('เลือกรูป'),
+                  onTap: () async {
+                    Navigator.of(context).pop();
+                    var _pickedFile = await picker.getImage(
+                      source: ImageSource.gallery,
+                    );
+                    setState(() {
+                      pickedFile = _pickedFile != null ? File(_pickedFile.path) : null;
+                    });
+
+                    // Do something with the image file
+                  },
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
 
   @override
   void dispose() {
@@ -208,14 +258,23 @@ class _RegistrationPageState extends State<RegistrationPage> {
           child: Stack(
             children: [
               Center(
-                child: ClipOval(
-                  child: Image.asset(
-                    'asset/images/login/real-photo.png',
-                    width: 250.0,
-                    height: 250.0,
-                    fit: BoxFit.cover,
-                  ),
-                ),
+                child: pickedFile != null
+                    ? ClipOval(
+                        child: Image.file(
+                          pickedFile!,
+                          width: 250.0,
+                          height: 250.0,
+                          fit: BoxFit.cover,
+                        ),
+                      )
+                    : ClipOval(
+                        child: Image.asset(
+                          'asset/images/login/real-photo.png',
+                          width: 250.0,
+                          height: 250.0,
+                          fit: BoxFit.cover,
+                        ),
+                      ),
               ),
               Positioned(
                 right: 35.0,
@@ -472,6 +531,8 @@ class _RegistrationPageState extends State<RegistrationPage> {
       appBar: AppBar(
         centerTitle: false,
         backgroundColor: Colors.white,
+        title: BigText(
+            text: LanguageBuilder.texts!['register_page']['appbar_register']),
         title: BigText(
             text: LanguageBuilder.texts!['register_page']['appbar_register']),
         iconTheme: const IconThemeData(color: Colors.black),

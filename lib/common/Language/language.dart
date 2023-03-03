@@ -155,7 +155,12 @@ class Languages {
         "about_page": {
           "about_title": "About MFEC",
           "history_title": "History and Background of MFEC",
-          "vision_title": "Organization Vision and Mission"
+          "history_detail": "History and Background of MFEC detail",
+          "vision_title": "Organization Vision and Mission",
+          "vision_detail_1_title": "\u2022 vision detail 1 title",
+          "vision_detail_1": "vision detail 1 text",
+          "vision_detail_2_title": "\u2022 vision detail 2 title",
+          "vision_detail_2": "vision detail 2 text"
         },
         "detail_company": {
           "detail_history": "a",
@@ -363,7 +368,12 @@ class Languages {
         "about_page": {
           "about_title": "เกี่ยวกับ MFEC",
           "history_title": "ประวัติและความเป็นมาของ MFEC",
-          "vision_title": "วิสัยทัศน์องค์กรและพันธกิจ"
+          "history_detail": "รายละเอียดประวัติและความเป็นมาของ MFEC",
+          "vision_title": "วิสัยทัศน์องค์กรและพันธกิจ",
+          "vision_detail_1_title": "\u2022 vision detail 1 title",
+          "vision_detail_1": "vision detail 1 text",
+          "vision_detail_2_title": "\u2022 vision detail 2 title",
+          "vision_detail_2": "vision detail 2 text"
         },
         "detail_company": {
           "detail_history": "บริษัท เอ็ม เอฟ อี ซี จำกัด หรือ MFEC เริ่มก่อตั้งขึ้นเมื่อปี 2540 เป็นการร่วมทุนระหว่างบริษัทโมเอร์นฟอร์ม อินทิเกรชั่น เซอร์วิสเซส จำกัด ซึ่งเป็นบริษัทร่วมของ บริษัท โมเดอร์นฟอร์มกรุ๊ปจำกัด (มหาชน) กับกลุ่มผู้บริหารที่มีความเชี่ยวชาญและประสบการณ์ในสาขาคอมพิวเตอร์และเทคโนโลยีสารสนเทศ โดยในปีแรกของการดำเนินธุรกิจ บริษัทต้องเผชิญกับวิกฤตการณ์ครั้งสำคัญทางการเงินในเอเชีย หรือเรียกทั่วไปในประเทศไทยว่า วิกฤตต้มยำกุ้ง ส่งผลกระทบโดยตรงต่อความสามารถในการทำกำไรและการดำเนินธุรกิจขององค์กร แต่ทว่าเพียง 6 ปีหลังจากก่อตั้งคุณศิริวัฒน์ วงศ์จารุกร ประธานกรรมการบริหารและกรรมการผู้จัดการใหญ่ได้นำบริษัทฯ เข้าจดทะเบียนในตลาดหลักทรัพย์ และถูกจัดเป็นหุ้นเด่นจ่ายเงินปันผลตลอด 10 ปี เฉลี่ย 7.81 % สูงสุดในหุ้นหมวดสื่อสารฯ โดยการดำเนินงานของบริษัท ได้วางนโยบายเติบโตไปพร้อมกับลูกค้า มุ่งเน้นการสร้างมูลค่าเพิ่มให้แก่องค์กรและผู้มีส่วนได้ส่วนเสีย",

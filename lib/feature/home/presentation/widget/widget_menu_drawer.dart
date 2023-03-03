@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:language_builder/language_builder.dart';
-import 'package:mfecinternship/feature/language_screen/ui/language_screen.dart';
+import 'package:mfecinternship/feature/about/presentation/pages/about_pages.dart';
+import 'package:mfecinternship/feature/language_screen/presentation/pages/language_screen.dart';
+import 'package:mfecinternship/feature/term/presentation/pages/term_pages.dart';
 import 'package:mfecinternship/utils/theme.dart';
 
 class Menu {
@@ -30,13 +32,21 @@ class MenuViewModel {
           title: LanguageBuilder.texts!['home_drawer']['about_page'],
           icon: Icons.home_repair_service_sharp,
           iconColor: AppTheme.buttonBackgroundColor,
-          onTap: (context) {},
+          onTap: (context) {
+            Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context) {
+              return const AboutPages();
+            }));
+          },
         ),
     Menu(
       title: LanguageBuilder.texts!['home_drawer']['term_page'],
       icon: Icons.language,
       iconColor: AppTheme.buttonBackgroundColor,
-      onTap: (context) {},
+      onTap: (context) {
+        Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context) {
+          return const TermPages();
+        }));
+      },
     ),
         Menu(
           title: LanguageBuilder.texts!['home_drawer']['language_page'],

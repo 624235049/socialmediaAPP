@@ -15,6 +15,8 @@ class CommentDetail extends StatefulWidget {
 
 class _CommentDetailState extends State<CommentDetail> {
   Post? post;
+  TextEditingController _commentController = TextEditingController();
+  String? _replyingTo;
 
   @override
   void initState() {
@@ -22,20 +24,73 @@ class _CommentDetailState extends State<CommentDetail> {
     super.initState();
   }
 
+  // final List<Comment> _comments = [
+  //   Comment(
+  //     id: 1,
+  //     avatarImageUrl: 'https://example.com/avatar1.jpg',
+  //     name: 'John Doe',
+  //     time: '2 hours ago',
+  //     comment: 'This is a great post!',
+  //   ),
+  //   Comment(
+  //     id: 2,
+  //     avatarImageUrl: 'https://example.com/avatar2.jpg',
+  //     name: 'Jane Smith',
+  //     time: '1 hour ago',
+  //     comment: 'I agree with you!',
+  //   ),
+  //   Comment(
+  //     id: 3,
+  //     avatarImageUrl: 'https://example.com/avatar3.jpg',
+  //     name: 'Bob Johnson',
+  //     time: '5 minutes ago',
+  //     comment: 'Thanks for sharing!',
+  //   ),
+  // ];
   final List<Comment> _comments = [
     Comment(
       id: 1,
-      avatarImageUrl: 'https://example.com/avatar1.jpg',
+      avatarImageUrl: 'https://github.com/624235049/picture01/blob/main/%E0%B8%94%E0%B8%B2%E0%B8%A7%E0%B8%99%E0%B9%8C%E0%B9%82%E0%B8%AB%E0%B8%A5%E0%B8%94%20(3).png?raw=true',
       name: 'John Doe',
       time: '1675270414002',
       comment: 'This is a great post!',
+      replies: [
+        Comment(
+          id: 4,
+          avatarImageUrl: 'https://github.com/624235049/picture01/blob/main/sg-11134201-22100-glhy2yh3qrivb4.jpg?raw=true',
+          name: 'Sarah Lee',
+          time: '1 hour ago',
+          comment: 'I found it really interesting too!',
+          replies: [
+
+          ],
+        ),
+      ],
     ),
     Comment(
       id: 2,
-      avatarImageUrl: 'https://example.com/avatar2.jpg',
+      avatarImageUrl: 'https://github.com/624235049/picture01/blob/main/img01.jpg?raw=true',
       name: 'Jane Smith',
       time: '1677070414002',
       comment: 'I agree with you!',
+      replies: [
+        Comment(
+          id: 5,
+          avatarImageUrl: 'https://github.com/624235049/picture01/blob/main/img01.jpg?raw=true',
+          name: 'Alex Wang',
+          time: '30 minutes ago',
+          comment: 'I think there are some important points to consider.',
+          replies: [],
+        ),
+        Comment(
+          id: 6,
+          avatarImageUrl: 'https://github.com/624235049/picture01/blob/main/img01.jpg?raw=true',
+          name: 'David Kim',
+          time: '15 minutes ago',
+          comment: 'Can you explain more about your perspective?',
+          replies: [],
+        ),
+      ],
     ),
     Comment(
       id: 3,
@@ -43,6 +98,7 @@ class _CommentDetailState extends State<CommentDetail> {
       name: 'Bob Johnson',
       time: '1677472418973',
       comment: 'Thanks for sharing!',
+      replies: [],
     ),
     Comment(
       id: 4,
@@ -50,6 +106,7 @@ class _CommentDetailState extends State<CommentDetail> {
       name: 'Prayut Chanocha',
       time: DateTime.now().millisecondsSinceEpoch.toString(),
       comment: 'Thanks for sharing!',
+      replies: [],
     ),
     Comment(
       id: 5,
@@ -57,6 +114,7 @@ class _CommentDetailState extends State<CommentDetail> {
       name: 'Prayut Chanocha',
       time: DateTime.now().millisecondsSinceEpoch.toString(),
       comment: 'Thanks for sharing!',
+      replies: []
     ),
   ];
 
@@ -134,6 +192,12 @@ class _CommentDetailState extends State<CommentDetail> {
                 ],
               ),
             ),
+            Container(
+                margin: const EdgeInsets.only(right: 15.0, left: 15.0),
+                child: post!.image != null
+                    ? Image.network(post!.image)
+                    : Container()),
+
             const Divider(
               color: AppTheme.dividerPost,
               thickness: 1,
@@ -197,88 +261,162 @@ class _CommentDetailState extends State<CommentDetail> {
                 ),
               ],
             ),
-            const Divider(
-              color: AppTheme.dividerPost,
-              thickness: 1,
-              height: 0,
-            ),
-            Padding(
-              padding: const EdgeInsets.only(bottom: 60),
-              child: ListView.builder(
-                shrinkWrap: true,
-                physics: const ScrollPhysics(),
-                itemCount: _comments.length,
-                itemBuilder: (BuildContext context, int index) {
-                  return Card(
-                    elevation: 0,
-                    margin: const EdgeInsets.all(0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.symmetric(
-                              vertical: 14, horizontal: 20),
-                          child: Row(
-                            crossAxisAlignment: CrossAxisAlignment.start,
+            ListView.builder(
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
+              itemCount: _comments.length,
+              itemBuilder: (BuildContext context, int index) {
+                return Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    ListTile(
+                      leading: CircleAvatar(
+                        backgroundImage:
+                            NetworkImage(_comments[index].avatarImageUrl),
+                      ),
+                      title: Text(
+                        _comments[index].name,
+                        style: const TextStyle(
+                            fontWeight: FontWeight.bold, fontSize: 16),
+                      ),
+                      subtitle: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            _comments[index].comment,
+                            style: const TextStyle(fontSize: 16),
+                          ),
+                          Row(
                             children: [
-                              const CircleAvatar(
-                                radius: 20,
-                                backgroundImage: AssetImage(
-                                    "asset/images/login/avatar_img.png"),
+                              Text(
+                                _comments[index].time,
+                                style: const TextStyle(color: Colors.grey),
                               ),
                               const SizedBox(
-                                width: 8,
+                                width: 5,
                               ),
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    _comments[index].name,
-                                    style: const TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 16),
-                                  ),
-                                  Text(
-                                    _comments[index].comment,
-                                    style: const TextStyle(fontSize: 16),
-                                  ),
-                                  Text(
-                                    TimeConverting.extractTime(
-                                            _comments[index].time) +
-                                        ((TimeConverting.timeDifNow(
-                                                        _comments[index].time)
-                                                    .inSeconds <
-                                                2)
-                                            ? ''
-                                            : LanguageBuilder.texts!['time_stamp']
-                                                ['ago']),
-                                    style: const TextStyle(color: Colors.grey),
-                                  )
-                                ],
-                              )
+                              const Text(
+                                "2 ถูกใจ",
+                                style: TextStyle(color: Colors.grey),
+                              ),
+                              const SizedBox(
+                                width: 5,
+                              ),
+                              TextButton(
+                                onPressed: () {
+                                  setState(() {
+                                    _replyingTo = _comments[index].name;
+                                  });
+                                  _commentController.text =
+                                      '@${_comments[index].name} ';
+                                },
+                                child: const Text(
+                                  "ตอบกลับ",
+                                  style: TextStyle(color: Colors.indigoAccent),
+                                ),
+                              ),
                             ],
-                          ),
-                        ),
-                        // const Divider(),
-                      ],
+                          )
+                        ],
+                      ),
                     ),
-                  );
-                },
-              ),
-            )
-          ],
-        ),
-      ),
-      bottomSheet: Padding(
-        padding: const EdgeInsets.only(bottom: 30),
-        child: Container(
-          margin: const EdgeInsets.only(left: 30, right: 30),
-          child: TextFormField(
-            decoration: InputDecoration(
-              hintText: LanguageBuilder.texts!['post_page']['comment_field'],
-              border: const OutlineInputBorder(),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 72.0),
+                      child: Column(
+                        children: _comments[index].replies.map((reply) {
+                          return ListTile(
+                            leading: CircleAvatar(
+                              backgroundImage:
+                                  NetworkImage(reply.avatarImageUrl),
+                            ),
+                            title: Text(
+                              reply.name,
+                              style: const TextStyle(
+                                  fontWeight: FontWeight.bold, fontSize: 16),
+                            ),
+                            subtitle: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  reply.comment,
+                                  style: const TextStyle(fontSize: 16),
+                                ),
+                                Row(
+                                  children: [
+                                    Text(
+                                      reply.time,
+                                      style:
+                                          const TextStyle(color: Colors.grey),
+                                    ),
+                                  ],
+                                )
+                              ],
+                            ),
+                          );
+                        }).toList(),
+                      ),
+                    ),
+                  ],
+                );
+              },
             ),
-          ),
+            Container(
+              margin: const EdgeInsets.all(15),
+              width: double.infinity,
+              child: _replyingTo != null
+                  ? Row(
+                      children: [
+                        Text('ตอบกลับ: @${_replyingTo}'),
+                        TextButton(
+                          onPressed: () {
+                            setState(() {
+                              _replyingTo = null;
+                              _commentController.clear();
+                            });
+                          },
+                          child: Text(LanguageBuilder.texts!['post_page']['cancel']),
+                        ),
+                      ],
+                    )
+                  : SizedBox(),
+            ),
+            Container(
+              margin: const EdgeInsets.only(left: 15, right: 15),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Container(
+                    margin: const EdgeInsets.only(right: 8.0),
+                    child: const CircleAvatar(
+                      radius: 20,
+                      backgroundImage:
+                          AssetImage("asset/images/login/avatar_img.png"),
+                    ),
+                  ),
+                  const SizedBox(width: 10),
+                  Expanded(
+                    child: TextFormField(
+                      controller: _commentController,
+                      decoration: InputDecoration(
+                        hintText: LanguageBuilder.texts!['post_page']['comment_field'],
+                        border: OutlineInputBorder(),
+                        suffixIcon: TextButton(
+                          onPressed: () {
+                            if (_replyingTo != null) {
+                              // logic ส่งความคิดเห็นโดยตอบกลับคนนั้น
+                            } else {
+                              // logic ส่งความคิดเห็นโดยไม่ตอบกลับใคร
+                            }
+                          },
+                          child: Text(LanguageBuilder.texts!['post_page']['send']),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
         ),
       ),
     );

@@ -23,6 +23,7 @@ class Comment {
   final String name;
   final String time;
   final String comment;
+  final List<Comment> replies;
 
   Comment({
     required this.id,
@@ -30,5 +31,6 @@ class Comment {
     required this.name,
     required this.time,
     required this.comment,
+    required this.replies,
   });
 }

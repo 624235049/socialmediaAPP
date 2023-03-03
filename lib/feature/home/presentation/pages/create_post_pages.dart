@@ -53,9 +53,9 @@ class _CreatePostState extends State<CreatePost> {
                   // กำหนดสีพื้นหลัง
                   onPrimary: Colors.white,
                   // กำหนดสีตัวอักษร
-                  textStyle: TextStyle(fontSize: 14),
+                  textStyle: const TextStyle(fontSize: 14),
                   // กำหนดขนาดตัวอักษร
-                  minimumSize: Size(50, 36),
+                  minimumSize: const Size(50, 36),
                   // กำหนดขนาดของปุ่ม
                   shape: RoundedRectangleBorder(
                     borderRadius:
@@ -119,14 +119,14 @@ class _CreatePostState extends State<CreatePost> {
                         _selectedImage!,
                         height: 200,
                       ),
-
                     SizedBox(
                       height: 300,
                       child: ListView.builder(
                         scrollDirection: Axis.horizontal,
                         itemCount: widget.images.length,
                         itemBuilder: (BuildContext context, int index) {
-                          return Expanded(
+                          return Container(
+                            width: 200, // set a fixed width for the container
                             child: FutureBuilder<Uint8List?>(
                               future: widget.images[index].thumbData,
                               builder: (context, snapshot) {
@@ -179,7 +179,7 @@ class _CreatePostState extends State<CreatePost> {
                 ),
               ],
             ),
-          )
+          ),
         ],
       ),
     );
