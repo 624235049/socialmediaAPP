@@ -16,7 +16,7 @@ class _AboutPagesState extends State<AboutPages> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        elevation: 1,
+        elevation: 0,
         title: Text(
           LanguageBuilder.texts!['about_page']['about_title'],
           style: const TextStyle(color: Colors.black),
@@ -55,7 +55,7 @@ class _AboutPagesState extends State<AboutPages> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(LanguageBuilder.texts!['about_page']['vision_title'],
-                      style: const TextStyle(fontSize: 14)),
+                      style: AppTheme.h6StyleBC(AppTheme.aboutTitle)),
                   (showVision == false)
                       ? const Icon(Icons.keyboard_arrow_down)
                       : const Icon(Icons.keyboard_arrow_up)
@@ -63,7 +63,7 @@ class _AboutPagesState extends State<AboutPages> {
               )),
         ),
         const Divider(
-          color: Color(0xFF99CCFF),
+          color: AppTheme.dividerPost,
           thickness: 1,
           height: 0,
         ),
@@ -124,7 +124,7 @@ class _AboutPagesState extends State<AboutPages> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(LanguageBuilder.texts!['about_page']['history_title'],
-                      style: const TextStyle(fontSize: 14)),
+                      style: AppTheme.h6StyleBC(AppTheme.aboutTitle)),
                   (showHistory == false)
                       ? const Icon(Icons.keyboard_arrow_down)
                       : const Icon(Icons.keyboard_arrow_up)
@@ -132,7 +132,7 @@ class _AboutPagesState extends State<AboutPages> {
               )),
         ),
         const Divider(
-          color: Color(0xFF99CCFF),
+          color: AppTheme.dividerPost,
           thickness: 1,
           height: 0,
         ),

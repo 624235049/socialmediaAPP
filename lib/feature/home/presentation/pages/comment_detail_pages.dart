@@ -127,7 +127,7 @@ class _CommentDetailState extends State<CommentDetail> {
         backgroundColor: Colors.white,
         iconTheme: const IconThemeData(color: Colors.black),
         title: Text(
-          post!.name + '\'s posts',
+          post!.name + LanguageBuilder.texts!['post_page']['post_suffix'] + " " + LanguageBuilder.texts!['post_page']['post_title'],
           style: const TextStyle(color: Colors.black),
         ),
         elevation: 1,
@@ -192,73 +192,80 @@ class _CommentDetailState extends State<CommentDetail> {
                 ],
               ),
             ),
-            const Divider(
-              color: AppTheme.dividerPost,
-              thickness: 1,
-              height: 0,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Row(
-                  children: [
-                    IconButton(
-                      icon: (_favorited == true)
-                          ? const Icon(
-                              Icons.favorite,
-                              color: AppTheme.buttonBackgroundColor,
-                            )
-                          : const Icon(
-                              Icons.favorite_border,
+            Container(
+              margin: const EdgeInsets.only(bottom: 14),
+              child: Column(
+                children: [
+                  const Divider(
+                    color: AppTheme.dividerPost,
+                    thickness: 1,
+                    height: 0,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Row(
+                        children: [
+                          IconButton(
+                            icon: (_favorited == true)
+                                ? const Icon(
+                                    Icons.favorite,
+                                    color: AppTheme.buttonBackgroundColor,
+                                  )
+                                : const Icon(
+                                    Icons.favorite_border,
+                                    color: AppTheme.buttonBackgroundColor,
+                                  ),
+                            onPressed: () {
+                              setState(() {
+                                _favorited = !_favorited;
+                                if (_favorited == true) {
+                                  _likeCount++;
+                                } else {
+                                  _likeCount--;
+                                }
+                              });
+                            },
+                          ),
+                          Text(_likeCount.toString() +
+                              ' ' +
+                              LanguageBuilder.texts!['post_page']['like'] +
+                              ((_likeCount > 1)
+                                  ? (LanguageBuilder.texts!['time_stamp']['suffix'])
+                                  : '')),
+                        ],
+                      ),
+                      const SizedBox(
+                        width: 20,
+                      ),
+                      Row(
+                        children: [
+                          IconButton(
+                            icon: const Icon(
+                              Icons.comment_bank_outlined,
                               color: AppTheme.buttonBackgroundColor,
                             ),
-                      onPressed: () {
-                        setState(() {
-                          _favorited = !_favorited;
-                          if (_favorited == true) {
-                            _likeCount++;
-                          } else {
-                            _likeCount--;
-                          }
-                        });
-                      },
-                    ),
-                    Text(_likeCount.toString() +
-                        ' ' +
-                        LanguageBuilder.texts!['post_page']['like'] +
-                        ((_likeCount > 1)
-                            ? (LanguageBuilder.texts!['time_stamp']['suffix'])
-                            : '')),
-                  ],
-                ),
-                const SizedBox(
-                  width: 20,
-                ),
-                Row(
-                  children: [
-                    IconButton(
-                      icon: const Icon(
-                        Icons.comment_bank_outlined,
-                        color: AppTheme.buttonBackgroundColor,
+                            onPressed: () {},
+                          ),
+                          Text(((_comments.isNotEmpty)
+                                  ? (_comments.length.toString() + ' ')
+                                  : LanguageBuilder.texts!['post_page']
+                                      ['no_comment']) +
+                              LanguageBuilder.texts!['post_page']['comment'] +
+                              ((_comments.length > 1)
+                                  ? (LanguageBuilder.texts!['time_stamp']['suffix'])
+                                  : '')),
+                        ],
                       ),
-                      onPressed: () {},
-                    ),
-                    Text(((_comments.isNotEmpty)
-                            ? (_comments.length.toString() + ' ')
-                            : LanguageBuilder.texts!['post_page']
-                                ['no_comment']) +
-                        LanguageBuilder.texts!['post_page']['comment'] +
-                        ((_comments.length > 1)
-                            ? (LanguageBuilder.texts!['time_stamp']['suffix'])
-                            : '')),
-                  ],
-                ),
-              ],
-            ),
-            const Divider(
-              color: AppTheme.dividerPost,
-              thickness: 1,
-              height: 0,
+                    ],
+                  ),
+                  const Divider(
+                    color: AppTheme.dividerPost,
+                    thickness: 1,
+                    height: 0,
+                  ),
+                ],
+              ),
             ),
             ListView.builder(
               shrinkWrap: true,
@@ -288,16 +295,26 @@ class _CommentDetailState extends State<CommentDetail> {
                           Row(
                             children: [
                               Text(
-                                _comments[index].time,
+                                TimeConverting.extractTime(
+                                            _comments[index].time) +
+                                        ((TimeConverting.timeDifNow(
+                                                        _comments[index].time)
+                                                    .inSeconds <
+                                                2)
+                                            ? ''
+                                            : LanguageBuilder.texts!['time_stamp']
+                                                ['ago']),
                                 style: const TextStyle(color: Colors.grey),
                               ),
                               const SizedBox(
                                 width: 5,
                               ),
-                              const Text(
-                                "2 ถูกใจ",
-                                style: TextStyle(color: Colors.grey),
-                              ),
+                              Text(_likeCount.toString() +
+                              ' ' +
+                              LanguageBuilder.texts!['post_page']['like'] +
+                              ((_likeCount > 1)
+                                  ? (LanguageBuilder.texts!['time_stamp']['suffix'])
+                                  : ''), style: const TextStyle(color: Colors.grey),),
                               const SizedBox(
                                 width: 5,
                               ),

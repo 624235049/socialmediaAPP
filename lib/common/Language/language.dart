@@ -110,7 +110,9 @@ class Languages {
           "send": "send",
           "comment_field": "comment",
           "reply": "Reply",
-          "cancel": "Cancel"
+          "cancel": "Cancel",
+          "post_title": "Posts",
+          "post_suffix": "\'s"
         },
         "post_write_page": {
           "post_title": "Create post",
@@ -323,7 +325,9 @@ class Languages {
           "send": "ส่ง",
           "comment_field": "แสดงความคิดเห็น",
           "reply": "ตอบกลับ",
-          "cancel": "ยกเลิก"
+          "cancel": "ยกเลิก",
+          "post_title": "โพสต์",
+          "post_suffix": ""
         },
         "post_write_page": {
           "post_title": "เขียนโพสต์",

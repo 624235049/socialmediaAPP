@@ -7,14 +7,16 @@ class AppTheme {
   static const Color buttonBackgroundColor = Color(0xFF005B9E);
   static final Color paraColor = const Color(0xFF8f837f);
   static const Color dividerPost = Color(0xFF99CCFF);
+  static const Color aboutTitle = Color(0xFF005B9E);
 
   static TextStyle h1Style = const TextStyle(fontSize: 24, fontWeight: FontWeight.bold);
   static TextStyle h2Style = const TextStyle(fontSize: 22);
   static TextStyle h3Style = const TextStyle(fontSize: 20);
   static TextStyle h4Style = const TextStyle(fontSize: 18);
   static TextStyle h5Style = const TextStyle(fontSize: 16,fontWeight: FontWeight.bold,color: AppTheme.buttonBackgroundColor);
-  static TextStyle h5StyleC(Color color) { return TextStyle(fontSize: 16,fontWeight: FontWeight.bold,color: color);}
+  static TextStyle h5StyleBC(Color color) { return TextStyle(fontSize: 16,fontWeight: FontWeight.bold,color: color);}
   static TextStyle h6Style = const TextStyle(fontSize: 14);
+  static TextStyle h6StyleBC(Color color) { return TextStyle(fontSize: 14,fontWeight: FontWeight.bold,color: color);}
   static TextStyle titleStyle =  TextStyle(color: Colors.black,fontFamily: 'Roboto',fontSize: 20.0,fontWeight: FontWeight.w500);
 
   static List<BoxShadow> shadow = <BoxShadow>[

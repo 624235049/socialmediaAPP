@@ -81,6 +81,7 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
           padding: const EdgeInsets.all(40.0),
           child: Image.asset(logoApp),
         ),
+        elevation: 0,
         iconTheme: const IconThemeData(color: Colors.black),
       ),
       drawer: drawerHome(context),

@@ -12,7 +12,7 @@ class TermPages extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        elevation: 1,
+        elevation: 0,
         title: Text(
           LanguageBuilder.texts!['term_page']['term_title'],
           style: const TextStyle(color: Colors.black),
@@ -31,7 +31,7 @@ class TermPages extends StatelessWidget {
               ),
               child: Text(
                 LanguageBuilder.texts!['register_term']['term_head'],
-                style: AppTheme.h5Style,
+                style: AppTheme.h5StyleBC(Colors.black),
               ),
             ),
             const SizedBox(

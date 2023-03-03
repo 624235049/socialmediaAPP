@@ -183,7 +183,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
               ),
               child: Text(
                 LanguageBuilder.texts!['register_term']['term_head'],
-                style: AppTheme.h5StyleC(Colors.black),
+                style: AppTheme.h5StyleBC(Colors.black),
               ),
             ),
             const SizedBox(
