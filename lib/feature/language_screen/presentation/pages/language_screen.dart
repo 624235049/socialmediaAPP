@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:language_builder/language_builder.dart';
+import 'package:mfecinternship/utils/theme.dart';
 
 class LanguageScreen extends StatefulWidget {
   const LanguageScreen({Key? key}) : super(key: key);
@@ -25,9 +26,6 @@ class _LanguageScreenState extends State<LanguageScreen> {
         body: Center(
           child: Column(
             children: [
-              const SizedBox(
-                height: 5,
-              ),
               ElevatedButton(
                 style: ElevatedButton.styleFrom(
                   primary: Colors.white,
@@ -40,28 +38,30 @@ class _LanguageScreenState extends State<LanguageScreen> {
                 },
                 child: SizedBox(
                   height: 50,
-                  child: Row(
-                    children: [
-                      const Text(
-                        'Thai',
-                        style: TextStyle(color: Colors.black),
-                      ),
-                      const Spacer(),
-                      (LanguageBuilder.getCurrentLang() == 'th')
-                          ? const Icon(Icons.check, color: Colors.black)
-                          : const Icon(null)
-                    ],
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 10),
+                    child: Row(
+                      children: [
+                        const Text(
+                          'Thai',
+                          style: TextStyle(color: AppTheme.aboutTitle, fontWeight: FontWeight.bold),
+                        ),
+                        const Spacer(),
+                        (LanguageBuilder.getCurrentLang() == 'th')
+                            ? const Icon(Icons.check, color: AppTheme.aboutTitle)
+                            : const Icon(null)
+                      ],
+                    ),
                   ),
                 ),
               ),
-              const SizedBox(
-                height: 5,
-              ),
-              const Divider(
-                height: 1,
-              ),
-              const SizedBox(
-                height: 5,
+              const Padding(
+                padding: EdgeInsets.symmetric(horizontal: 20),
+                child: Divider(
+                  height: 2,
+                  color: AppTheme.dividerPost,
+                  thickness: 1,
+                ),
               ),
               ElevatedButton(
                 style: ElevatedButton.styleFrom(
@@ -75,18 +75,29 @@ class _LanguageScreenState extends State<LanguageScreen> {
                 },
                 child: SizedBox(
                   height: 50,
-                  child: Row(
-                    children: [
-                      const Text(
-                        'English',
-                        style: TextStyle(color: Colors.black),
-                      ),
-                      const Spacer(),
-                      (LanguageBuilder.getCurrentLang() == 'en')
-                          ? const Icon(Icons.check, color: Colors.black)
-                          : const Icon(null)
-                    ],
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 10),
+                    child: Row(
+                      children: [
+                        const Text(
+                          'English',
+                          style: TextStyle(color: AppTheme.aboutTitle, fontWeight: FontWeight.bold),
+                        ),
+                        const Spacer(),
+                        (LanguageBuilder.getCurrentLang() == 'en')
+                            ? const Icon(Icons.check, color: AppTheme.aboutTitle)
+                            : const Icon(null)
+                      ],
+                    ),
                   ),
+                ),
+              ),
+              const Padding(
+                padding: EdgeInsets.symmetric(horizontal: 20),
+                child: Divider(
+                  height: 2,
+                  color: AppTheme.dividerPost,
+                  thickness: 1,
                 ),
               ),
             ],

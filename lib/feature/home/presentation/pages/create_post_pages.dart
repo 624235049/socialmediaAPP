@@ -18,9 +18,7 @@ class _CreatePostState extends State<CreatePost> {
   String _postMessage = '';
   final _formKey = GlobalKey<FormState>();
 
-
   File? _selectedImage;
-
 
   @override
   Widget build(BuildContext context) {
@@ -32,6 +30,9 @@ class _CreatePostState extends State<CreatePost> {
           style: AppTheme.titleStyle,
         ),
         iconTheme: const IconThemeData(color: Colors.black),
+        elevation: 2,
+        shadowColor: AppTheme.dividerPost,
+        
         actions: [
           InkWell(
             onTap: () {

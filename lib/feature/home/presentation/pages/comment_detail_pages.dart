@@ -135,7 +135,7 @@ class _CommentDetailState extends State<CommentDetail> {
               LanguageBuilder.texts!['post_page']['post_title'],
           style: const TextStyle(color: Colors.black),
         ),
-        elevation: 1,
+        elevation: 2,
         shadowColor: AppTheme.dividerPost,
       ),
       body: SingleChildScrollView(
