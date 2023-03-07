@@ -142,7 +142,8 @@ class _CommentDetailState extends State<CommentDetail> {
         child: Column(
           children: [
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+              // padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+              padding: EdgeInsets.only(left: 20, right: 20, top: 12, bottom: MediaQuery.of(context).viewInsets.bottom),
               child: Column(
                 children: [
                   Row(
@@ -388,76 +389,96 @@ class _CommentDetailState extends State<CommentDetail> {
                 );
               },
             ),
-            const SizedBox(height: 100,)
+            const SizedBox(
+              height: 100,
+            )
           ],
         ),
       ),
-      bottomSheet: Padding(
-        padding: const EdgeInsets.only(bottom: 40), // iphone is overlapping with homebar
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: [
-          Container(
-            margin: const EdgeInsets.symmetric(horizontal: 15),
-            width: double.infinity,
-            child: _replyingTo != null
-                ? Row(
-                    children: [
-                      Text(LanguageBuilder.texts!['post_page']['reply'] +
-                          ': @${_replyingTo}'),
-                      TextButton(
-                        onPressed: () {
-                          setState(() {
-                            _replyingTo = null;
-                            _commentController.clear();
-                          });
-                        },
-                        child:
-                            Text(LanguageBuilder.texts!['post_page']['cancel']),
-                      ),
-                    ],
-                  )
-                : SizedBox(),
-          ),
-          Container(
-            margin: const EdgeInsets.only(left: 15, right: 15),
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Container(
-                  margin: const EdgeInsets.only(right: 8.0),
-                  child: const CircleAvatar(
-                    radius: 20,
-                    backgroundImage:
-                        AssetImage("asset/images/login/avatar_img.png"),
+      bottomSheet: DecoratedBox(
+        decoration: const BoxDecoration(boxShadow: [
+          BoxShadow(
+            color: Color.fromARGB(31, 0, 0, 0),
+            blurRadius: 8,
+            spreadRadius: 4,
+            offset: Offset(0, 0),
+          )
+        ]),
+        child: Container(
+          color: Colors.white,
+          child: Padding(
+            padding: const EdgeInsets.only(
+                bottom: 40), // iphone is overlapping with homebar
+            child: Column(
+                mainAxisSize: MainAxisSize.min,
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  Container(
+                    margin:
+                        const EdgeInsets.symmetric(horizontal: 15, vertical: 0),
+                    width: double.infinity,
+                    child: _replyingTo != null
+                        ? Row(
+                            children: [
+                              Text(LanguageBuilder.texts!['post_page']
+                                      ['reply'] +
+                                  ': @${_replyingTo}'),
+                              TextButton(
+                                onPressed: () {
+                                  setState(() {
+                                    _replyingTo = null;
+                                    _commentController.clear();
+                                  });
+                                },
+                                child: Text(LanguageBuilder.texts!['post_page']
+                                    ['cancel']),
+                              ),
+                            ],
+                          )
+                        : const SizedBox(height: 20,),
                   ),
-                ),
-                const SizedBox(width: 10),
-                Expanded(
-                  child: TextFormField(
-                    controller: _commentController,
-                    decoration: InputDecoration(
-                      hintText: LanguageBuilder.texts!['post_page']
-                          ['comment_field'],
-                      border: OutlineInputBorder(),
-                      suffixIcon: TextButton(
-                        onPressed: () {
-                          if (_replyingTo != null) {
-                            // logic ส่งความคิดเห็นโดยตอบกลับคนนั้น
-                          } else {
-                            // logic ส่งความคิดเห็นโดยไม่ตอบกลับใคร
-                          }
-                        },
-                        child: Text(LanguageBuilder.texts!['post_page']['send']),
-                      ),
+                  Container(
+                    margin: const EdgeInsets.only(left: 15, right: 15),
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Container(
+                          margin: const EdgeInsets.only(right: 8.0),
+                          child: const CircleAvatar(
+                            radius: 20,
+                            backgroundImage:
+                                AssetImage("asset/images/login/avatar_img.png"),
+                          ),
+                        ),
+                        const SizedBox(width: 10),
+                        Expanded(
+                          child: TextFormField(
+                            controller: _commentController,
+                            decoration: InputDecoration(
+                              contentPadding: const EdgeInsets.symmetric(horizontal: 10),
+                              hintText: LanguageBuilder.texts!['post_page']
+                                  ['comment_field'],
+                              border: OutlineInputBorder(),
+                              suffixIcon: TextButton(
+                                onPressed: () {
+                                  if (_replyingTo != null) {
+                                    // logic ส่งความคิดเห็นโดยตอบกลับคนนั้น
+                                  } else {
+                                    // logic ส่งความคิดเห็นโดยไม่ตอบกลับใคร
+                                  }
+                                },
+                                child: Text(LanguageBuilder.texts!['post_page']
+                                    ['send']),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
                   ),
-                ),
-              ],
-            ),
+                ]),
           ),
-        ]),
+        ),
       ),
     );
   }

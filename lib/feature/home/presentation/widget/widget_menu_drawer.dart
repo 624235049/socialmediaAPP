@@ -40,7 +40,7 @@ class MenuViewModel {
         ),
     Menu(
       title: LanguageBuilder.texts!['home_drawer']['term_page'],
-      icon: Icons.language,
+      icon: Icons.import_contacts,
       iconColor: AppTheme.buttonBackgroundColor,
       onTap: (context) {
         Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context) {
@@ -50,7 +50,7 @@ class MenuViewModel {
     ),
         Menu(
           title: LanguageBuilder.texts!['home_drawer']['language_page'],
-          icon: Icons.import_contacts,
+          icon: Icons.language,
           iconColor: AppTheme.buttonBackgroundColor,
           onTap: (context) {
             Navigator.of(context)

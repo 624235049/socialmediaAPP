@@ -79,7 +79,10 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
         backgroundColor: Colors.white,
         title: Padding(
           padding: const EdgeInsets.all(40.0),
-          child: Image.asset(logoApp),
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Image.asset(logoApp),
+          ),
         ),
         elevation: 0,
         iconTheme: const IconThemeData(color: Colors.black),
@@ -333,6 +336,13 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
                 )),
             decoration: const BoxDecoration(
               color: Colors.white,
+              boxShadow: [
+                BoxShadow(
+                  color: AppTheme.dividerPost,
+
+                  offset: Offset(0, 2)
+                )
+              ]
             ),
           ),
           ...MenuViewModel()
