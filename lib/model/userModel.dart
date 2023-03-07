@@ -1,4 +1,4 @@
-class UserModel {
+class UserModelT {
   String uid;
   String fullName;
   String nickname;
@@ -14,7 +14,7 @@ class UserModel {
 
 
 
-  UserModel({
+  UserModelT({
     required this.uid,
     required this.fullName,
     required this.nickname,

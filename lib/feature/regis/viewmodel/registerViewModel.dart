@@ -11,7 +11,7 @@ class registerViewModel {
   final _firebaseAuth = FirebaseAuth.instance;
   final _fireStore = FirebaseFirestore.instance;
   final _fireStorage = FirebaseStorage.instance;
-  late UserModel user;
+  late UserModelT user;
   late String uri;
 
   Future<void> register({
@@ -19,7 +19,7 @@ class registerViewModel {
   }) async {
       try{
         await _firebaseAuth.createUserWithEmailAndPassword(email: regisData.email, password: regisData.password).then((value) =>
-        user = UserModel(uid: value.user!.uid,
+        user = UserModelT(uid: value.user!.uid,
           expect: regisData.expect,
           phoneNumber: regisData.phoneNumber,
           email: regisData.email, nickname: regisData.nickname,
@@ -35,12 +35,9 @@ class registerViewModel {
         print(e);
       }
 
-        
-
-
   }
   Future<void> createUser({
-    required UserModel userData
+    required UserModelT userData
   }) async {
     await _fireStore.collection("user").doc(userData.uid).get().then((DocumentSnapshot documentSnapshot) {
         if(!documentSnapshot.exists){

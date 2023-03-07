@@ -391,7 +391,7 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
               children: [
                 Container(
                   width: 80,
-                  height: 80,
+                  height: 79,
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
                     border: Border.all(

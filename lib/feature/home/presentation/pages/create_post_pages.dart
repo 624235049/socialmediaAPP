@@ -17,10 +17,14 @@ class CreatePost extends StatefulWidget {
 class _CreatePostState extends State<CreatePost> {
   String _postMessage = '';
   final _formKey = GlobalKey<FormState>();
-
+  List<AssetImage> images_groups = [];
 
   File? _selectedImage;
-
+  @override
+  void initState() {
+    images_groups = widget.images.cast<AssetImage>();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
