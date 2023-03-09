@@ -95,7 +95,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
                     );
                     setState(() {
                       pickedFile =
-                      _pickedFile != null ? File(_pickedFile.path) : null;
+                          _pickedFile != null ? File(_pickedFile.path) : null;
                       _image = File(_pickedFile!.path);
                     });
 
@@ -112,10 +112,11 @@ class _RegistrationPageState extends State<RegistrationPage> {
                     );
                     setState(() {
                       pickedFile =
-                      _pickedFile != null ? File(_pickedFile.path) : null;
+                          _pickedFile != null ? File(_pickedFile.path) : null;
                       if (_pickedFile != null) {
                         _image = File(_pickedFile.path);
-                        StorageProviderRemoteDataSource.uploadFile(file: pickedFile!)
+                        StorageProviderRemoteDataSource.uploadFile(
+                                file: pickedFile!)
                             .then((value) {
                           print("$value");
                           setState(() {
@@ -130,12 +131,17 @@ class _RegistrationPageState extends State<RegistrationPage> {
                     // Do something with the image file
                   },
                 ),
-                pickedFile != null ? const SizedBox(height: 16) : const SizedBox(),
+                pickedFile != null
+                    ? const SizedBox(height: 16)
+                    : const SizedBox(),
                 pickedFile != null
                     ? GestureDetector(
                         child: const Text('ลบรูปโปรไฟล์'),
                         onTap: () async {
-                          // Do something with the image file
+                         setState(() {
+                           pickedFile = null;
+                           Navigator.pop(context);
+                         });
                         },
                       )
                     : const SizedBox(),
@@ -205,6 +211,13 @@ class _RegistrationPageState extends State<RegistrationPage> {
         content: Column(
           children: [
             TextFormFieldRegis(
+                validator: (value) {
+                  if (password.text != confirm_password.text ||
+                      password.text.isEmpty) {
+                    return 'กรุณากรอกรหัสผ่านให้ถูกต้อง';
+                  }
+                  return null; // คืนค่า null หากไม่มี error
+                },
                 textController: password,
                 labelText: LanguageBuilder.texts!['register_password']
                     ['password_field'],
@@ -215,6 +228,13 @@ class _RegistrationPageState extends State<RegistrationPage> {
               height: 20.0,
             ),
             TextFormFieldRegis(
+                validator: (value) {
+                  if (password.text != confirm_password.text ||
+                      password.text.isEmpty) {
+                    return 'กรุณากรอกรหัสผ่านให้ถูกต้อง';
+                  }
+                  return null; // คืนค่า null หากไม่มี error
+                },
                 textController: confirm_password,
                 labelText: LanguageBuilder.texts!['register_password']
                     ['re_password_field'],
@@ -281,9 +301,11 @@ class _RegistrationPageState extends State<RegistrationPage> {
                       });
                     },
                   ),
-                  Text(
-                    LanguageBuilder.texts!['register_term']['agree_text'],
-                    style: const TextStyle(fontSize: 14),
+                  Expanded(
+                    child: Text(
+                      LanguageBuilder.texts!['register_term']['agree_text'],
+                      style: const TextStyle(fontSize: 14),
+                    ),
                   ),
                 ],
               ),
@@ -449,6 +471,12 @@ class _RegistrationPageState extends State<RegistrationPage> {
     return Column(
       children: [
         TextFormFieldRegis(
+          validator: (value) {
+            if (value.toString().isEmpty) {
+              return 'กรุณากรอกชื่อ-นามสกุล';
+            }
+            return null; // คืนค่า null หากไม่มี error
+          },
           textController: nameSurname,
           labelText: LanguageBuilder.texts!['register_personal']
               ['fullname_field'],
@@ -460,6 +488,12 @@ class _RegistrationPageState extends State<RegistrationPage> {
           height: 20,
         ),
         TextFormFieldRegis(
+          validator: (value) {
+            if (value.toString().isEmpty) {
+              return 'กรุณากรอกชื่อเล่น';
+            }
+            return null; // คืนค่า null หากไม่มี error
+          },
           textController: nickName,
           labelText: LanguageBuilder.texts!['register_personal']
               ['nickname_field'],
@@ -483,6 +517,12 @@ class _RegistrationPageState extends State<RegistrationPage> {
           height: 20,
         ),
         TextFormFieldRegis(
+          validator: (value) {
+            if (value.toString().isEmpty) {
+              return 'กรุณากรอกอีเมล';
+            }
+            return null; // คืนค่า null หากไม่มี error
+          },
           textController: email,
           labelText: LanguageBuilder.texts!['register_personal']['email_field'],
           hintText: LanguageBuilder.texts!['register_personal']['email_hint'],
@@ -492,6 +532,12 @@ class _RegistrationPageState extends State<RegistrationPage> {
           height: 20,
         ),
         TextFormFieldRegis(
+          validator: (value) {
+            if (value.toString().isEmpty) {
+              return 'กรุณากรอกเบอร์โทรศัพท์';
+            }
+            return null; // คืนค่า null หากไม่มี error
+          },
           textController: phone,
           labelText: LanguageBuilder.texts!['register_personal']['phone_field'],
           hintText: LanguageBuilder.texts!['register_personal']['phone_hint'],
@@ -506,6 +552,12 @@ class _RegistrationPageState extends State<RegistrationPage> {
     return Container(
       margin: const EdgeInsets.only(left: 30, right: 30),
       child: TextFormField(
+        validator: (value) {
+          if (value.toString().isEmpty) {
+            return 'กรุณาเลือกเพศ';
+          }
+          return null; // คืนค่า null หากไม่มี error
+        },
         decoration: InputDecoration(
           labelText: LanguageBuilder.texts!['register_personal']
               ['gender_field'],
@@ -557,6 +609,12 @@ class _RegistrationPageState extends State<RegistrationPage> {
     return Container(
       margin: const EdgeInsets.only(left: 30, right: 30),
       child: TextFormField(
+        validator: (value) {
+          if (value.toString().isEmpty) {
+            return 'กรุณาเลือก ว/ด/ปี เกิด';
+          }
+          return null; // คืนค่า null หากไม่มี error
+        },
         decoration: InputDecoration(
           labelText: LanguageBuilder.texts!['register_personal']
               ['birthdate_field'],
