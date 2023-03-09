@@ -8,13 +8,14 @@ class TextFormFieldRegis extends StatelessWidget {
   final bool obscureText;
   final TextInputType keyboardType;
   final String hintText;
-
+  final String? Function(String?)? validator;
   TextFormFieldRegis({
     required this.textController,
     required this.labelText,
     this.obscureText = false,
     required this.keyboardType,
-    this.hintText = ''
+    this.hintText = '',
+    this.validator
   });
 
   @override
@@ -26,6 +27,7 @@ class TextFormFieldRegis extends StatelessWidget {
         style: const TextStyle(
           color: Colors.black,
         ),
+        validator: validator,
         controller: textController,
         obscureText: obscureText,
         keyboardType: keyboardType,
@@ -34,26 +36,7 @@ class TextFormFieldRegis extends StatelessWidget {
           hintText: hintText,
           floatingLabelBehavior: FloatingLabelBehavior.always, // set always to show label
           border: const OutlineInputBorder(),
-          // border: const OutlineInputBorder(
-          //   borderSide: BorderSide(
-          //     color: Colors.black,
-          //     width: 1.5,
-          //   ),
-          // ),
-          // focusedBorder: const OutlineInputBorder(
-          //   borderSide: BorderSide(
-          //     color: AppTheme.buttonBackgroundColor,
-          //     width: 1.5,
-          //   ),
-          // ),
-          // enabledBorder: const OutlineInputBorder(
-          //   borderSide: BorderSide(
-          //     color: AppTheme.buttonBackgroundColor,
-          //     width: 1.5,
-          //   ),
-          // ),
-          // filled: true,
-          // fillColor: Colors.transparent,
+
         ),
       ),
     );

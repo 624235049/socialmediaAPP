@@ -10,11 +10,4 @@ class RegisUseCase {
     return repository.register(user);
   }
 
-  Future<void> getCreateCurrentUser(UserEntity user) {
-    return repository.register(user);
-  }
-
-  Future<void> getCreateCurrentUserId() {
-    return repository.getCreateCurrentUserId();
-  }
 }

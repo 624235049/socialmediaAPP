@@ -4,13 +4,15 @@ import 'dart:math';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:mfecinternship/common/config/app_route.dart';
 import 'package:language_builder/language_builder.dart';
+import 'package:mfecinternship/feature/regis/cubit/credential/credential_cubit.dart';
+import 'package:mfecinternship/feature/regis/domain/entities/user_entity.dart';
 import 'package:mfecinternship/utils/theme.dart';
 
-import '../../model/registerModel.dart';
-import '../../viewmodel/registerViewModel.dart';
+import '../../data/remote_data_source/storage_provider.dart';
 import '../../widget/widget_bigtext.dart';
 import '../../widget/widget_textformfield.dart';
 
@@ -22,8 +24,6 @@ class RegistrationPage extends StatefulWidget {
 }
 
 class _RegistrationPageState extends State<RegistrationPage> {
-
-
   int _activeStepIndex = 0;
   String _selectedGender = '';
   bool _accepted = false;
@@ -39,12 +39,43 @@ class _RegistrationPageState extends State<RegistrationPage> {
   TextEditingController expect = TextEditingController();
   TextEditingController password = TextEditingController();
   TextEditingController confirm_password = TextEditingController();
-  String? imageUrl;
+  final formKey = GlobalKey<FormState>();
+  File? _image;
   File? pickedFile;
+  String? _profileUrl;
   final String _value = LanguageBuilder.texts!['register_term']['term_text'];
+
   // String _value =
   //     "ข้อ 1 คำนิยามภายในข้อกำหนดนี้(ก) แอปพลิเคชัน หมายความว่าแอปพลิเคชันชื่อว่า มะลิซ้อน TGIA x Farmfeed ซึ่งดำเนินการและให้บริการในลักษณะดังต่อไปนี้แอปพลิเคชันที่ช่วยเหลือเกษตรกรที่ประสบภัยพิบัติแต่ไม่ได้อยู่ในพื้นที่ที่ประกาศภัยพิบัติ(ข) เจ้าของแอปพลิเคชัน หมายความว่า บริษัท อินฟิวส์ จำกัด ทะเบียนนิติบุคคลเลขที่ 0105556133084 สำนักงานตั้งอยู่ที่ 41 ถนนแก้วเงินทองแขวงคลองชักพระเขตตลิ่งชันกรุงเทพมหานคร 10170(ค) ผู้ใช้งาน หมายความว่าผู้เยี่ยมชมผู้ใช้สมาชิกของแอปพลิเคชันหรือบุคคลอื่นใดที่เข้าถึงแอปพลิเคชันไม่ว่าการเยี่ยมชมการใช้การเป็นสมาชิกหรือการเข้าถึงนั้นจะกระทำด้วยวิธีใดลักษณะใดผ่านอุปกรณ์ใดผ่านช่องทางใดและไม่ว่ามีค่าใช้จ่ายหรือไม่ก็ตาม(ง) ข้อมูลส่วนบุคคล หมายความว่าข้อมูลใด ๆ ก็ตามไม่ว่าของผู้ใช้งานหรือบุคคลอื่นใดที่สามารถใช้ในการระบุตัวตนของบุคคลบุคคลนั้นได้ไม่ว่าทางตรงหรือทางอ้อม(จ) เนื้อหา หมายความว่าข้อความ บทความ ความคิดเห็น บทวิเคราะห์ รูปภาพ สัญลักษณ์ เครื่องหมาย รูปภาพประดิษฐ์ภาพถ่าย ภาพเคลื่อนไหว ภาพยนตร์ เสียง สิ่งบันทึกเสียง การออกแบบ คำสั่ง ชุดคำสั่ง หรือการสื่อสาร ไม่ว่าในลักษณะใดและวิธีใด ๆ ในแอปพลิเคชัน และไม่ว่าเนื้อหานั้นจะมีการจำกัดการเข้าถึงหรือไม่ก็ตาม";
 
+  void _submitRegister() {
+    BlocProvider.of<CredentialCubit>(context).submitSignUp(
+        user: UserEntity(
+      email: email.text,
+      password: password.text,
+      fullName: nameSurname.text,
+      nickName: nickName.text,
+      datetime: dateController.text,
+      skill: skill.text,
+      expect: expect.text,
+      gender: _selectedGender,
+      imageUrl: _profileUrl,
+      phone: phone.text,
+      position: _selectedPosition,
+      birthday: birthday.text,
+    ));
+
+    if (_image != null) {
+      StorageProviderRemoteDataSource.uploadFile(file: pickedFile!)
+          .then((value) {
+        setState(() {
+          _profileUrl = value;
+        });
+      });
+    } else {
+      toast('No image selected.');
+    }
+  }
 
   Future<void> showImagePickerDialog(BuildContext context) async {
     final picker = ImagePicker();
@@ -64,10 +95,9 @@ class _RegistrationPageState extends State<RegistrationPage> {
                     );
                     setState(() {
                       pickedFile =
-                          _pickedFile != null ? File(_pickedFile.path) : null;
-
+                      _pickedFile != null ? File(_pickedFile.path) : null;
+                      _image = File(_pickedFile!.path);
                     });
-
 
                     // Do something with the image file
                   },
@@ -82,20 +112,33 @@ class _RegistrationPageState extends State<RegistrationPage> {
                     );
                     setState(() {
                       pickedFile =
-                          _pickedFile != null ? File(_pickedFile.path) : null;
-                      print("pathimage ${pickedFile!.uri}");
+                      _pickedFile != null ? File(_pickedFile.path) : null;
+                      if (_pickedFile != null) {
+                        _image = File(_pickedFile.path);
+                        StorageProviderRemoteDataSource.uploadFile(file: pickedFile!)
+                            .then((value) {
+                          print("$value");
+                          setState(() {
+                            _profileUrl = value;
+                          });
+                        });
+                      } else {
+                        print('No image selected.');
+                      }
                     });
 
                     // Do something with the image file
                   },
                 ),
-                pickedFile != null ?  SizedBox(height: 16): const SizedBox(),
-                pickedFile != null ? GestureDetector(
-                  child: const Text('ลบรูปโปรไฟล์'),
-                  onTap: () async {
-                    // Do something with the image file
-                  },
-                ): const SizedBox() ,
+                pickedFile != null ? const SizedBox(height: 16) : const SizedBox(),
+                pickedFile != null
+                    ? GestureDetector(
+                        child: const Text('ลบรูปโปรไฟล์'),
+                        onTap: () async {
+                          // Do something with the image file
+                        },
+                      )
+                    : const SizedBox(),
               ],
             ),
           ),
@@ -566,7 +609,25 @@ class _RegistrationPageState extends State<RegistrationPage> {
             text: LanguageBuilder.texts!['register_page']['appbar_register']),
         iconTheme: const IconThemeData(color: Colors.black),
       ),
-      body: Column(
+      body: BlocConsumer<CredentialCubit, CredentialState>(
+        listener: (context, credentialState) {},
+        builder: (context, credentialState) {
+          if (credentialState is CredentialSuccess) {
+            print("register Success");
+          }
+          if (credentialState is CredentialFailure) {
+            print("register Fail");
+          }
+          return _bodyWidget();
+        },
+      ),
+    );
+  }
+
+  Widget _bodyWidget() {
+    return Form(
+      key: formKey,
+      child: Column(
         children: [
           LinearProgressIndicator(
             backgroundColor: Colors.grey[300],
@@ -651,22 +712,8 @@ class _RegistrationPageState extends State<RegistrationPage> {
                                   },
                                   child: OutlinedButton(
                                     onPressed: () async {
-                                      try {
-                                       String uri = await registerViewModel().uploadImage(image: pickedFile);
-                                       await registerViewModel().register(regisData: RegisterModel(
-                                            fullName: nameSurname.text,
-                                            nickname: nickName.text,
-                                            gender: _selectedGender.toString(),
-                                            birthDate: dateController.text,
-                                            email: email.text,
-                                            expect: expect.text,
-                                            phoneNumber: phone.text,
-                                            skills: skill.text,
-                                            positionOfInternship: _selectedPosition,
-                                            password: password.text, imageUri: uri));
-                                       Navigator.pushNamed(context, AppRoute.loginRoute);
-                                      }catch(e){
-                                        print(e);
+                                      if (formKey.currentState!.validate()) {
+                                        _submitRegister();
                                       }
                                     },
                                     child: Row(

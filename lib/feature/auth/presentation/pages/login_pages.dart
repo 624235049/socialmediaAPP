@@ -8,8 +8,7 @@ import 'package:mfecinternship/feature/auth/presentation/widget/widget_textformf
 import 'package:mfecinternship/utils/theme.dart';
 
 import '../../../../common/config/app_route.dart';
-import '../../../regis/model/registerModel.dart';
-import '../../../regis/viewmodel/registerViewModel.dart';
+
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);

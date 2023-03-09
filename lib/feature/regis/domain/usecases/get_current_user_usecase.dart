@@ -7,6 +7,6 @@ class GetCurrentUserUseCase {
   GetCurrentUserUseCase({required this.repository});
 
   Future<void> getCreateCurrentUser(UserEntity user) {
-    return repository.register(user);
+    return repository.getCreateCurrentUser(user);
   }
 }

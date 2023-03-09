@@ -11,7 +11,8 @@ import '../widget/widget_menu_drawer.dart';
 import 'comment_detail_pages.dart';
 
 class HomePage extends StatefulWidget {
-  const HomePage({Key? key}) : super(key: key);
+
+   const HomePage({Key? key}) : super(key: key);
 
   @override
   State<HomePage> createState() => _HomePageState();
