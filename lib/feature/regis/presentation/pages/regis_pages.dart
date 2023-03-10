@@ -27,7 +27,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
   int _activeStepIndex = 0;
   String _selectedGender = '';
   bool _accepted = false;
-  final String _selectedPosition = 'Mobile Developper';
+  final String _selectedPosition = '--';
   DateTime? _selectedDate = DateTime.now();
   TextEditingController dateController = TextEditingController();
   TextEditingController nameSurname = TextEditingController();
@@ -113,19 +113,6 @@ class _RegistrationPageState extends State<RegistrationPage> {
                     setState(() {
                       pickedFile =
                           _pickedFile != null ? File(_pickedFile.path) : null;
-                      if (_pickedFile != null) {
-                        _image = File(_pickedFile.path);
-                        StorageProviderRemoteDataSource.uploadFile(
-                                file: pickedFile!)
-                            .then((value) {
-                          print("$value");
-                          setState(() {
-                            _profileUrl = value;
-                          });
-                        });
-                      } else {
-                        print('No image selected.');
-                      }
                     });
 
                     // Do something with the image file
@@ -138,10 +125,10 @@ class _RegistrationPageState extends State<RegistrationPage> {
                     ? GestureDetector(
                         child: const Text('ลบรูปโปรไฟล์'),
                         onTap: () async {
-                         setState(() {
-                           pickedFile = null;
-                           Navigator.pop(context);
-                         });
+                          setState(() {
+                            pickedFile = null;
+                            Navigator.pop(context);
+                          });
                         },
                       )
                     : const SizedBox(),
@@ -412,6 +399,12 @@ class _RegistrationPageState extends State<RegistrationPage> {
           height: 20,
         ),
         TextFormFieldRegis(
+          validator: (value) {
+            if (value.toString().isEmpty) {
+              return 'กรุณากรอกทักษะ';
+            }
+            return null; // คืนค่า null หากไม่มี error
+          },
           textController: skill,
           labelText: LanguageBuilder.texts!['register_skill']['skill_field'],
           hintText: LanguageBuilder.texts!['register_skill']['skill_hint'],
@@ -423,6 +416,12 @@ class _RegistrationPageState extends State<RegistrationPage> {
         Container(
           margin: const EdgeInsets.only(left: 30, right: 30),
           child: DropdownButtonFormField(
+              validator: (value) {
+                if (value.toString() == "--") {
+                  return 'กรุณากเลือกตำแหน่ง';
+                }
+                return null; // คืนค่า null หากไม่มี error
+              },
               value: _selectedPosition,
               decoration: InputDecoration(
                 border: const OutlineInputBorder(),
@@ -433,7 +432,8 @@ class _RegistrationPageState extends State<RegistrationPage> {
                 'Mobile Developper',
                 'Fontend Developper',
                 'Backend Developper',
-                'DevOps'
+                'DevOps',
+                '--'
               ].map<DropdownMenuItem<String>>((String value) {
                 return DropdownMenuItem<String>(
                   value: value,
@@ -448,6 +448,12 @@ class _RegistrationPageState extends State<RegistrationPage> {
           height: 20,
         ),
         TextFormFieldRegis(
+          validator: (value) {
+            if (value.toString().isEmpty) {
+              return 'กรุณากกรอกสิ่งที่คาดหวัง';
+            }
+            return null; // คืนค่า null หากไม่มี error
+          },
           textController: expect,
           labelText: LanguageBuilder.texts!['register_skill']
               ['expecting_field'],
@@ -552,12 +558,12 @@ class _RegistrationPageState extends State<RegistrationPage> {
     return Container(
       margin: const EdgeInsets.only(left: 30, right: 30),
       child: TextFormField(
-        validator: (value) {
-          if (value.toString().isEmpty) {
-            return 'กรุณาเลือกเพศ';
-          }
-          return null; // คืนค่า null หากไม่มี error
-        },
+        // validator: (value) {
+        //   if (value.toString().isEmpty) {
+        //     return 'กรุณาเลือกเพศ';
+        //   }
+        //   return null; // คืนค่า null หากไม่มี error
+        // },
         decoration: InputDecoration(
           labelText: LanguageBuilder.texts!['register_personal']
               ['gender_field'],
@@ -765,8 +771,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
                           child: _activeStepIndex == 4
                               ? GestureDetector(
                                   onTap: () {
-                                    Navigator.pushNamed(
-                                        context, AppRoute.homeRoute);
+
                                   },
                                   child: OutlinedButton(
                                     onPressed: () async {

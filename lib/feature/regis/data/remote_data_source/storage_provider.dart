@@ -4,7 +4,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 class StorageProviderRemoteDataSource{
 
 
-  static FirebaseStorage _storage = FirebaseStorage.instance;
+  static final FirebaseStorage _storage = FirebaseStorage.instance;
 
   static Future<String> uploadFile({required File file}) async {
     final ref = _storage.ref().child(
