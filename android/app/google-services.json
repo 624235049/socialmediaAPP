@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "242490187003",
+    "project_id": "testflutterauth-c3b5d",
+    "storage_bucket": "testflutterauth-c3b5d.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:242490187003:android:31570f0cc21fe6b95da45e",
+        "android_client_info": {
+          "package_name": "com.example.mfecinternship"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "242490187003-ccilphfiau6oor5c7ksbe4eoi5s0cn8p.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAmWzkt6GUegXUXeFn4X91W3DLHeMclwmE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "242490187003-ccilphfiau6oor5c7ksbe4eoi5s0cn8p.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

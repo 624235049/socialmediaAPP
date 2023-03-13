@@ -1,11 +1,18 @@
+// import 'dart:html';
 import 'dart:io';
+import 'dart:math';
 
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:mfecinternship/common/config/app_route.dart';
 import 'package:language_builder/language_builder.dart';
+import 'package:mfecinternship/feature/regis/cubit/credential/credential_cubit.dart';
+import 'package:mfecinternship/feature/regis/domain/entities/user_entity.dart';
 import 'package:mfecinternship/utils/theme.dart';
 
+import '../../data/remote_data_source/storage_provider.dart';
 import '../../widget/widget_bigtext.dart';
 import '../../widget/widget_textformfield.dart';
 
@@ -20,24 +27,57 @@ class _RegistrationPageState extends State<RegistrationPage> {
   int _activeStepIndex = 0;
   String _selectedGender = '';
   bool _accepted = false;
-  final String _selectedLocation = 'Mobile Developper';
+  String? birthday;
+  final String _selectedPosition = '--';
   DateTime? _selectedDate = DateTime.now();
   TextEditingController dateController = TextEditingController();
   TextEditingController nameSurname = TextEditingController();
   TextEditingController nickName = TextEditingController();
-  TextEditingController birthday = TextEditingController();
+
   TextEditingController email = TextEditingController();
   TextEditingController phone = TextEditingController();
   TextEditingController skill = TextEditingController();
   TextEditingController expect = TextEditingController();
   TextEditingController password = TextEditingController();
   TextEditingController confirm_password = TextEditingController();
-  String? imageUrl;
+  final formKey = GlobalKey<FormState>();
+  File? _image;
   File? pickedFile;
+  String? _profileUrl;
   final String _value = LanguageBuilder.texts!['register_term']['term_text'];
 
   // String _value =
   //     "ข้อ 1 คำนิยามภายในข้อกำหนดนี้(ก) แอปพลิเคชัน หมายความว่าแอปพลิเคชันชื่อว่า มะลิซ้อน TGIA x Farmfeed ซึ่งดำเนินการและให้บริการในลักษณะดังต่อไปนี้แอปพลิเคชันที่ช่วยเหลือเกษตรกรที่ประสบภัยพิบัติแต่ไม่ได้อยู่ในพื้นที่ที่ประกาศภัยพิบัติ(ข) เจ้าของแอปพลิเคชัน หมายความว่า บริษัท อินฟิวส์ จำกัด ทะเบียนนิติบุคคลเลขที่ 0105556133084 สำนักงานตั้งอยู่ที่ 41 ถนนแก้วเงินทองแขวงคลองชักพระเขตตลิ่งชันกรุงเทพมหานคร 10170(ค) ผู้ใช้งาน หมายความว่าผู้เยี่ยมชมผู้ใช้สมาชิกของแอปพลิเคชันหรือบุคคลอื่นใดที่เข้าถึงแอปพลิเคชันไม่ว่าการเยี่ยมชมการใช้การเป็นสมาชิกหรือการเข้าถึงนั้นจะกระทำด้วยวิธีใดลักษณะใดผ่านอุปกรณ์ใดผ่านช่องทางใดและไม่ว่ามีค่าใช้จ่ายหรือไม่ก็ตาม(ง) ข้อมูลส่วนบุคคล หมายความว่าข้อมูลใด ๆ ก็ตามไม่ว่าของผู้ใช้งานหรือบุคคลอื่นใดที่สามารถใช้ในการระบุตัวตนของบุคคลบุคคลนั้นได้ไม่ว่าทางตรงหรือทางอ้อม(จ) เนื้อหา หมายความว่าข้อความ บทความ ความคิดเห็น บทวิเคราะห์ รูปภาพ สัญลักษณ์ เครื่องหมาย รูปภาพประดิษฐ์ภาพถ่าย ภาพเคลื่อนไหว ภาพยนตร์ เสียง สิ่งบันทึกเสียง การออกแบบ คำสั่ง ชุดคำสั่ง หรือการสื่อสาร ไม่ว่าในลักษณะใดและวิธีใด ๆ ในแอปพลิเคชัน และไม่ว่าเนื้อหานั้นจะมีการจำกัดการเข้าถึงหรือไม่ก็ตาม";
+
+  void _submitRegister() {
+    BlocProvider.of<CredentialCubit>(context).submitSignUp(
+        user: UserEntity(
+      email: email.text,
+      password: password.text,
+      fullName: nameSurname.text,
+      nickName: nickName.text,
+      datetime: dateController.text,
+      skill: skill.text,
+      expect: expect.text,
+      gender: _selectedGender,
+      imageUrl: _profileUrl,
+      phone: phone.text,
+      position: _selectedPosition,
+      birthday: birthday,
+    ));
+
+    if (pickedFile != null) {
+      StorageProviderRemoteDataSource.uploadFile(file: pickedFile!)
+          .then((value) {
+        setState(() {
+           _profileUrl = value.toString();
+           print("pathimage ===> ${_image!.path}");
+        });
+      });
+    } else {
+      toast('No image selected.');
+    }
+  }
 
   Future<void> showImagePickerDialog(BuildContext context) async {
     final picker = ImagePicker();
@@ -56,7 +96,10 @@ class _RegistrationPageState extends State<RegistrationPage> {
                       source: ImageSource.camera,
                     );
                     setState(() {
-                      pickedFile = _pickedFile != null ? File(_pickedFile.path) : null;
+                      pickedFile =
+                          _pickedFile != null ? File(_pickedFile.path) : null;
+                      _image = File(_pickedFile!.path);
+
                     });
 
                     // Do something with the image file
@@ -71,12 +114,28 @@ class _RegistrationPageState extends State<RegistrationPage> {
                       source: ImageSource.gallery,
                     );
                     setState(() {
-                      pickedFile = _pickedFile != null ? File(_pickedFile.path) : null;
+                      pickedFile =
+                      _pickedFile != null ? File(_pickedFile.path) : null;
+                      _image = File(_pickedFile!.path);
                     });
 
                     // Do something with the image file
                   },
                 ),
+                pickedFile != null
+                    ? const SizedBox(height: 16)
+                    : const SizedBox(),
+                pickedFile != null
+                    ? GestureDetector(
+                        child: const Text('ลบรูปโปรไฟล์'),
+                        onTap: () async {
+                          setState(() {
+                            pickedFile = null;
+                            Navigator.pop(context);
+                          });
+                        },
+                      )
+                    : const SizedBox(),
               ],
             ),
           ),
@@ -90,7 +149,6 @@ class _RegistrationPageState extends State<RegistrationPage> {
     dateController.dispose();
     nameSurname.dispose();
     nickName.dispose();
-    birthday.dispose();
     email.dispose();
     phone.dispose();
     skill.dispose();
@@ -143,27 +201,39 @@ class _RegistrationPageState extends State<RegistrationPage> {
         content: Column(
           children: [
             TextFormFieldRegis(
+                validator: (value) {
+                  if (password.text != confirm_password.text ||
+                      password.text.isEmpty) {
+                    return 'กรุณากรอกรหัสผ่านให้ถูกต้อง';
+                  }
+                  return null; // คืนค่า null หากไม่มี error
+                },
                 textController: password,
                 labelText: LanguageBuilder.texts!['register_password']
                     ['password_field'],
                 hintText: LanguageBuilder.texts!['register_password']
                     ['password_field_hint'],
-                helperText: LanguageBuilder.texts!['register_password']
-                    ['password_require_text'],
                 keyboardType: TextInputType.visiblePassword),
             const SizedBox(
-              height: 40.0,
+              height: 20.0,
             ),
             TextFormFieldRegis(
+                validator: (value) {
+                  if (password.text != confirm_password.text ||
+                      password.text.isEmpty) {
+                    return 'กรุณากรอกรหัสผ่านให้ถูกต้อง';
+                  }
+                  return null; // คืนค่า null หากไม่มี error
+                },
                 textController: confirm_password,
                 labelText: LanguageBuilder.texts!['register_password']
                     ['re_password_field'],
                 hintText: LanguageBuilder.texts!['register_password']
                     ['re_password_field_hint'],
                 keyboardType: TextInputType.visiblePassword),
-            // SizedBox(
-            //   height: MediaQuery.of(context).size.height / 2,
-            // ),
+            SizedBox(
+              height: MediaQuery.of(context).size.height / 2,
+            ),
           ],
         ),
         isActive: _activeStepIndex == 3,
@@ -183,7 +253,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
               ),
               child: Text(
                 LanguageBuilder.texts!['register_term']['term_head'],
-                style: AppTheme.h5StyleBC(Colors.black),
+                style: AppTheme.h5Style,
               ),
             ),
             const SizedBox(
@@ -206,7 +276,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
               height: 10.0,
             ),
             Container(
-              padding: const EdgeInsets.all(12),
+              padding: const EdgeInsets.all(2),
               decoration: BoxDecoration(
                 color: Colors.grey[200],
                 borderRadius: BorderRadius.circular(8),
@@ -221,10 +291,9 @@ class _RegistrationPageState extends State<RegistrationPage> {
                       });
                     },
                   ),
-                  Flexible(
+                  Expanded(
                     child: Text(
                       LanguageBuilder.texts!['register_term']['agree_text'],
-                      maxLines: 3,
                       style: const TextStyle(fontSize: 14),
                     ),
                   ),
@@ -262,8 +331,8 @@ class _RegistrationPageState extends State<RegistrationPage> {
                     ? ClipOval(
                         child: Image.file(
                           pickedFile!,
-                          width: 250.0,
-                          height: 250.0,
+                          width: 318.0,
+                          height: 318.0,
                           fit: BoxFit.cover,
                         ),
                       )
@@ -305,7 +374,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
           ),
         ),
         Container(
-          margin: const EdgeInsets.only(top: 20.0),
+          margin: EdgeInsets.only(top: 20.0),
           height: 50,
           width: MediaQuery.of(context).size.width,
           child: Center(
@@ -314,9 +383,9 @@ class _RegistrationPageState extends State<RegistrationPage> {
             style: AppTheme.h2Style,
           )),
         ),
-        // SizedBox(
-        //   height: MediaQuery.of(context).size.height / 6,
-        // ),
+        SizedBox(
+          height: MediaQuery.of(context).size.height / 5,
+        ),
       ],
     );
   }
@@ -329,46 +398,73 @@ class _RegistrationPageState extends State<RegistrationPage> {
   Column skillContent() {
     return Column(
       children: [
+        const SizedBox(
+          height: 20,
+        ),
         TextFormFieldRegis(
+          validator: (value) {
+            if (value.toString().isEmpty) {
+              return 'กรุณากรอกทักษะ';
+            }
+            return null; // คืนค่า null หากไม่มี error
+          },
           textController: skill,
           labelText: LanguageBuilder.texts!['register_skill']['skill_field'],
           hintText: LanguageBuilder.texts!['register_skill']['skill_hint'],
           keyboardType: TextInputType.text,
-          maxLength: 140,
         ),
         const SizedBox(
           height: 20,
         ),
-        DropdownButtonFormField(
-            value: _selectedLocation,
-            decoration: InputDecoration(
-              border: const OutlineInputBorder(),
-              labelText: LanguageBuilder.texts!['register_skill']
-                  ['position_field'],
-            ),
-            items: <String>[
-              'Mobile Developper',
-              'Fontend Developper',
-              'Backend Developper',
-              'DevOps'
-            ].map<DropdownMenuItem<String>>((String value) {
-              return DropdownMenuItem<String>(
-                value: value,
-                child: Text(value),
-              );
-            }).toList(),
-            onChanged: (value) {
-              setState(() {});
-            }),
+        Container(
+          margin: const EdgeInsets.only(left: 30, right: 30),
+          child: DropdownButtonFormField(
+              validator: (value) {
+                if (value.toString() == "--") {
+                  return 'กรุณากเลือกตำแหน่ง';
+                }
+                return null; // คืนค่า null หากไม่มี error
+              },
+              value: _selectedPosition,
+              decoration: InputDecoration(
+                border: const OutlineInputBorder(),
+                labelText: LanguageBuilder.texts!['register_skill']
+                    ['position_field'],
+              ),
+              items: <String>[
+                'Mobile Developper',
+                'Fontend Developper',
+                'Backend Developper',
+                'DevOps',
+                '--'
+              ].map<DropdownMenuItem<String>>((String value) {
+                return DropdownMenuItem<String>(
+                  value: value,
+                  child: Text(value),
+                );
+              }).toList(),
+              onChanged: (value) {
+                setState(() {});
+              }),
+        ),
         const SizedBox(
           height: 20,
         ),
         TextFormFieldRegis(
+          validator: (value) {
+            if (value.toString().isEmpty) {
+              return 'กรุณากกรอกสิ่งที่คาดหวัง';
+            }
+            return null; // คืนค่า null หากไม่มี error
+          },
           textController: expect,
           labelText: LanguageBuilder.texts!['register_skill']
               ['expecting_field'],
           hintText: LanguageBuilder.texts!['register_skill']['expecting_hint'],
           keyboardType: TextInputType.text,
+        ),
+        const SizedBox(
+          height: 200,
         ),
       ],
     );
@@ -384,6 +480,12 @@ class _RegistrationPageState extends State<RegistrationPage> {
     return Column(
       children: [
         TextFormFieldRegis(
+          validator: (value) {
+            if (value.toString().isEmpty) {
+              return 'กรุณากรอกชื่อ-นามสกุล';
+            }
+            return null; // คืนค่า null หากไม่มี error
+          },
           textController: nameSurname,
           labelText: LanguageBuilder.texts!['register_personal']
               ['fullname_field'],
@@ -395,6 +497,12 @@ class _RegistrationPageState extends State<RegistrationPage> {
           height: 20,
         ),
         TextFormFieldRegis(
+          validator: (value) {
+            if (value.toString().isEmpty) {
+              return 'กรุณากรอกชื่อเล่น';
+            }
+            return null; // คืนค่า null หากไม่มี error
+          },
           textController: nickName,
           labelText: LanguageBuilder.texts!['register_personal']
               ['nickname_field'],
@@ -418,6 +526,12 @@ class _RegistrationPageState extends State<RegistrationPage> {
           height: 20,
         ),
         TextFormFieldRegis(
+          validator: (value) {
+            if (value.toString().isEmpty) {
+              return 'กรุณากรอกอีเมล';
+            }
+            return null; // คืนค่า null หากไม่มี error
+          },
           textController: email,
           labelText: LanguageBuilder.texts!['register_personal']['email_field'],
           hintText: LanguageBuilder.texts!['register_personal']['email_hint'],
@@ -427,6 +541,12 @@ class _RegistrationPageState extends State<RegistrationPage> {
           height: 20,
         ),
         TextFormFieldRegis(
+          validator: (value) {
+            if (value.toString().isEmpty) {
+              return 'กรุณากรอกเบอร์โทรศัพท์';
+            }
+            return null; // คืนค่า null หากไม่มี error
+          },
           textController: phone,
           labelText: LanguageBuilder.texts!['register_personal']['phone_field'],
           hintText: LanguageBuilder.texts!['register_personal']['phone_hint'],
@@ -438,45 +558,56 @@ class _RegistrationPageState extends State<RegistrationPage> {
 
   //Gender Widget
   Widget selectedGender() {
-    return TextFormField(
-      decoration: InputDecoration(
-        labelText: LanguageBuilder.texts!['register_personal']['gender_field'],
-        floatingLabelBehavior: FloatingLabelBehavior.always,
-        border: const OutlineInputBorder(),
-        suffixIcon: Row(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            Radio(
-              value: 'ชาย',
-              groupValue: _selectedGender,
-              onChanged: (value) {
-                setState(() {
-                  _selectedGender = value.toString();
-                });
-              },
-            ),
-            Text(LanguageBuilder.texts!['register_personal']['gender_male']),
-            Radio(
-              value: 'หญิง',
-              groupValue: _selectedGender,
-              onChanged: (value) {
-                setState(() {
-                  _selectedGender = value.toString();
-                });
-              },
-            ),
-            Text(LanguageBuilder.texts!['register_personal']['gender_female']),
-            Radio(
-              value: 'อื่นๆ',
-              groupValue: _selectedGender,
-              onChanged: (value) {
-                setState(() {
-                  _selectedGender = value.toString();
-                });
-              },
-            ),
-            Text(LanguageBuilder.texts!['register_personal']['gender_other']),
-          ],
+    return Container(
+      margin: const EdgeInsets.only(left: 30, right: 30),
+      child: TextFormField(
+        // validator: (value) {
+        //   if (value.toString().isEmpty) {
+        //     return 'กรุณาเลือกเพศ';
+        //   }
+        //   return null; // คืนค่า null หากไม่มี error
+        // },
+        decoration: InputDecoration(
+          labelText: LanguageBuilder.texts!['register_personal']
+              ['gender_field'],
+          floatingLabelBehavior: FloatingLabelBehavior.always,
+          border: const OutlineInputBorder(),
+          suffixIcon: Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              Radio(
+                value: 'ชาย',
+                groupValue: _selectedGender,
+                onChanged: (value) {
+                  setState(() {
+                    _selectedGender = value.toString();
+                  });
+                },
+              ),
+              Text(LanguageBuilder.texts!['register_personal']['gender_male']),
+              Radio(
+                value: 'หญิง',
+                groupValue: _selectedGender,
+                onChanged: (value) {
+                  setState(() {
+                    _selectedGender = value.toString();
+                  });
+                },
+              ),
+              Text(
+                  LanguageBuilder.texts!['register_personal']['gender_female']),
+              Radio(
+                value: 'อื่นๆ',
+                groupValue: _selectedGender,
+                onChanged: (value) {
+                  setState(() {
+                    _selectedGender = value.toString();
+                  });
+                },
+              ),
+              Text(LanguageBuilder.texts!['register_personal']['gender_other']),
+            ],
+          ),
         ),
       ),
     );
@@ -484,23 +615,33 @@ class _RegistrationPageState extends State<RegistrationPage> {
 
   //Calender Widget
   Widget birthDayFormField() {
-    return TextFormField(
-      decoration: InputDecoration(
-        labelText: LanguageBuilder.texts!['register_personal']
-            ['birthdate_field'],
-        hintText: LanguageBuilder.texts!['register_personal']['birthdate_hint'],
-        floatingLabelBehavior: FloatingLabelBehavior.always,
-        border: const OutlineInputBorder(),
-        suffixIcon: IconButton(
-          icon: const Icon(Icons.calendar_today,
-              color: AppTheme.buttonBackgroundColor),
-          onPressed: () {
-            selectDate(context);
-          },
+    return Container(
+      margin: const EdgeInsets.only(left: 30, right: 30),
+      child: TextFormField(
+        validator: (value) {
+          if (value.toString().isEmpty) {
+            return 'กรุณาเลือก ว/ด/ปี เกิด';
+          }
+          return null; // คืนค่า null หากไม่มี error
+        },
+        decoration: InputDecoration(
+          labelText: LanguageBuilder.texts!['register_personal']
+              ['birthdate_field'],
+          hintText: LanguageBuilder.texts!['register_personal']
+              ['birthdate_hint'],
+          floatingLabelBehavior: FloatingLabelBehavior.always,
+          border: const OutlineInputBorder(),
+          suffixIcon: IconButton(
+            icon: const Icon(Icons.calendar_today,
+                color: AppTheme.buttonBackgroundColor),
+            onPressed: () {
+              selectDate(context);
+            },
+          ),
         ),
+        controller: dateController,
+        readOnly: true,
       ),
-      controller: dateController,
-      readOnly: true,
     );
   }
 
@@ -516,7 +657,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
     if (picked != null && picked != _selectedDate) {
       setState(() {
         _selectedDate = picked;
-        dateController.text =
+        birthday =
             '${_selectedDate!.year}-${_selectedDate!.month}-${_selectedDate!.day}';
       });
     }
@@ -535,11 +676,28 @@ class _RegistrationPageState extends State<RegistrationPage> {
             text: LanguageBuilder.texts!['register_page']['appbar_register']),
         iconTheme: const IconThemeData(color: Colors.black),
       ),
-      body: Column(
+      body: BlocConsumer<CredentialCubit, CredentialState>(
+        listener: (context, credentialState) {},
+        builder: (context, credentialState) {
+          if (credentialState is CredentialSuccess) {
+            print("register Success");
+          }
+          if (credentialState is CredentialFailure) {
+            print("register Fail");
+          }
+          return _bodyWidget();
+        },
+      ),
+    );
+  }
+
+  Widget _bodyWidget() {
+    return Form(
+      key: formKey,
+      child: Column(
         children: [
           LinearProgressIndicator(
-            color: const Color.fromRGBO(153, 204, 255, 1),
-            backgroundColor: Colors.white,
+            backgroundColor: Colors.grey[300],
             value: (_activeStepIndex + 1) / stepList().length,
           ),
           Expanded(
@@ -552,7 +710,6 @@ class _RegistrationPageState extends State<RegistrationPage> {
               ),
               child: Stepper(
                 type: StepperType.horizontal,
-                elevation: 0,
                 currentStep: _activeStepIndex,
                 onStepTapped: (index) {
                   setState(() {
@@ -587,75 +744,48 @@ class _RegistrationPageState extends State<RegistrationPage> {
                             .black, // กำหนดสีไอคอนเมื่อไม่ได้เลือก (inactive)
                       ),
                     ),
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(vertical: 20),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Visibility(
-                            visible: _activeStepIndex > 0,
-                            child: OutlinedButton(
-                              onPressed: controlsDetails.onStepCancel,
-                              child: Row(
-                                children: [
-                                  const Icon(Icons.arrow_back),
-                                  Text(LanguageBuilder.texts!['register_page']
-                                      ['back_page']),
-                                ],
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Visibility(
+                          visible: _activeStepIndex > 0,
+                          child: OutlinedButton(
+                            onPressed: controlsDetails.onStepCancel,
+                            child: Row(
+                              children: [
+                                const Icon(Icons.arrow_back),
+                                Text(LanguageBuilder.texts!['register_page']
+                                    ['back_page']),
+                              ],
+                            ),
+                            style: OutlinedButton.styleFrom(
+                              backgroundColor: Colors.transparent,
+                              primary: AppTheme.buttonBackgroundColor,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(16.0),
                               ),
-                              style: OutlinedButton.styleFrom(
-                                backgroundColor: Colors.transparent,
-                                primary: AppTheme.buttonBackgroundColor,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(16.0),
-                                ),
-                                side: const BorderSide(
-                                    color: AppTheme.buttonBackgroundColor),
-                              ),
+                              side: const BorderSide(
+                                  color: AppTheme.buttonBackgroundColor),
                             ),
                           ),
-                          Visibility(
-                            visible: _activeStepIndex < stepList().length,
-                            child: _activeStepIndex == 4
-                                ? GestureDetector(
-                                    onTap: () {},
-                                    child: OutlinedButton(
-                                      onPressed: controlsDetails.onStepContinue,
-                                      child: Row(
-                                        children: [
-                                          Text(
-                                            LanguageBuilder
-                                                    .texts!['register_page']
-                                                ['confirm_button'],
-                                            style: const TextStyle(
-                                                color: Colors.white),
-                                          ),
-                                        ],
-                                      ),
-                                      style: OutlinedButton.styleFrom(
-                                        backgroundColor:
-                                            AppTheme.buttonBackgroundColor,
-                                        shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(16.0),
-                                        ),
-                                      ),
-                                    ),
-                                  )
-                                : OutlinedButton(
-                                    onPressed: controlsDetails.onStepContinue,
+                        ),
+                        Visibility(
+                          visible: _activeStepIndex < stepList().length,
+                          child: _activeStepIndex == 4
+                              ?  OutlinedButton(
+                                    onPressed: () async {
+                                      if (formKey.currentState!.validate()) {
+                                        _submitRegister();
+                                      }
+                                    },
                                     child: Row(
                                       children: [
                                         Text(
                                           LanguageBuilder
                                                   .texts!['register_page']
-                                              ['next_page'],
+                                              ['confirm_button'],
                                           style: const TextStyle(
                                               color: Colors.white),
-                                        ),
-                                        const Icon(
-                                          Icons.arrow_forward,
-                                          color: Colors.white,
                                         ),
                                       ],
                                     ),
@@ -667,10 +797,34 @@ class _RegistrationPageState extends State<RegistrationPage> {
                                             BorderRadius.circular(16.0),
                                       ),
                                     ),
+                                  )
+
+                              : OutlinedButton(
+                                  onPressed: controlsDetails.onStepContinue,
+                                  child: Row(
+                                    children: [
+                                      Text(
+                                        LanguageBuilder.texts!['register_page']
+                                            ['next_page'],
+                                        style: const TextStyle(
+                                            color: Colors.white),
+                                      ),
+                                      const Icon(
+                                        Icons.arrow_forward,
+                                        color: Colors.white,
+                                      ),
+                                    ],
                                   ),
-                          ),
-                        ],
-                      ),
+                                  style: OutlinedButton.styleFrom(
+                                    backgroundColor:
+                                        AppTheme.buttonBackgroundColor,
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(16.0),
+                                    ),
+                                  ),
+                                ),
+                        ),
+                      ],
                     ),
                   );
                 },

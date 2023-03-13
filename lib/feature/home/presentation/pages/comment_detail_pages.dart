@@ -111,13 +111,6 @@ class _CommentDetailState extends State<CommentDetail> {
       comment: 'Thanks for sharing!',
       replies: [],
     ),
-    Comment(
-        id: 5,
-        avatarImageUrl: 'https://example.com/avatar3.jpg',
-        name: 'Prayut Chanocha',
-        time: DateTime.now().millisecondsSinceEpoch.toString(),
-        comment: 'Thanks for sharing!',
-        replies: []),
   ];
 
   @override

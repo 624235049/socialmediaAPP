@@ -1,15 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:language_builder/language_builder.dart';
 import 'package:mfecinternship/common/function/time_converting.dart';
+
 import 'package:mfecinternship/utils/theme.dart';
 
 import '../../../../common/config/app_route.dart';
 import '../../../../model/data_model.dart';
+import '../widget/widget_exandable.dart';
 import '../widget/widget_menu_drawer.dart';
 import 'comment_detail_pages.dart';
 
 class HomePage extends StatefulWidget {
-  const HomePage({Key? key}) : super(key: key);
+  final String uid;
+   const HomePage({Key? key, required this.uid}) : super(key: key);
 
   @override
   State<HomePage> createState() => _HomePageState();
@@ -17,6 +20,14 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
   final String logoApp = "asset/images/home/logo_appbar.png";
+
+
+
+  @override
+  void initState() {
+   print("uid ==> ${widget.uid}");
+    super.initState();
+  }
   final List<Data> dataList = [
     Data(
         imageUrl:
@@ -59,7 +70,7 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
         name: "แคชชี่",
         time: "2022-07-12 00:00:00.000", //2565 07 10 - 2022 07 12
         post:
-            "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+            "Duis auteiruredolorin reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
         image: 'https://i.ytimg.com/vi/Q-qAQzexStc/maxresdefault.jpg'),
   ];
   final List<bool> _liked = [false, false, false];
@@ -101,7 +112,7 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
                 ),
                 TextButton(
                   onPressed: () {
-                    Navigator.pushNamed(context, AppRoute.fullfriendlist);
+                    Navigator.pushNamed(context, AppRoute.friendlist);
                   },
                   child: Text(LanguageBuilder.texts!['home_page']['friend_all'],
                       style: AppTheme.h5Style),
@@ -373,7 +384,12 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
               style: AppTheme.h5Style,
             ),
             onTap: () async {
-              Navigator.pushNamed(context, AppRoute.loginRoute);
+              var firebaseauth = FirebaseAuth.instance;
+              print(firebaseauth.currentUser!.uid);
+              await firebaseauth.signOut().then(
+                    (value) =>
+                        Navigator.pushNamed(context, AppRoute.loginRoute),
+                  );
             },
           ),
         ],
@@ -393,7 +409,7 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
               children: [
                 Container(
                   width: 80,
-                  height: 80,
+                  height: 79,
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
                     border: Border.all(

@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:language_builder/language_builder.dart';
 
+import 'package:mfecinternship/feature/auth/cubit/credential/credential_auth_cubit.dart';
 import 'package:mfecinternship/feature/auth/presentation/widget/widget_textformfield.dart';
 import 'package:mfecinternship/utils/theme.dart';
-
 import '../../../../common/config/app_route.dart';
+import '../../../../common/function/common.dart';
+import '../../cubit/auth/auth_cubit.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -14,32 +17,65 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+  TextEditingController emailController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
+  final GlobalKey<ScaffoldState> _scaffoldState = GlobalKey<ScaffoldState>();
+
+  @override
+  void dispose() {
+    emailController.dispose();
+    passwordController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Stack(
-        children: [
-          backGroundLogin(),
-          SingleChildScrollView(
-            child: Column(
-              children: [
-                const SizedBox(height: 60),
-                logoApp(),
-                const SizedBox(height: 25),
-                emailForm(),
-                const SizedBox(height: 25),
-                passwordForm(),
-                const SizedBox(height: 20),
-                loginButton(),
-                const SizedBox(height: 20),
-                forgotPassword(),
-                const SizedBox(height: 20),
-                regisButton(),
-              ],
-            ),
-          )
-        ],
+      body: BlocConsumer<CredentialAuthCubit, CredentialAuthState>(
+        listener: (context, credentialAuthState) {
+          if (credentialAuthState is CredentialAuthSuccess) {
+            BlocProvider.of<AuthCubit>(context).loggedIn();
+          }
+          if (credentialAuthState is CredentialAuthFailure) {
+            snackBarNetwork(
+                msg: "wrong email please check", scaffoldState: _scaffoldState);
+          }
+        },
+        builder: (context, credentialAuthState) {
+          if (credentialAuthState is CredentialAuthLoading) {
+            return Scaffold(
+              body: loadingIndicatorProgressBar(),
+            );
+          }
+          return _bodyWidget();
+        },
       ),
+    );
+  }
+
+  Widget _bodyWidget() {
+    return Stack(
+      children: [
+        backGroundLogin(),
+        SingleChildScrollView(
+          child: Column(
+            children: [
+              const SizedBox(height: 60),
+              logoApp(),
+              const SizedBox(height: 25),
+              emailForm(),
+              const SizedBox(height: 25),
+              passwordForm(),
+              const SizedBox(height: 20),
+              loginButton(),
+              const SizedBox(height: 20),
+              forgotPassword(),
+              const SizedBox(height: 20),
+              regisButton(),
+            ],
+          ),
+        )
+      ],
     );
   }
 
@@ -114,8 +150,8 @@ class _LoginPageState extends State<LoginPage> {
     return Container(
       margin: const EdgeInsets.only(left: 50, right: 50),
       child: ElevatedButton(
-        onPressed: () {
-          // Perform login action here
+        onPressed: () async {
+          _submitLogin();
         },
         style: ElevatedButton.styleFrom(
           primary: AppTheme.buttonBackgroundColor,
@@ -126,16 +162,15 @@ class _LoginPageState extends State<LoginPage> {
           minimumSize: const Size(180, 45),
         ),
         child: Container(
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(20),
-          ),
-          child:  Center(
-            child: Text(
-              LanguageBuilder.texts!['login']['login_button'],
-              style: TextStyle(fontSize: 16,fontWeight: FontWeight.bold),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(20),
             ),
-          ),
-        ),
+            child: Center(
+              child: Text(
+                LanguageBuilder.texts!['login']['login_button'],
+                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+              ),
+            )),
       ),
     );
   }
@@ -144,6 +179,7 @@ class _LoginPageState extends State<LoginPage> {
     return CustomTextFormField(
       labelText: LanguageBuilder.texts!['login']['password_field'],
       keyboardType: TextInputType.visiblePassword,
+      controller: passwordController,
     );
   }
 
@@ -151,6 +187,7 @@ class _LoginPageState extends State<LoginPage> {
     return CustomTextFormField(
       labelText: LanguageBuilder.texts!['login']['email_field'],
       keyboardType: TextInputType.emailAddress,
+      controller: emailController,
     );
   }
 
@@ -174,6 +211,21 @@ class _LoginPageState extends State<LoginPage> {
           fit: BoxFit.cover,
         ),
       ),
+    );
+  }
+
+  void _submitLogin() {
+    if (emailController.text.isEmpty) {
+      toast('enter your email');
+      return;
+    }
+    if (passwordController.text.isEmpty) {
+      toast('enter your password');
+      return;
+    }
+    BlocProvider.of<CredentialAuthCubit>(context).loginSubmit(
+      email: emailController.text,
+      password: passwordController.text,
     );
   }
 }

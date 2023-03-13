@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class AppTheme {
   const AppTheme();
@@ -36,4 +37,38 @@ class AppTheme {
   static double fullHeight(BuildContext context) {
     return MediaQuery.of(context).size.height;
   }
+
+
+  Widget loadingIndicatorProgressBar({String? data}) {
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          CircularProgressIndicator(
+            backgroundColor: Colors.orange,
+          ),
+          SizedBox(
+            height: 10,
+          ),
+          Text(
+            data==null?"Setting up your account please wait..":data,
+            style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+          )
+        ],
+      ),
+    );
+  }
+}
+
+
+void toast(String message) {
+  Fluttertoast.showToast(
+      msg: message,
+      toastLength: Toast.LENGTH_SHORT,
+      gravity: ToastGravity.BOTTOM,
+      timeInSecForIosWeb: 1,
+      backgroundColor: Colors.red,
+      textColor: Colors.white,
+      fontSize: 16.0);
 }

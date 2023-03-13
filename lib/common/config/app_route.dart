@@ -14,15 +14,15 @@ class AppRoute {
   static const loginRoute = "Login";
   static const commentDetail = "CommentDetail";
   static const createPost = "CreatePost";
-  static const fullfriendlist =  "FullFriendList";
+  static const friendlist =  "FriendList";
 
 
   final _route = <String, WidgetBuilder>{
-    homeRoute: (context) => HomePage(),
+    homeRoute: (context) => HomePage(uid: '',),
     registerRoute: (context) => RegistrationPage(),
     loginRoute: (context) => const LoginPage(),
     createPost: (context) =>  const CreatePost(images: [],),
-    fullfriendlist: (context) =>  const FullFriendList(),
+    friendlist: (context) =>   FriendList(),
   };
 
   get getAll => _route;

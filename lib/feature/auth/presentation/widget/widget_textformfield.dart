@@ -5,11 +5,14 @@ class CustomTextFormField extends StatelessWidget {
   final String labelText;
   final bool obscureText;
   final TextInputType keyboardType;
+  final TextEditingController controller;
+
 
   CustomTextFormField({
     required this.labelText,
     this.obscureText = false,
     required this.keyboardType,
+    required this.controller
   });
 
   @override
@@ -18,6 +21,7 @@ class CustomTextFormField extends StatelessWidget {
       margin: const EdgeInsets.only(
           left: 50, right: 50),
       child: TextFormField(
+        controller: controller,
         style: const TextStyle(
           color: Colors.white,
         ),
