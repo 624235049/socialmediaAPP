@@ -27,12 +27,13 @@ class _RegistrationPageState extends State<RegistrationPage> {
   int _activeStepIndex = 0;
   String _selectedGender = '';
   bool _accepted = false;
+  String? birthday;
   final String _selectedPosition = '--';
   DateTime? _selectedDate = DateTime.now();
   TextEditingController dateController = TextEditingController();
   TextEditingController nameSurname = TextEditingController();
   TextEditingController nickName = TextEditingController();
-  TextEditingController birthday = TextEditingController();
+
   TextEditingController email = TextEditingController();
   TextEditingController phone = TextEditingController();
   TextEditingController skill = TextEditingController();
@@ -62,14 +63,15 @@ class _RegistrationPageState extends State<RegistrationPage> {
       imageUrl: _profileUrl,
       phone: phone.text,
       position: _selectedPosition,
-      birthday: birthday.text,
+      birthday: birthday,
     ));
 
-    if (_image != null) {
+    if (pickedFile != null) {
       StorageProviderRemoteDataSource.uploadFile(file: pickedFile!)
           .then((value) {
         setState(() {
-          _profileUrl = value;
+           _profileUrl = value.toString();
+           print("pathimage ===> ${_image!.path}");
         });
       });
     } else {
@@ -97,6 +99,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
                       pickedFile =
                           _pickedFile != null ? File(_pickedFile.path) : null;
                       _image = File(_pickedFile!.path);
+
                     });
 
                     // Do something with the image file
@@ -112,7 +115,8 @@ class _RegistrationPageState extends State<RegistrationPage> {
                     );
                     setState(() {
                       pickedFile =
-                          _pickedFile != null ? File(_pickedFile.path) : null;
+                      _pickedFile != null ? File(_pickedFile.path) : null;
+                      _image = File(_pickedFile!.path);
                     });
 
                     // Do something with the image file
@@ -145,7 +149,6 @@ class _RegistrationPageState extends State<RegistrationPage> {
     dateController.dispose();
     nameSurname.dispose();
     nickName.dispose();
-    birthday.dispose();
     email.dispose();
     phone.dispose();
     skill.dispose();
@@ -654,7 +657,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
     if (picked != null && picked != _selectedDate) {
       setState(() {
         _selectedDate = picked;
-        dateController.text =
+        birthday =
             '${_selectedDate!.year}-${_selectedDate!.month}-${_selectedDate!.day}';
       });
     }
@@ -769,11 +772,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
                         Visibility(
                           visible: _activeStepIndex < stepList().length,
                           child: _activeStepIndex == 4
-                              ? GestureDetector(
-                                  onTap: () {
-
-                                  },
-                                  child: OutlinedButton(
+                              ?  OutlinedButton(
                                     onPressed: () async {
                                       if (formKey.currentState!.validate()) {
                                         _submitRegister();
@@ -798,8 +797,8 @@ class _RegistrationPageState extends State<RegistrationPage> {
                                             BorderRadius.circular(16.0),
                                       ),
                                     ),
-                                  ),
-                                )
+                                  )
+
                               : OutlinedButton(
                                   onPressed: controlsDetails.onStepContinue,
                                   child: Row(

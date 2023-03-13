@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:language_builder/language_builder.dart';
 import 'package:mfecinternship/common/function/time_converting.dart';
@@ -11,8 +12,8 @@ import '../widget/widget_menu_drawer.dart';
 import 'comment_detail_pages.dart';
 
 class HomePage extends StatefulWidget {
-
-   const HomePage({Key? key}) : super(key: key);
+  final String uid;
+   const HomePage({Key? key, required this.uid}) : super(key: key);
 
   @override
   State<HomePage> createState() => _HomePageState();
@@ -20,6 +21,14 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
   final String logoApp = "asset/images/home/logo_appbar.png";
+
+
+
+  @override
+  void initState() {
+   print("uid ==> ${widget.uid}");
+    super.initState();
+  }
   final List<Data> dataList = [
     Data(
         imageUrl:
@@ -171,7 +180,7 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
                           ),
                           Text(
                             TimeConverting.getDate(_posts[index].time, false),
-                            style: TextStyle(color: Colors.grey),
+                            style: const TextStyle(color: Colors.grey),
                           )
                         ],
                       )
@@ -369,9 +378,12 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
               style: AppTheme.h5Style,
             ),
             onTap: () async {
-
-
-
+              var firebaseauth = FirebaseAuth.instance;
+              print(firebaseauth.currentUser!.uid);
+              await firebaseauth.signOut().then(
+                    (value) =>
+                        Navigator.pushNamed(context, AppRoute.loginRoute),
+                  );
             },
           ),
         ],

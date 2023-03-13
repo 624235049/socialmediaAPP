@@ -5,5 +5,5 @@ abstract class FirebaseRepository {
 
   Future<void> getCreateCurrentUser(UserEntity user);
 
-  Future<String> getCreateCurrentUserId();
+  Future<String> getCurrentUserId();
 }

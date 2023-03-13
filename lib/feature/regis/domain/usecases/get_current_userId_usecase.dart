@@ -6,7 +6,7 @@ class GetCurrentUserIdUseCase {
 
   GetCurrentUserIdUseCase({required this.repository});
 
-  Future<String> getCreateCurrentUserId() {
-    return repository.getCreateCurrentUserId();
+  Future<String> getCurrentUserId() {
+    return repository.getCurrentUserId();
   }
 }

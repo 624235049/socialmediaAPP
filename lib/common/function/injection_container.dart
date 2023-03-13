@@ -41,7 +41,7 @@ Future<void> init() async {
 
   sl.registerFactory<AuthCubit>(() => AuthCubit(
         logoutUseCase: sl.call(),
-        getCurrentUserIdUseCase: sl.call(),
+        getCurrentUidUseCaseAuth: sl.call(),
         isLoginUseCase: sl.call(),
       ));
   //credential cubit usecase

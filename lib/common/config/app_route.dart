@@ -18,7 +18,7 @@ class AppRoute {
 
 
   final _route = <String, WidgetBuilder>{
-    homeRoute: (context) => HomePage(),
+    homeRoute: (context) => HomePage(uid: '',),
     registerRoute: (context) => RegistrationPage(),
     loginRoute: (context) => const LoginPage(),
     createPost: (context) =>  const CreatePost(images: [],),

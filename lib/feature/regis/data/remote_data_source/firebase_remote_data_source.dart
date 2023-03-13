@@ -8,6 +8,6 @@ abstract class FirebaseRemoteDataSource {
 
   Future<void> getCreateCurrentUser(UserEntity user);
 
-  Future<String> getCreateCurrentUserId();
+  Future<String> getCurrentUserId();
 
 }

@@ -14,42 +14,50 @@ class FirebaseRemoteDataSourceImpl implements FirebaseRemoteDataSource {
 
   @override
   Future<void> register(UserEntity user) async {
-    await auth.createUserWithEmailAndPassword(
-        email: user.email!, password: user.password!);
+    try {
+      await auth.createUserWithEmailAndPassword(
+          email: user.email!, password: user.password!);
+    } catch (error) {
+      print("Failed to create user: $error");
+      rethrow;
+    }
   }
 
   @override
   Future<void> getCreateCurrentUser(UserEntity user) async {
     final userCollection = firestore.collection("user");
-    final uid = await getCreateCurrentUserId();
+    final uid = await getCurrentUserId();
 
     final newUser = UserModel(
-            uid: user.uid,
-            fullName: user.fullName,
-            nickName: user.nickName,
-            gender: user.gender,
-            birthday: user.birthday,
-            email: user.email,
-            phone: user.phone,
-            skill: user.skill,
-            expect: user.expect,
-            position: user.position,
-            imageUrl: user.imageUrl)
+        uid: user.uid,
+        fullName: user.fullName,
+        nickName: user.nickName,
+        gender: user.gender,
+        birthday: user.birthday,
+        email: user.email,
+        phone: user.phone,
+        skill: user.skill,
+        expect: user.expect,
+        position: user.position,
+        imageUrl: user.imageUrl)
         .toDocument();
 
-    userCollection.doc(uid).get().then((userDoc) {
+    try {
+      final userDoc = await userCollection.doc(uid).get();
       if (!userDoc.exists) {
-        userCollection.doc(uid).set(newUser);
+        await userCollection.doc(uid).set(newUser);
+        return;
       } else {
-        userCollection.doc(uid).update(newUser);
-        print("user already exist");
+        await userCollection.doc(uid).update(newUser);
+        print("user already exists");
         return;
       }
-    }).catchError((error) {
-      print(error);
-    });
+    } catch (error) {
+      print("Failed to create user: $error");
+
+    }
   }
 
   @override
-  Future<String> getCreateCurrentUserId() async => auth.currentUser!.uid;
+  Future<String> getCurrentUserId() async => auth.currentUser!.uid;
 }
