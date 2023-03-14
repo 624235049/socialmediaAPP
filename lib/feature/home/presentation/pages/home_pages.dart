@@ -1,19 +1,28 @@
+import 'dart:io';
+import 'dart:math';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:language_builder/language_builder.dart';
 import 'package:mfecinternship/common/function/time_converting.dart';
+import 'package:mfecinternship/feature/home/cubit/user/user_cubit.dart';
+import 'package:mfecinternship/feature/auth/domain/entities/user_entity.dart';
+import 'package:mfecinternship/feature/home/presentation/widget/profile_widget.dart';
 
 import 'package:mfecinternship/utils/theme.dart';
 
 import '../../../../common/config/app_route.dart';
 import '../../../../model/data_model.dart';
+
 import '../widget/widget_exandable.dart';
 import '../widget/widget_menu_drawer.dart';
 import 'comment_detail_pages.dart';
 
 class HomePage extends StatefulWidget {
   final String uid;
-   const HomePage({Key? key, required this.uid}) : super(key: key);
+
+  const HomePage({Key? key, required this.uid}) : super(key: key);
 
   @override
   State<HomePage> createState() => _HomePageState();
@@ -21,14 +30,14 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
   final String logoApp = "asset/images/home/logo_appbar.png";
-
-
+  File? _image;
 
   @override
   void initState() {
-   print("uid ==> ${widget.uid}");
+    print("uid ==> ${widget.uid}");
     super.initState();
   }
+
   final List<Data> dataList = [
     Data(
         imageUrl:
@@ -319,36 +328,98 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
   Widget drawerHome(BuildContext context) {
     return Drawer(
       child: Column(
-        // Important: Remove any padding from the ListView.
         children: [
-          UserAccountsDrawerHeader(
-            accountName: const Text(
-              'สุบรรณ นกสังข์ (โบ๊ท)',
-              style:
-                  TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
-            ),
-            accountEmail: const Text(
-              'Mobile Developer',
-              style:
-                  TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
-            ),
-            currentAccountPicture: CircleAvatar(
-                backgroundColor: Colors.white,
-                backgroundImage:
-                    const AssetImage('asset/images/login/avatar_img.png'),
-                radius: 50,
-                child: Container(
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    border: Border.all(
-                      color: Colors.blue, // สีขอบ
-                      width: 2.0, // ความกว้างของขอบ
+          BlocBuilder<UserCubit, UserState>(
+            builder: (context, userState) {
+              if (userState is UserFailure) {
+                return const Text('Failed to load user');
+              }
+
+              if (userState is UserLoaded) {
+                final user =
+                    userState.users.firstWhere((u) => u.uid == widget.uid);
+
+                return UserAccountsDrawerHeader(
+                  accountName: Row(
+                    children: [
+                      Text(
+                        user.fullName ?? "",
+                        style: const TextStyle(
+                          color: Colors.black,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      const SizedBox(
+                        width: 10,
+                      ),
+                      Text(
+                        "(${user.nickName})",
+                        style: const TextStyle(
+                          color: Colors.black,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ],
+                  ),
+                  accountEmail: Text(
+                    user.position ?? "",
+                    style: const TextStyle(
+                      color: Colors.black,
+                      fontWeight: FontWeight.bold,
                     ),
                   ),
-                )),
-            decoration: const BoxDecoration(
-              color: Colors.white,
-            ),
+                  currentAccountPicture: CircleAvatar(
+                    backgroundColor: Colors.white,
+                    backgroundImage: NetworkImage(user.imageUrl!),
+                    radius: 50,
+                    child: Container(
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        border: Border.all(
+                          color: Colors.blue, // สีขอบ
+                          width: 2.0, // ความกว้างของขอบ
+                        ),
+                      ),
+                    ),
+                  ),
+                  decoration: const BoxDecoration(
+                    color: Colors.white,
+                  ),
+                );
+              } else {
+                return const Center(child: CircularProgressIndicator());
+              }
+
+              // return UserAccountsDrawerHeader(
+              //   accountName: const Text(
+              //     'สุบรรณ นกสังข์ (โบ๊ท)',
+              //     style:
+              //     TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
+              //   ),
+              //   accountEmail: const Text(
+              //     'Mobile Developer',
+              //     style:
+              //     TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
+              //   ),
+              //   currentAccountPicture: CircleAvatar(
+              //       backgroundColor: Colors.white,
+              //       backgroundImage:
+              //       const AssetImage('asset/images/login/avatar_img.png'),
+              //       radius: 50,
+              //       child: Container(
+              //         decoration: BoxDecoration(
+              //           shape: BoxShape.circle,
+              //           border: Border.all(
+              //             color: Colors.blue, // สีขอบ
+              //             width: 2.0, // ความกว้างของขอบ
+              //           ),
+              //         ),
+              //       )),
+              //   decoration: const BoxDecoration(
+              //     color: Colors.white,
+              //   ),
+              // );
+            },
           ),
           ...MenuViewModel()
               .items

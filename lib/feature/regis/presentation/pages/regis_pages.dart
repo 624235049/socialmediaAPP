@@ -12,6 +12,7 @@ import 'package:mfecinternship/feature/regis/cubit/credential/credential_cubit.d
 import 'package:mfecinternship/feature/regis/domain/entities/user_entity.dart';
 import 'package:mfecinternship/utils/theme.dart';
 
+import '../../../../common/function/common.dart';
 import '../../data/remote_data_source/storage_provider.dart';
 import '../../widget/widget_bigtext.dart';
 import '../../widget/widget_textformfield.dart';
@@ -679,11 +680,17 @@ class _RegistrationPageState extends State<RegistrationPage> {
       body: BlocConsumer<CredentialCubit, CredentialState>(
         listener: (context, credentialState) {},
         builder: (context, credentialState) {
+
           if (credentialState is CredentialSuccess) {
-            print("register Success");
+            toast("register success!");
           }
           if (credentialState is CredentialFailure) {
-            print("register Fail");
+            print("register fail");
+          }
+          if (credentialState is CredentialLoading) {
+            return Scaffold(
+              body: loadingIndicatorProgressBar(),
+            );
           }
           return _bodyWidget();
         },

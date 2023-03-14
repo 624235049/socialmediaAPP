@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:language_builder/language_builder.dart';
 import 'package:mfecinternship/feature/auth/cubit/credential/credential_auth_cubit.dart';
 import 'package:mfecinternship/feature/auth/presentation/pages/login_pages.dart';
+import 'package:mfecinternship/feature/home/cubit/user/user_cubit.dart';
 import 'package:mfecinternship/feature/home/presentation/pages/home_pages.dart';
 import 'package:mfecinternship/feature/regis/cubit/credential/credential_cubit.dart';
 import 'common/Language/language.dart';
@@ -26,7 +27,6 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
-
         BlocProvider<AuthCubit>(
           create: (_) => di.sl<AuthCubit>()..appStarted(),
         ),
@@ -35,6 +35,9 @@ class MyApp extends StatelessWidget {
         ),
         BlocProvider<CredentialAuthCubit>(
           create: (_) => di.sl<CredentialAuthCubit>(),
+        ),
+        BlocProvider<UserCubit>(
+          create: (_) => di.sl<UserCubit>()..getUsers(),
         ),
       ],
       child: MaterialApp(
