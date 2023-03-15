@@ -31,6 +31,8 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
   @override
   void initState() {
     print("uid ==> ${widget.uid}");
+    BlocProvider.of<UserCubit>(context).getUsers();
+    BlocProvider.of<PostCubit>(context).getPosts();
     super.initState();
   }
 
@@ -82,7 +84,7 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
         name: "แคชชี่",
         time: "2022-07-12 00:00:00.000", //2565 07 10 - 2022 07 12
         post:
-        "Duis auteiruredolorin reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+            "Duis auteiruredolorin reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
         image: 'https://i.ytimg.com/vi/Q-qAQzexStc/maxresdefault.jpg'),
   ];
   final List<bool> _liked = [false, false, false];
@@ -154,6 +156,7 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
         if (postState is PostLoaded) {
           return Expanded(
             child: SizedBox(
+              width: MediaQuery.of(context).size.width,
               height: MediaQuery.of(context).size.height,
               child: ListView.builder(
                 shrinkWrap: true,
@@ -167,44 +170,96 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Row(
-                            children: [
-                              Container(
-                                decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  border: Border.all(
-                                      color: AppTheme.buttonBackgroundColor,
-                                      width: 2),
-                                  borderRadius: BorderRadius.circular(20),
-                                ),
-                                margin: const EdgeInsets.only(right: 8.0),
-                                child: const CircleAvatar(
-                                  radius: 20,
-                                  backgroundColor: Colors.white,
-                                  backgroundImage: AssetImage(
-                                      "asset/images/login/avatar_img.png"),
-                                ),
-                              ),
-                              Row(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    postState.posts[index].datetime.toString(),
-                                    style: const TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 16),
-                                  ),
-                                  const SizedBox(
-                                    width: 10,
-                                  ),
-                                  Text(
-                                    postState.posts[index].datetime.toString(),
-                                    // TimeConverting.getDate(postState.posts[index].datetime.toString(), false),
-                                    style: const TextStyle(color: Colors.grey),
-                                  )
-                                ],
-                              )
-                            ],
+                          BlocBuilder<UserCubit, UserState>(
+                            builder: (context, userState) {
+                           if(userState is UserLoaded) {
+                             return Row(
+                               children: [
+                                 Container(
+                                   decoration: BoxDecoration(
+                                     color: Colors.white,
+                                     border: Border.all(
+                                         color: AppTheme.buttonBackgroundColor,
+                                         width: 2),
+                                     borderRadius: BorderRadius.circular(20),
+                                   ),
+                                   margin: const EdgeInsets.only(right: 8.0),
+                                   child:  CircleAvatar(
+                                     radius: 20,
+                                     backgroundColor: Colors.white,
+                                     backgroundImage: NetworkImage(userState.users[index].imageUrl!),
+                                   ),
+                                 ),
+                                 Row(
+                                   crossAxisAlignment:
+                                   CrossAxisAlignment.start,
+                                   children: [
+                                     Text(
+                                      userState.users[index].fullName.toString(),
+                                       style: const TextStyle(
+                                           fontWeight: FontWeight.bold,
+                                           fontSize: 16),
+                                     ),
+                                     const SizedBox(
+                                       width: 10,
+                                     ),
+                                     Text(
+                                       postState.posts[index].datetime
+                                           .toString(),
+                                       // TimeConverting.getDate(postState.posts[index].datetime.toString(), false),
+                                       style:
+                                       const TextStyle(color: Colors.grey),
+                                     )
+                                   ],
+                                 )
+                               ],
+                             );
+                           } else {
+                             return Row(
+                               children: [
+                                 Container(
+                                   decoration: BoxDecoration(
+                                     color: Colors.white,
+                                     border: Border.all(
+                                         color: AppTheme.buttonBackgroundColor,
+                                         width: 2),
+                                     borderRadius: BorderRadius.circular(20),
+                                   ),
+                                   margin: const EdgeInsets.only(right: 8.0),
+                                   child: const CircleAvatar(
+                                     radius: 20,
+                                     backgroundColor: Colors.white,
+                                     backgroundImage: AssetImage(
+                                         "asset/images/login/avatar_img.png"),
+                                   ),
+                                 ),
+                                 Row(
+                                   crossAxisAlignment:
+                                   CrossAxisAlignment.start,
+                                   children: [
+                                     Text(
+                                       postState.posts[index].datetime
+                                           .toString(),
+                                       style: const TextStyle(
+                                           fontWeight: FontWeight.bold,
+                                           fontSize: 16),
+                                     ),
+                                     const SizedBox(
+                                       width: 10,
+                                     ),
+                                     Text(
+                                       postState.posts[index].datetime
+                                           .toString(),
+                                       // TimeConverting.getDate(postState.posts[index].datetime.toString(), false),
+                                       style:
+                                       const TextStyle(color: Colors.grey),
+                                     )
+                                   ],
+                                 )
+                               ],
+                             );
+                           }
+                            },
                           ),
                           SingleChildScrollView(
                             child: ExpandableTextWidget(
@@ -216,7 +271,7 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
                           ),
                           SizedBox(
                             height: 200,
-                            width: 200,
+                            width: MediaQuery.of(context).size.width,
                             child: GridView.count(
                               crossAxisCount: 3,
                               childAspectRatio: 1.0,
@@ -249,8 +304,8 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
                                                   3
                                           ? Center(
                                               child: Container(
-                                                color:
-                                                    Colors.black.withOpacity(0.5),
+                                                color: Colors.black
+                                                    .withOpacity(0.5),
                                                 child: Text(
                                                   '+${postState.posts[index].postImages!.length - 3}',
                                                   style: TextStyle(
@@ -271,17 +326,19 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
                               Row(
                                 children: [
                                   IconButton(
-                                      icon: Icon(
-                                        _liked[index]
-                                            ? Icons.favorite
-                                            : Icons.favorite_border,
-                                        color: _liked[index]
-                                            ? AppTheme.buttonBackgroundColor
-                                            : AppTheme.buttonBackgroundColor,
+                                      icon: const Icon(
+                                        Icons.favorite_border,
+                                        color: AppTheme.buttonBackgroundColor,
+                                        // _liked[index]
+                                        //     ? Icons.favorite
+                                        //     : Icons.favorite_border,
+                                        // color: _liked[index]
+                                        //     ? AppTheme.buttonBackgroundColor
+                                        //     : AppTheme.buttonBackgroundColor,
                                       ),
                                       onPressed: () {
                                         setState(() {
-                                          _liked[index] = !_liked[index];
+                                          // _liked[index] = !_liked[index];
                                         });
                                       }),
                                   Text((_countedLike == 0)
@@ -308,14 +365,14 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
                                         icon: const Icon(
                                             Icons.mode_comment_outlined),
                                         onPressed: () {
-                                          Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                              builder: (context) =>
-                                                  CommentDetail(
-                                                      post: _posts[index]),
-                                            ),
-                                          );
+                                          // Navigator.push(
+                                          //   context,
+                                          //   MaterialPageRoute(
+                                          //     builder: (context) =>
+                                          //         CommentDetail(
+                                          //             post: _posts[index]),
+                                          //   ),
+                                          // );
                                         }),
                                     Text(((_countedComment == 0)
                                             ? LanguageBuilder

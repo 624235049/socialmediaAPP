@@ -43,7 +43,7 @@ class _CreatePostState extends State<CreatePost> {
           Navigator.pushNamedAndRemoveUntil(
             context,
             AppRoute.homeRoute,
-            (route) => false,
+                (route) => false,
           );
         }
         if (state is PostFailure) {
@@ -218,7 +218,8 @@ class _CreatePostState extends State<CreatePost> {
       ],
     );
   }
-  void submitCreatePost(BuildContext context) async {
+
+  Future<void> submitCreatePost(BuildContext context) async {
     final DateTime date = DateTime.now();
     final DateFormat formatter = DateFormat('dd MMM yyyy HH:mm');
     final String formatdatetime = formatter.format(date);
@@ -231,18 +232,17 @@ class _CreatePostState extends State<CreatePost> {
       }),
     );
     final List<String> imageUrls =
-    await StorageProviderRemoteDataSourceCreatePost.uploadFiles(
-        files: imageFiles);
+        await StorageProviderRemoteDataSourceCreatePost.uploadFiles(
+            files: imageFiles);
     if (uid.toString().isNotEmpty) {
       BlocProvider.of<PostCubit>(context).submitCreatePost(
           postEntity: PostEntity(
-            uid: uid.toString(),
-            datetime: formatdatetime,
-            postContent: _postMessage,
-            likedUserIds: [],
-            postImages: imageUrls,
-          ));
+        uid: uid.toString(),
+        datetime: formatdatetime,
+        postContent: _postMessage,
+        likedUserIds: [],
+        postImages: imageUrls,
+      ));
     }
   }
-
 }
