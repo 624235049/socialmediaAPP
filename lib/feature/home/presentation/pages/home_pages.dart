@@ -7,14 +7,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:language_builder/language_builder.dart';
 import 'package:mfecinternship/common/function/time_converting.dart';
 import 'package:mfecinternship/feature/home/cubit/user/user_cubit.dart';
-import 'package:mfecinternship/feature/auth/domain/entities/user_entity.dart';
-import 'package:mfecinternship/feature/home/presentation/widget/profile_widget.dart';
-
 import 'package:mfecinternship/utils/theme.dart';
-
 import '../../../../common/config/app_route.dart';
 import '../../../../model/data_model.dart';
-
 import '../widget/widget_exandable.dart';
 import '../widget/widget_menu_drawer.dart';
 import 'comment_detail_pages.dart';
@@ -136,7 +131,7 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
         padding: const EdgeInsets.all(8.0),
         child: FloatingActionButton(
           onPressed: () {
-            Navigator.pushNamed(context, AppRoute.createPost);
+            Navigator.pushNamed(context, AppRoute.createPost, arguments: widget.uid);
           },
           child: const Icon(Icons.add, size: 30.0),
           backgroundColor: AppTheme.buttonBackgroundColor,
@@ -390,35 +385,6 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
                 return const Center(child: CircularProgressIndicator());
               }
 
-              // return UserAccountsDrawerHeader(
-              //   accountName: const Text(
-              //     'สุบรรณ นกสังข์ (โบ๊ท)',
-              //     style:
-              //     TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
-              //   ),
-              //   accountEmail: const Text(
-              //     'Mobile Developer',
-              //     style:
-              //     TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
-              //   ),
-              //   currentAccountPicture: CircleAvatar(
-              //       backgroundColor: Colors.white,
-              //       backgroundImage:
-              //       const AssetImage('asset/images/login/avatar_img.png'),
-              //       radius: 50,
-              //       child: Container(
-              //         decoration: BoxDecoration(
-              //           shape: BoxShape.circle,
-              //           border: Border.all(
-              //             color: Colors.blue, // สีขอบ
-              //             width: 2.0, // ความกว้างของขอบ
-              //           ),
-              //         ),
-              //       )),
-              //   decoration: const BoxDecoration(
-              //     color: Colors.white,
-              //   ),
-              // );
             },
           ),
           ...MenuViewModel()

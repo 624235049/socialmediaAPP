@@ -52,6 +52,7 @@ dependencies:
   get_it: ^7.1.2
   fluttertoast: ^8.1.2
   cached_network_image: ^3.1.0
+  intl: ^0.17.0
 
 dev_dependencies:
   flutter_test:

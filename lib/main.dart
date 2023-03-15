@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:language_builder/language_builder.dart';
 import 'package:mfecinternship/feature/auth/cubit/credential/credential_auth_cubit.dart';
 import 'package:mfecinternship/feature/auth/presentation/pages/login_pages.dart';
+import 'package:mfecinternship/feature/home/cubit/post/post_cubit.dart';
 import 'package:mfecinternship/feature/home/cubit/user/user_cubit.dart';
 import 'package:mfecinternship/feature/home/presentation/pages/home_pages.dart';
 import 'package:mfecinternship/feature/regis/cubit/credential/credential_cubit.dart';
@@ -38,6 +39,9 @@ class MyApp extends StatelessWidget {
         ),
         BlocProvider<UserCubit>(
           create: (_) => di.sl<UserCubit>()..getUsers(),
+        ),
+        BlocProvider<PostCubit>(
+          create: (_) => di.sl<PostCubit>(),
         ),
       ],
       child: MaterialApp(

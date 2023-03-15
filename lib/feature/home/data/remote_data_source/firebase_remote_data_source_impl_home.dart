@@ -1,9 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:mfecinternship/common/model/user_models.dart';
 import 'package:mfecinternship/feature/auth/domain/entities/user_entity.dart';
+import 'package:mfecinternship/feature/home/domain/entities/post_entity.dart';
 import 'firebase_remote_data_source_home.dart';
-
 
 
 class FirebaseRemoteDataSourceImplHome implements FirebaseRemoteDataSourceHome {
@@ -12,7 +11,6 @@ class FirebaseRemoteDataSourceImplHome implements FirebaseRemoteDataSourceHome {
 
   FirebaseRemoteDataSourceImplHome(
       {required this.firestore, required this.auth});
-
 
 
   @override
@@ -35,4 +33,21 @@ class FirebaseRemoteDataSourceImplHome implements FirebaseRemoteDataSourceHome {
           position: e.get('position'),
         )).toList());
   }
+
+  @override
+  Future<void> createPost(PostEntity postEntity) async {
+    try {
+      final postRef = FirebaseFirestore.instance.collection('posts').doc();
+      await postRef.set({
+        'uid': postEntity.uid,
+        'datetime': postEntity.datetime,
+        'postImages': postEntity.postImages,
+        'postContent': postEntity.postContent,
+        'likedUserIds': postEntity.likedUserIds,
+      });
+    } catch (e) {
+      // handle error here
+    }
+  }
+
 }
