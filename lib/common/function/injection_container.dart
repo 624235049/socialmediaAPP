@@ -16,6 +16,7 @@ import 'package:mfecinternship/feature/home/data/remote_data_source/firebase_rem
 import 'package:mfecinternship/feature/home/data/repositories/firebase_repository_home_impl.dart';
 import 'package:mfecinternship/feature/home/domain/repositories/firebase_repository_home.dart';
 import 'package:mfecinternship/feature/home/domain/usecases/create_post_usecase.dart';
+import 'package:mfecinternship/feature/home/domain/usecases/get_all_posts.dart';
 import 'package:mfecinternship/feature/home/domain/usecases/get_all_users_usecase.dart';
 import 'package:mfecinternship/feature/regis/cubit/credential/credential_cubit.dart';
 import 'package:mfecinternship/feature/regis/data/remote_data_source/firebase_remote_data_sourcce_impl.dart';
@@ -47,6 +48,7 @@ Future<void> init() async {
     () => PostCubit(
       createPostUseCase: sl.call(),
       getAllUsersUseCase: sl.call(),
+      getAllPostsUseCase: sl.call(),
     ),
   );
   sl.registerFactory<CredentialAuthCubit>(
@@ -74,6 +76,11 @@ Future<void> init() async {
       () => RegisUseCase(repository: sl.call()));
   sl.registerLazySingleton<CreatePostUseCase>(
     () => CreatePostUseCase(repositoryHome: sl.call()),
+  );
+  sl.registerLazySingleton(
+    () => GetAllPostsUseCase(
+      repositoryHome: sl.call(),
+    ),
   );
   sl.registerLazySingleton(
       () => GetCurrentUidUseCaseAuth(repository: sl.call()));

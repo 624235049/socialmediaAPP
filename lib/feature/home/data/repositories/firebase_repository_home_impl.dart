@@ -17,5 +17,8 @@ class FirebaseRepositoryHomeImpl implements FirebaseRepositoryHome{
   @override
   Future<void> createPost(PostEntity postEntity) => remoteDataSourceHome.createPost(postEntity);
 
+  @override
+  Stream<List<PostEntity>> getAllPosts() => remoteDataSourceHome.getAllPosts();
+
 
 }

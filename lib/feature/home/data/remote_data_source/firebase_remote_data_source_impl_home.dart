@@ -34,6 +34,22 @@ class FirebaseRemoteDataSourceImplHome implements FirebaseRemoteDataSourceHome {
         )).toList());
   }
 
+
+  @override
+  Stream<List<PostEntity>> getAllPosts() {
+    final postCollection = firestore.collection("posts");
+
+    return postCollection.orderBy("datetime", descending: true)
+        .snapshots().map((querySnapshot) =>
+        querySnapshot.docs.map((e) => PostEntity(
+          uid: e.id,
+          datetime: e.get('datetime'),
+          postContent: e.get('postContent'),
+          likedUserIds: List<String>.from(e.get('likedUserIds')),
+          postImages: List<String>.from(e.get('postImages')),
+        )).toList());
+  }
+
   @override
   Future<void> createPost(PostEntity postEntity) async {
     try {
@@ -49,5 +65,7 @@ class FirebaseRemoteDataSourceImplHome implements FirebaseRemoteDataSourceHome {
       // handle error here
     }
   }
+
+
 
 }

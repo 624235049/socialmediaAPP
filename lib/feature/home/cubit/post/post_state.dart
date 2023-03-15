@@ -23,3 +23,10 @@ class PostFailure extends PostState {
   @override
   List<Object> get props => [];
 }
+
+class PostLoaded extends PostState {
+  final List<PostEntity> posts;
+  PostLoaded({required this.posts});
+  @override
+  List<Object> get props => [];
+}

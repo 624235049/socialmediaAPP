@@ -15,4 +15,6 @@ abstract class FirebaseRepositoryHome {
 
   Future<void> createPost(PostEntity postEntity);
 
+  Stream<List<PostEntity>> getAllPosts();
+
 }

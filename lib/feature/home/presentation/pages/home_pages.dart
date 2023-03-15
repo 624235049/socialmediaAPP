@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:language_builder/language_builder.dart';
 import 'package:mfecinternship/common/function/time_converting.dart';
+import 'package:mfecinternship/feature/home/cubit/post/post_cubit.dart';
 import 'package:mfecinternship/feature/home/cubit/user/user_cubit.dart';
 import 'package:mfecinternship/utils/theme.dart';
 import '../../../../common/config/app_route.dart';
@@ -77,6 +78,12 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
         post:
             "Duis auteiruredolorin reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
         image: 'https://i.ytimg.com/vi/Q-qAQzexStc/maxresdefault.jpg'),
+    Post(
+        name: "แคชชี่",
+        time: "2022-07-12 00:00:00.000", //2565 07 10 - 2022 07 12
+        post:
+        "Duis auteiruredolorin reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+        image: 'https://i.ytimg.com/vi/Q-qAQzexStc/maxresdefault.jpg'),
   ];
   final List<bool> _liked = [false, false, false];
   final List<TextEditingController> _commentControllers = [
@@ -85,8 +92,8 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
     TextEditingController(),
   ];
 
-  final int _countedComment = 3;
-  final int _countedLike = 2;
+  final int _countedComment = 5;
+  final int _countedLike = 5;
 
   @override
   Widget build(BuildContext context) {
@@ -131,7 +138,8 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
         padding: const EdgeInsets.all(8.0),
         child: FloatingActionButton(
           onPressed: () {
-            Navigator.pushNamed(context, AppRoute.createPost, arguments: widget.uid);
+            Navigator.pushNamed(context, AppRoute.createPost,
+                arguments: widget.uid);
           },
           child: const Icon(Icons.add, size: 30.0),
           backgroundColor: AppTheme.buttonBackgroundColor,
@@ -141,152 +149,209 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
   }
 
   Widget listPostContent() {
-    return Expanded(
-      child: ListView.builder(
-        shrinkWrap: true,
-        physics: const ScrollPhysics(),
-        itemCount: _posts.length,
-        itemBuilder: (BuildContext context, int index) {
-          return Card(
-            color: Colors.white,
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    children: [
-                      Container(
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          border: Border.all(
-                              color: AppTheme.buttonBackgroundColor, width: 2),
-                          borderRadius: BorderRadius.circular(20),
-                        ),
-                        margin: const EdgeInsets.only(right: 8.0),
-                        child: const CircleAvatar(
-                          radius: 20,
-                          backgroundColor: Colors.white,
-                          backgroundImage:
-                              AssetImage("asset/images/login/avatar_img.png"),
-                        ),
-                      ),
-                      Row(
+    return BlocBuilder<PostCubit, PostState>(
+      builder: (context, postState) {
+        if (postState is PostLoaded) {
+          return Expanded(
+            child: SizedBox(
+              height: MediaQuery.of(context).size.height,
+              child: ListView.builder(
+                shrinkWrap: true,
+                physics: const ScrollPhysics(),
+                itemCount: postState.posts.length,
+                itemBuilder: (BuildContext context, int index) {
+                  return Card(
+                    color: Colors.white,
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(
-                            _posts[index].name,
-                            style: const TextStyle(
-                                fontWeight: FontWeight.bold, fontSize: 16),
+                          Row(
+                            children: [
+                              Container(
+                                decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  border: Border.all(
+                                      color: AppTheme.buttonBackgroundColor,
+                                      width: 2),
+                                  borderRadius: BorderRadius.circular(20),
+                                ),
+                                margin: const EdgeInsets.only(right: 8.0),
+                                child: const CircleAvatar(
+                                  radius: 20,
+                                  backgroundColor: Colors.white,
+                                  backgroundImage: AssetImage(
+                                      "asset/images/login/avatar_img.png"),
+                                ),
+                              ),
+                              Row(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    postState.posts[index].datetime.toString(),
+                                    style: const TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 16),
+                                  ),
+                                  const SizedBox(
+                                    width: 10,
+                                  ),
+                                  Text(
+                                    postState.posts[index].datetime.toString(),
+                                    // TimeConverting.getDate(postState.posts[index].datetime.toString(), false),
+                                    style: const TextStyle(color: Colors.grey),
+                                  )
+                                ],
+                              )
+                            ],
+                          ),
+                          SingleChildScrollView(
+                            child: ExpandableTextWidget(
+                                text: postState.posts[index].postContent
+                                    .toString()),
                           ),
                           const SizedBox(
-                            width: 10,
+                            height: 10,
                           ),
-                          Text(
-                            TimeConverting.getDate(_posts[index].time, false),
-                            style: const TextStyle(color: Colors.grey),
-                          )
-                        ],
-                      )
-                    ],
-                  ),
-
-                  SingleChildScrollView(
-                    child: ExpandableTextWidget(text: _posts[index].post),
-                  ),
-                  // Padding(
-                  //   padding: const EdgeInsets.symmetric(vertical: 8.0),
-                  //   child: Text(_posts[index].post),
-                  // ),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  _posts[index].image != null
-                      ? Container(
-                          margin:
-                              const EdgeInsets.only(right: 15.0, left: 15.0),
-                          child: _posts[index].image != null
-                              ? Image.network(
-                                  _posts[index].image,
-                                  fit: BoxFit.fill,
-                                )
-                              : Container())
-                      : SizedBox(),
-
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      Row(
-                        children: [
-                          IconButton(
-                              icon: Icon(
-                                _liked[index]
-                                    ? Icons.favorite
-                                    : Icons.favorite_border,
-                                color: _liked[index]
-                                    ? AppTheme.buttonBackgroundColor
-                                    : AppTheme.buttonBackgroundColor,
-                              ),
-                              onPressed: () {
-                                setState(() {
-                                  _liked[index] = !_liked[index];
-                                });
-                              }),
-                          Text((_countedLike == 0)
-                              ? 'None'
-                              : (_countedLike.toString() +
-                                      ' ' +
-                                      LanguageBuilder.texts!['post_page']
-                                          ['like']) +
-                                  ((_countedLike > 1)
-                                      ? LanguageBuilder.texts!['time_stamp']
-                                          ['suffix']
-                                      : '')),
-                        ],
-                      ),
-                      GestureDetector(
-                        onTap: () {
-                          // Navigator.pushNamed(context, AppRoute.commentDetail);
-                        },
-                        child: Row(
-                          children: [
-                            IconButton(
-                                icon: const Icon(Icons.mode_comment_outlined),
-                                onPressed: () {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) =>
-                                          CommentDetail(post: _posts[index]),
+                          SizedBox(
+                            height: 200,
+                            width: 200,
+                            child: GridView.count(
+                              crossAxisCount: 3,
+                              childAspectRatio: 1.0,
+                              mainAxisSpacing: 2.0,
+                              crossAxisSpacing: 2.0,
+                              padding: const EdgeInsets.all(2.0),
+                              // Corrected line for the decoration property
+                              clipBehavior: Clip.none,
+                              children: List.generate(
+                                postState.posts[index].postImages!.length,
+                                (i) {
+                                  return Container(
+                                    margin: const EdgeInsets.all(2.0),
+                                    decoration: BoxDecoration(
+                                      border: Border.all(
+                                          color: Colors.grey[700]!, width: 1),
+                                      borderRadius: BorderRadius.circular(10),
+                                    ),
+                                    child: Container(
+                                      decoration: BoxDecoration(
+                                        image: DecorationImage(
+                                          image: NetworkImage(postState
+                                              .posts[index].postImages![i]),
+                                          fit: BoxFit.cover,
+                                        ),
+                                      ),
+                                      child: i == 2 &&
+                                              postState.posts[index].postImages!
+                                                      .length >
+                                                  3
+                                          ? Center(
+                                              child: Container(
+                                                color:
+                                                    Colors.black.withOpacity(0.5),
+                                                child: Text(
+                                                  '+${postState.posts[index].postImages!.length - 3}',
+                                                  style: TextStyle(
+                                                      color: Colors.white),
+                                                ),
+                                              ),
+                                            )
+                                          : null,
                                     ),
                                   );
-                                }),
-                            Text(((_countedComment == 0)
-                                    ? LanguageBuilder.texts!['post_page']
-                                        ['no_comment']
-                                    : (_countedComment.toString() + ' ')) +
-                                LanguageBuilder.texts!['post_page']['comment'] +
-                                ((_countedComment > 1)
-                                    ? LanguageBuilder.texts!['time_stamp']
-                                        ['suffix']
-                                    : '')),
-                          ],
-                        ),
-                      )
-                    ],
-                  ),
-                ],
+                                },
+                              ),
+                            ),
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              Row(
+                                children: [
+                                  IconButton(
+                                      icon: Icon(
+                                        _liked[index]
+                                            ? Icons.favorite
+                                            : Icons.favorite_border,
+                                        color: _liked[index]
+                                            ? AppTheme.buttonBackgroundColor
+                                            : AppTheme.buttonBackgroundColor,
+                                      ),
+                                      onPressed: () {
+                                        setState(() {
+                                          _liked[index] = !_liked[index];
+                                        });
+                                      }),
+                                  Text((_countedLike == 0)
+                                      ? 'None'
+                                      : (_countedLike.toString() +
+                                              ' ' +
+                                              LanguageBuilder
+                                                      .texts!['post_page']
+                                                  ['like']) +
+                                          ((_countedLike > 1)
+                                              ? LanguageBuilder
+                                                      .texts!['time_stamp']
+                                                  ['suffix']
+                                              : '')),
+                                ],
+                              ),
+                              GestureDetector(
+                                onTap: () {
+                                  // Navigator.pushNamed(context, AppRoute.commentDetail);
+                                },
+                                child: Row(
+                                  children: [
+                                    IconButton(
+                                        icon: const Icon(
+                                            Icons.mode_comment_outlined),
+                                        onPressed: () {
+                                          Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                              builder: (context) =>
+                                                  CommentDetail(
+                                                      post: _posts[index]),
+                                            ),
+                                          );
+                                        }),
+                                    Text(((_countedComment == 0)
+                                            ? LanguageBuilder
+                                                    .texts!['post_page']
+                                                ['no_comment']
+                                            : (_countedComment.toString() +
+                                                ' ')) +
+                                        LanguageBuilder.texts!['post_page']
+                                            ['comment'] +
+                                        ((_countedComment > 1)
+                                            ? LanguageBuilder
+                                                .texts!['time_stamp']['suffix']
+                                            : '')),
+                                  ],
+                                ),
+                              )
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
+                  );
+                },
               ),
             ),
           );
-        },
-      ),
+        } else {
+          return const CircularProgressIndicator();
+        }
+      },
     );
   }
 
   Widget listFriendsContent() {
-    return Container(
-      height: 120,
+    return SizedBox(
+      height: 150,
       child: ListView.builder(
         scrollDirection: Axis.horizontal,
         itemCount: dataList.length,
@@ -384,7 +449,6 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
               } else {
                 return const Center(child: CircularProgressIndicator());
               }
-
             },
           ),
           ...MenuViewModel()

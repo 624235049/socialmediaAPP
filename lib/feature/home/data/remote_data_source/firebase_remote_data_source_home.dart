@@ -10,4 +10,6 @@ abstract class FirebaseRemoteDataSourceHome {
 
   Future<void> createPost(PostEntity postEntity);
 
+  Stream<List<PostEntity>> getAllPosts();
+
 }

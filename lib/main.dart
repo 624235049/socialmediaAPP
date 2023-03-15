@@ -41,7 +41,7 @@ class MyApp extends StatelessWidget {
           create: (_) => di.sl<UserCubit>()..getUsers(),
         ),
         BlocProvider<PostCubit>(
-          create: (_) => di.sl<PostCubit>(),
+          create: (_) => di.sl<PostCubit>()..getPosts(),
         ),
       ],
       child: MaterialApp(
