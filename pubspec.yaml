@@ -87,6 +87,7 @@ flutter:
     - asset/images/login/avatar_img.png
     - asset/images/login/real-photo.png
     - asset/images/home/logo_appbar.png
+    - asset/images/login/logo_bg.png
 
 
 

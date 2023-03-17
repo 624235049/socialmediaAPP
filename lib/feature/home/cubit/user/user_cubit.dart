@@ -30,6 +30,20 @@ class UserCubit extends Cubit<UserState> {
     }
   }
 
+  // Stream<UserState> getUserById(String userId) async* {
+  //   try {
+  //     final userStream = getAllUsersUseCase.getAllUsers().map((listAllUsers) {
+  //       final user = listAllUsers.where((user) => user.uid == userId).first;
+  //       return UserLoaded(users: [user]);
+  //     });
+  //     yield* userStream;
+  //   } on SocketException catch (_) {
+  //     yield UserFailure();
+  //   } catch (_) {
+  //     yield UserFailure();
+  //   }
+  // }
+
   // Future<void> getUsersWhereUid(String uid) async {
   //   try {
   //     getAllUsersUseCase.getAllUsers().map((listUsers) {

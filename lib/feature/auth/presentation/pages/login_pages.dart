@@ -60,9 +60,8 @@ class _LoginPageState extends State<LoginPage> {
         SingleChildScrollView(
           child: Column(
             children: [
-              const SizedBox(height: 60),
+              const SizedBox(height: 30),
               logoApp(),
-              const SizedBox(height: 25),
               emailForm(),
               const SizedBox(height: 25),
               passwordForm(),
@@ -195,9 +194,9 @@ class _LoginPageState extends State<LoginPage> {
   Widget logoApp() {
     return Center(
       child: FractionallySizedBox(
-        widthFactor: 0.6,
+        widthFactor: 0.8,
         // ความกว้างของโลโก้เท่ากับ 80% ของ `Container`
-        child: Image.asset('asset/images/login/logo.png'),
+        child: Image.asset('asset/images/login/logo_bg.png'),
       ),
     );
   }

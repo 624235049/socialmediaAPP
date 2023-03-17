@@ -93,7 +93,7 @@ class Languages {
         },
         "home_drawer": {
           "home_page": "Home",
-          "about_page": "About MFEC",
+          "about_page": "About Company",
           "term_page": "Term and condition",
           "language_page": "Change language",
           "signout": "Logout"
@@ -301,7 +301,7 @@ class Languages {
         },
         "home_drawer": {
           "home_page": "หน้าหลัก",
-          "about_page": "เกี่ยวกับ MFEC",
+          "about_page": "เกี่ยวกับ บริษัท",
           "term_page": "เงื่อนไขและข้อตกลง",
           "language_page": "เปลี่ยนภาษา",
           "signout": "ออกจากระบบ"
