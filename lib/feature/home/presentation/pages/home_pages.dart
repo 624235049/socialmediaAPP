@@ -1,33 +1,39 @@
+import 'dart:io';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:language_builder/language_builder.dart';
-import 'package:mfecinternship/common/function/time_converting.dart';
-
+import 'package:mfecinternship/feature/auth/domain/entities/user_entity.dart';
+import 'package:mfecinternship/feature/home/cubit/post/post_cubit.dart';
+import 'package:mfecinternship/feature/home/cubit/user/user_cubit.dart';
 import 'package:mfecinternship/utils/theme.dart';
-
 import '../../../../common/config/app_route.dart';
 import '../../../../model/data_model.dart';
 import '../widget/widget_exandable.dart';
 import '../widget/widget_menu_drawer.dart';
-import 'comment_detail_pages.dart';
 
 class HomePage extends StatefulWidget {
   final String uid;
-   const HomePage({Key? key, required this.uid}) : super(key: key);
+
+  const HomePage({Key? key, required this.uid}) : super(key: key);
 
   @override
   State<HomePage> createState() => _HomePageState();
 }
 
 class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
+  final GlobalKey<_HomePageState> _key = GlobalKey<_HomePageState>();
   final String logoApp = "asset/images/home/logo_appbar.png";
-
-
+  File? _image;
 
   @override
   void initState() {
-   print("uid ==> ${widget.uid}");
+    print("uid ==> ${widget.uid}");
+    BlocProvider.of<UserCubit>(context).getUsers();
+    BlocProvider.of<PostCubit>(context).getPosts();
     super.initState();
   }
+
   final List<Data> dataList = [
     Data(
         imageUrl:
@@ -72,6 +78,12 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
         post:
             "Duis auteiruredolorin reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
         image: 'https://i.ytimg.com/vi/Q-qAQzexStc/maxresdefault.jpg'),
+    Post(
+        name: "แคชชี่",
+        time: "2022-07-12 00:00:00.000", //2565 07 10 - 2022 07 12
+        post:
+            "Duis auteiruredolorin reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+        image: 'https://i.ytimg.com/vi/Q-qAQzexStc/maxresdefault.jpg'),
   ];
   final List<bool> _liked = [false, false, false];
   final List<TextEditingController> _commentControllers = [
@@ -80,8 +92,8 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
     TextEditingController(),
   ];
 
-  final int _countedComment = 3;
-  final int _countedLike = 2;
+  final int _countedComment = 5;
+  final int _countedLike = 5;
 
   @override
   Widget build(BuildContext context) {
@@ -90,12 +102,8 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
         backgroundColor: Colors.white,
         title: Padding(
           padding: const EdgeInsets.all(40.0),
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Image.asset(logoApp),
-          ),
+          child: Image.asset(logoApp),
         ),
-        elevation: 0,
         iconTheme: const IconThemeData(color: Colors.black),
       ),
       drawer: drawerHome(context),
@@ -123,14 +131,22 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
           //list friends Story
           listFriendsContent(),
           //list post and comment
-          listPostContent(),
+          BlocBuilder<PostCubit, PostState>(
+            builder: (context, state) {
+              if (state is PostSuccess) {
+                return listPostContent();
+              }
+              return listPostContent();
+            },
+          ),
         ],
       ),
       floatingActionButton: Padding(
         padding: const EdgeInsets.all(8.0),
         child: FloatingActionButton(
           onPressed: () {
-            Navigator.pushNamed(context, AppRoute.createPost);
+            Navigator.pushNamed(context, AppRoute.createPost,
+                arguments: widget.uid);
           },
           child: const Icon(Icons.add, size: 30.0),
           backgroundColor: AppTheme.buttonBackgroundColor,
@@ -139,149 +155,384 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
     );
   }
 
+  // Widget listPostContent() {
+  //   return BlocBuilder<PostCubit, PostState>(
+  //     builder: (context, postState) {
+  //       if (postState is PostLoaded) {
+  //         return Expanded(
+  //           child: SizedBox(
+  //             width: MediaQuery.of(context).size.width,
+  //             height: MediaQuery.of(context).size.height,
+  //             child: ListView.builder(
+  //               shrinkWrap: true,
+  //               physics: const ScrollPhysics(),
+  //               itemCount: postState.posts.length,
+  //               itemBuilder: (BuildContext context, int index) {
+  //                 final post = postState.posts[index];
+  //
+  //                 return Card(
+  //                   color: Colors.white,
+  //                   child: Padding(
+  //                     padding: const EdgeInsets.all(8.0),
+  //                     child: Column(
+  //                       crossAxisAlignment: CrossAxisAlignment.start,
+  //                       children: [
+  //                         BlocBuilder<UserCubit, UserState>(
+  //                           builder: (context, userState) {
+  //                             if (userState is UserLoaded && userState.users.length > index) {
+  //                               final user = userState.users[index];
+  //
+  //                               return Row(
+  //                                 children: [
+  //                                   Container(
+  //                                     decoration: BoxDecoration(
+  //                                       color: Colors.white,
+  //                                       border: Border.all(
+  //                                           color: AppTheme.buttonBackgroundColor,
+  //                                           width: 2),
+  //                                       borderRadius: BorderRadius.circular(20),
+  //                                     ),
+  //                                     margin: const EdgeInsets.only(right: 8.0),
+  //                                     child: CircleAvatar(
+  //                                       radius: 20,
+  //                                       backgroundColor: Colors.white,
+  //                                       backgroundImage: user.imageUrl != null ? NetworkImage(user.imageUrl.toString()) : null,
+  //                                     ),
+  //                                   ),
+  //                                   Row(
+  //                                     crossAxisAlignment:
+  //                                     CrossAxisAlignment.start,
+  //                                     children: [
+  //                                       Text(
+  //                                         user.fullName.toString(),
+  //                                         style: const TextStyle(
+  //                                             fontWeight: FontWeight.bold,
+  //                                             fontSize: 16),
+  //                                       ),
+  //                                       const SizedBox(
+  //                                         width: 10,
+  //                                       ),
+  //                                       Text(
+  //                                         user.datetime.toString(),
+  //                                         style: const TextStyle(
+  //                                             color: Colors.grey),
+  //                                       )
+  //                                     ],
+  //                                   )
+  //                                 ],
+  //                               );
+  //                             } else {
+  //                               return Container(); // or any other fallback widget if the userState is not UserLoaded or the user at the specified index is not found
+  //                             }
+  //                           },
+  //                         ),
+  //                         SingleChildScrollView(
+  //                           child: ExpandableTextWidget(
+  //                               text: postState.posts[index].postContent
+  //                                   .toString()),
+  //                         ),
+  //                         const SizedBox(
+  //                           height: 10,
+  //                         ),
+  //                         SizedBox(
+  //                           height: 200,
+  //                           width: MediaQuery.of(context).size.width,
+  //                           child: GridView.count(
+  //                             crossAxisCount: 3,
+  //                             childAspectRatio: 1.0,
+  //                             mainAxisSpacing: 2.0,
+  //                             crossAxisSpacing: 2.0,
+  //                             padding: const EdgeInsets.all(2.0),
+  //                             // Corrected line for the decoration property
+  //                             clipBehavior: Clip.none,
+  //                             children: List.generate(
+  //                               postState.posts[index].postImages!.length,
+  //                                   (i) {
+  //                                 return Container(
+  //                                   margin: const EdgeInsets.all(2.0),
+  //                                   decoration: BoxDecoration(
+  //                                     border: Border.all(
+  //                                         color: Colors.grey[700]!, width: 1),
+  //                                     borderRadius: BorderRadius.circular(10),
+  //                                   ),
+  //                                   child: Container(
+  //                                     decoration: BoxDecoration(
+  //                                       image: DecorationImage(
+  //                                         image: NetworkImage(postState
+  //                                             .posts[index].postImages![i]),
+  //                                         fit: BoxFit.cover,
+  //                                       ),
+  //                                     ),
+  //                                     child: i == 2 &&
+  //                                         postState.posts[index].postImages!
+  //                                             .length >
+  //                                             3
+  //                                         ? Center(
+  //                                       child: Container(
+  //                                         color: Colors.black
+  //                                             .withOpacity(0.5),
+  //                                         child: Text(
+  //                                           '+${postState.posts[index].postImages!.length - 3}',
+  //                                           style: TextStyle(
+  //                                               color: Colors.white),
+  //                                         ),
+  //                                       ),
+  //                                     )
+  //                                         : null,
+  //                                   ),
+  //                                 );
+  //                               },
+  //                             ),
+  //                           ),
+  //                         ),
+  //                         Row(
+  //                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+  //                           children: [
+  //                             Row(
+  //                               children: [
+  //                                 IconButton(
+  //                                     icon: const Icon(
+  //                                       Icons.favorite_border,
+  //                                       color: AppTheme.buttonBackgroundColor,
+  //                                       // _liked[index]
+  //                                       //     ? Icons.favorite
+  //                                       //     : Icons.favorite_border,
+  //                                       // color: _liked[index]
+  //                                       //     ? AppTheme.buttonBackgroundColor
+  //                                       //     : AppTheme.buttonBackgroundColor,
+  //                                     ),
+  //                                     onPressed: () {
+  //                                       setState(() {
+  //                                         // _liked[index] = !_liked[index];
+  //                                       });
+  //                                     }),
+  //                                 Text((_countedLike == 0)
+  //                                     ? 'None'
+  //                                     : (_countedLike.toString() +
+  //                                     ' ' +
+  //                                     LanguageBuilder
+  //                                         .texts!['post_page']
+  //                                     ['like']) +
+  //                                     ((_countedLike > 1)
+  //                                         ? LanguageBuilder
+  //                                         .texts!['time_stamp']
+  //                                     ['suffix']
+  //                                         : '')),
+  //                               ],
+  //                             ),
+  //                             GestureDetector(
+  //                               onTap: () {
+  //                                 // Navigator.pushNamed(context, AppRoute.commentDetail);
+  //                               },
+  //                               child: Row(
+  //                                 children: [
+  //                                   IconButton(
+  //                                       icon: const Icon(
+  //                                           Icons.mode_comment_outlined),
+  //                                       onPressed: () {
+  //                                         // Navigator.push(
+  //                                         //   context,
+  //                                         //   MaterialPageRoute(
+  //                                         //     builder: (context) =>
+  //                                         //         CommentDetail(
+  //                                         //             post: _posts[index]),
+  //                                         //   ),
+  //                                         // );
+  //                                       }),
+  //                                   Text(((_countedComment == 0)
+  //                                       ? LanguageBuilder
+  //                                       .texts!['post_page']
+  //                                   ['no_comment']
+  //                                       : (_countedComment.toString() +
+  //                                       ' ')) +
+  //                                       LanguageBuilder.texts!['post_page']
+  //                                       ['comment'] +
+  //                                       ((_countedComment > 1)
+  //                                           ? LanguageBuilder
+  //                                           .texts!['time_stamp']['suffix']
+  //                                           : '')),
+  //                                 ],
+  //                               ),
+  //                             )
+  //                           ],
+  //                         ),
+  //                       ],
+  //                     ),
+  //                   ),
+  //                 );
+  //               },
+  //             ),
+  //           ),
+  //         );
+  //       } else {
+  //         return const CircularProgressIndicator();
+  //       }
+  //     },
+  //   );
+  // }
+
   Widget listPostContent() {
-    return Expanded(
-      child: ListView.builder(
-        shrinkWrap: true,
-        physics: const ScrollPhysics(),
-        itemCount: _posts.length,
-        itemBuilder: (BuildContext context, int index) {
-          return Card(
-            elevation: 0,
-            margin: const EdgeInsets.all(0), //set 0 margin between post
-            color: Colors.white,
-            child: Column(
-              children: [
-                const Divider(
-                  color: AppTheme.dividerPost,
-                  thickness: 1,
-                  height: 0,
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(12.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Row(
+    return BlocBuilder<PostCubit, PostState>(
+      builder: (context, postState) {
+        if (postState is PostLoaded) {
+          return Expanded(
+            child: SizedBox(
+              width: MediaQuery.of(context).size.width,
+              height: MediaQuery.of(context).size.height,
+              child: ListView.builder(
+                shrinkWrap: true,
+                physics: const ScrollPhysics(),
+                itemCount: postState.posts.length,
+                itemBuilder: (BuildContext context, int index) {
+
+
+                  return Card(
+                    color: Colors.white,
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Container(
-                            decoration: BoxDecoration(
-                              color: Colors.white,
-                              border: Border.all(
-                                  color: AppTheme.buttonBackgroundColor,
-                                  width: 2),
-                              borderRadius: BorderRadius.circular(20),
-                            ),
-                            margin: const EdgeInsets.only(right: 8.0),
-                            child: const CircleAvatar(
-                              radius: 20,
-                              backgroundColor: Colors.white,
-                              backgroundImage: AssetImage(
-                                  "asset/images/login/avatar_img.png"),
-                            ),
-                          ),
-                          Row(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                _posts[index].name,
-                                style: const TextStyle(
-                                    fontWeight: FontWeight.bold, fontSize: 16),
-                              ),
-                              const SizedBox(
-                                width: 10,
-                              ),
-                              Text(
-                                TimeConverting.getDate(
-                                    _posts[index].time, false),
-                                style: TextStyle(color: Colors.grey),
-                              )
-                            ],
-                          )
-                        ],
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 8.0),
-                        child: Text(_posts[index].post),
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          Row(
-                            children: [
-                              IconButton(
-                                  icon: Icon(
-                                    Icons.favorite_border,
-                                    color: _liked[index]
-                                        ? AppTheme.buttonBackgroundColor
-                                        : Colors.grey,
-                                  ),
-                                  onPressed: () {
-                                    setState(() {
-                                      _liked[index] = !_liked[index];
-                                    });
-                                  }),
-                              Text((_countedLike == 0)
-                                  ? 'None'
-                                  : (_countedLike.toString() +
-                                          ' ' +
-                                          LanguageBuilder.texts!['post_page']
-                                              ['like']) +
-                                      ((_countedLike > 1)
-                                          ? LanguageBuilder.texts!['time_stamp']
-                                              ['suffix']
-                                          : '')),
-                            ],
-                          ),
-                          GestureDetector(
-                            onTap: () {
-                              // Navigator.pushNamed(context, AppRoute.commentDetail);
-                            },
-                            child: Row(
-                              children: [
-                                IconButton(
-                                    icon:
-                                        const Icon(Icons.mode_comment_outlined),
-                                    onPressed: () {
-                                      Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder: (context) => CommentDetail(
-                                              post: _posts[index]),
+                          BlocBuilder<UserCubit, UserState>(
+                            builder: (context, userState) {
+
+                              if (userState is UserLoaded) {
+                                final user = userState.users.firstWhere(
+                                      (user) => user.uid == postState.posts[index],
+                                  orElse: () => UserEntity(),
+                                );
+
+                                print("${userState.users}");
+                                  return Row(
+                                    children: [
+                                      Container(
+                                        decoration: BoxDecoration(
+                                          color: Colors.white,
+                                          border: Border.all(
+                                            color:
+                                                AppTheme.buttonBackgroundColor,
+                                            width: 2,
+                                          ),
+                                          borderRadius:
+                                              BorderRadius.circular(20),
                                         ),
-                                      );
-                                    }),
-                                Text(((_countedComment == 0)
-                                        ? LanguageBuilder.texts!['post_page']
-                                            ['no_comment']
-                                        : (_countedComment.toString() + ' ')) +
-                                    LanguageBuilder.texts!['post_page']
-                                        ['comment'] +
-                                    ((_countedComment > 1)
-                                        ? LanguageBuilder.texts!['time_stamp']
-                                            ['suffix']
-                                        : '')),
-                              ],
+                                        margin:
+                                            const EdgeInsets.only(right: 8.0),
+                                        child: CircleAvatar(
+                                          radius: 20,
+                                          backgroundColor: Colors.white,
+                                          backgroundImage: user.imageUrl != null
+                                              ? NetworkImage(
+                                                  user.imageUrl.toString())
+                                              : null,
+                                        ),
+                                      ),
+                                      Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            user.fullName.toString(),
+                                            style: const TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 16,
+                                            ),
+                                          ),
+                                          const SizedBox(
+                                            height: 2,
+                                          ),
+                                          Text(
+                                            user.datetime.toString(),
+                                            style: const TextStyle(
+                                              color: Colors.grey,
+                                            ),
+                                          )
+                                        ],
+                                      )
+                                    ],
+                                  );
+
+                              }
+                              return Container(); // or any other fallback widget if the userState is not UserLoaded or the user is not found
+                            },
+                          ),
+                          SingleChildScrollView(
+                            child: ExpandableTextWidget(
+                                text: postState.posts[index].postContent
+                                    .toString()),
+                          ),
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          SizedBox(
+                            height: 200,
+                            width: MediaQuery.of(context).size.width,
+                            child: GridView.count(
+                              crossAxisCount: 3,
+                              childAspectRatio: 1.0,
+                              mainAxisSpacing: 2.0,
+                              crossAxisSpacing: 2.0,
+                              padding: const EdgeInsets.all(2.0),
+                              // Corrected line for the decoration property
+                              clipBehavior: Clip.none,
+                              children: List.generate(
+                                postState.posts[index].postImages!.length,
+                                (i) {
+                                  return Container(
+                                    margin: const EdgeInsets.all(2.0),
+                                    decoration: BoxDecoration(
+                                      border: Border.all(
+                                          color: Colors.grey[700]!, width: 1),
+                                      borderRadius: BorderRadius.circular(10),
+                                    ),
+                                    child: Container(
+                                      decoration: BoxDecoration(
+                                        image: DecorationImage(
+                                          image: NetworkImage(postState
+                                              .posts[index].postImages![i]),
+                                          fit: BoxFit.cover,
+                                        ),
+                                      ),
+                                      child: i == 2 &&
+                                              postState.posts[index].postImages!
+                                                      .length >
+                                                  3
+                                          ? Center(
+                                              child: Container(
+                                                color: Colors.black
+                                                    .withOpacity(0.5),
+                                                child: Text(
+                                                  '+${postState.posts[index].postImages!.length - 3}',
+                                                  style: TextStyle(
+                                                      color: Colors.white),
+                                                ),
+                                              ),
+                                            )
+                                          : null,
+                                    ),
+                                  );
+                                },
+                              ),
                             ),
-                          )
+                          ),
                         ],
                       ),
-                    ],
-                  ),
-                ),
-                const Divider(
-                    thickness: 1, color: AppTheme.dividerPost, height: 0),
-              ],
+                    ),
+                  );
+                },
+              ),
             ),
           );
-        },
-      ),
+        } else {
+          return const CircularProgressIndicator();
+        }
+      },
     );
   }
 
   Widget listFriendsContent() {
-    return Container(
-      height: 120,
+    return SizedBox(
+      height: 150,
       child: ListView.builder(
         scrollDirection: Axis.horizontal,
         itemCount: dataList.length,
@@ -318,43 +569,64 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
   Widget drawerHome(BuildContext context) {
     return Drawer(
       child: Column(
-        // Important: Remove any padding from the ListView.
         children: [
-          UserAccountsDrawerHeader(
-            accountName: const Text(
-              'สุบรรณ นกสังข์ (โบ๊ท)',
-              style:
-                  TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
-            ),
-            accountEmail: const Text(
-              'Mobile Developer',
-              style:
-                  TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
-            ),
-            currentAccountPicture: CircleAvatar(
-                backgroundColor: Colors.white,
-                backgroundImage:
-                    const AssetImage('asset/images/login/avatar_img.png'),
-                radius: 50,
-                child: Container(
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    border: Border.all(
-                      color: Colors.blue, // สีขอบ
-                      width: 2.0, // ความกว้างของขอบ
+          BlocBuilder<UserCubit, UserState>(
+            builder: (context, userState) {
+              if (userState is UserLoaded) {
+                final user =
+                    userState.users.firstWhere((u) => u.uid == widget.uid);
+
+                return UserAccountsDrawerHeader(
+                  accountName: Row(
+                    children: [
+                      Text(
+                        user.fullName ?? "",
+                        style: const TextStyle(
+                          color: Colors.black,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      const SizedBox(
+                        width: 10,
+                      ),
+                      Text(
+                        "(${user.nickName})",
+                        style: const TextStyle(
+                          color: Colors.black,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ],
+                  ),
+                  accountEmail: Text(
+                    user.position ?? "",
+                    style: const TextStyle(
+                      color: Colors.black,
+                      fontWeight: FontWeight.bold,
                     ),
                   ),
-                )),
-            decoration: const BoxDecoration(
-              color: Colors.white,
-              boxShadow: [
-                BoxShadow(
-                  color: AppTheme.dividerPost,
-
-                  offset: Offset(0, 2)
-                )
-              ]
-            ),
+                  currentAccountPicture: CircleAvatar(
+                    backgroundColor: Colors.white,
+                    backgroundImage: NetworkImage(user.imageUrl!),
+                    radius: 50,
+                    child: Container(
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        border: Border.all(
+                          color: Colors.blue, // สีขอบ
+                          width: 2.0, // ความกว้างของขอบ
+                        ),
+                      ),
+                    ),
+                  ),
+                  decoration: const BoxDecoration(
+                    color: Colors.white,
+                  ),
+                );
+              } else {
+                return const Center(child: CircularProgressIndicator());
+              }
+            },
           ),
           ...MenuViewModel()
               .items

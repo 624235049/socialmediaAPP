@@ -1,11 +1,15 @@
 import 'dart:typed_data';
 import 'package:flutter/material.dart';
+import 'package:mfecinternship/common/config/app_route.dart';
 import 'package:photo_manager/photo_manager.dart';
 
 import '../../../../utils/theme.dart';
 import 'create_post_pages.dart';
 
 class MyGalleryPage extends StatefulWidget {
+  final String uid;
+
+  const MyGalleryPage({Key? key, required this.uid}) : super(key: key);
   @override
   _MyGalleryPageState createState() => _MyGalleryPageState();
 }
@@ -38,11 +42,21 @@ class _MyGalleryPageState extends State<MyGalleryPage> {
     final List<AssetEntity> selectedImages =
         _selectedIndices.map((index) => _images[index]).toList();
 
-    Navigator.push(
+    // Navigator.push(
+    //   context,
+    //   MaterialPageRoute(
+    //     builder: (context) => CreatePost(images: selectedImages),
+    //   ),
+    // );
+    final Object? uid = ModalRoute.of(context)?.settings.arguments;
+      print("$uid");
+    Navigator.pushAndRemoveUntil(
       context,
       MaterialPageRoute(
-        builder: (context) => CreatePost(images: selectedImages),
+
+        builder: (context) => CreatePost(images: selectedImages, uid: uid.toString(),),
       ),
+      ModalRoute.withName('/'),
     );
   }
 

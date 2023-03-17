@@ -12,6 +12,7 @@ import 'package:mfecinternship/feature/regis/cubit/credential/credential_cubit.d
 import 'package:mfecinternship/feature/regis/domain/entities/user_entity.dart';
 import 'package:mfecinternship/utils/theme.dart';
 
+import '../../../../common/function/common.dart';
 import '../../data/remote_data_source/storage_provider.dart';
 import '../../widget/widget_bigtext.dart';
 import '../../widget/widget_textformfield.dart';
@@ -50,29 +51,35 @@ class _RegistrationPageState extends State<RegistrationPage> {
   //     "ข้อ 1 คำนิยามภายในข้อกำหนดนี้(ก) แอปพลิเคชัน หมายความว่าแอปพลิเคชันชื่อว่า มะลิซ้อน TGIA x Farmfeed ซึ่งดำเนินการและให้บริการในลักษณะดังต่อไปนี้แอปพลิเคชันที่ช่วยเหลือเกษตรกรที่ประสบภัยพิบัติแต่ไม่ได้อยู่ในพื้นที่ที่ประกาศภัยพิบัติ(ข) เจ้าของแอปพลิเคชัน หมายความว่า บริษัท อินฟิวส์ จำกัด ทะเบียนนิติบุคคลเลขที่ 0105556133084 สำนักงานตั้งอยู่ที่ 41 ถนนแก้วเงินทองแขวงคลองชักพระเขตตลิ่งชันกรุงเทพมหานคร 10170(ค) ผู้ใช้งาน หมายความว่าผู้เยี่ยมชมผู้ใช้สมาชิกของแอปพลิเคชันหรือบุคคลอื่นใดที่เข้าถึงแอปพลิเคชันไม่ว่าการเยี่ยมชมการใช้การเป็นสมาชิกหรือการเข้าถึงนั้นจะกระทำด้วยวิธีใดลักษณะใดผ่านอุปกรณ์ใดผ่านช่องทางใดและไม่ว่ามีค่าใช้จ่ายหรือไม่ก็ตาม(ง) ข้อมูลส่วนบุคคล หมายความว่าข้อมูลใด ๆ ก็ตามไม่ว่าของผู้ใช้งานหรือบุคคลอื่นใดที่สามารถใช้ในการระบุตัวตนของบุคคลบุคคลนั้นได้ไม่ว่าทางตรงหรือทางอ้อม(จ) เนื้อหา หมายความว่าข้อความ บทความ ความคิดเห็น บทวิเคราะห์ รูปภาพ สัญลักษณ์ เครื่องหมาย รูปภาพประดิษฐ์ภาพถ่าย ภาพเคลื่อนไหว ภาพยนตร์ เสียง สิ่งบันทึกเสียง การออกแบบ คำสั่ง ชุดคำสั่ง หรือการสื่อสาร ไม่ว่าในลักษณะใดและวิธีใด ๆ ในแอปพลิเคชัน และไม่ว่าเนื้อหานั้นจะมีการจำกัดการเข้าถึงหรือไม่ก็ตาม";
 
   void _submitRegister() {
-    BlocProvider.of<CredentialCubit>(context).submitSignUp(
-        user: UserEntity(
-      email: email.text,
-      password: password.text,
-      fullName: nameSurname.text,
-      nickName: nickName.text,
-      datetime: dateController.text,
-      skill: skill.text,
-      expect: expect.text,
-      gender: _selectedGender,
-      imageUrl: _profileUrl,
-      phone: phone.text,
-      position: _selectedPosition,
-      birthday: birthday,
-    ));
+
+    if (pickedFile == null) {
+      return toast("Please select Image");
+    }
 
     if (pickedFile != null) {
       StorageProviderRemoteDataSource.uploadFile(file: pickedFile!)
           .then((value) {
         setState(() {
-           _profileUrl = value.toString();
-           print("pathimage ===> ${_image!.path}");
+          _profileUrl = value.toString();
+          print("pathimage ===> ${_image!.path}");
+
         });
+      }).then((value) {
+        BlocProvider.of<CredentialCubit>(context).submitSignUp(
+            user: UserEntity(
+              email: email.text,
+              password: password.text,
+              fullName: nameSurname.text,
+              nickName: nickName.text,
+              datetime: dateController.text,
+              skill: skill.text,
+              expect: expect.text,
+              gender: _selectedGender,
+              imageUrl: _profileUrl,
+              phone: phone.text,
+              position: _selectedPosition,
+              birthday: dateController.text,
+            ));
       });
     } else {
       toast('No image selected.');
@@ -560,6 +567,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
   Widget selectedGender() {
     return Container(
       margin: const EdgeInsets.only(left: 30, right: 30),
+      // width: double.infinity,
       child: TextFormField(
         // validator: (value) {
         //   if (value.toString().isEmpty) {
@@ -568,51 +576,127 @@ class _RegistrationPageState extends State<RegistrationPage> {
         //   return null; // คืนค่า null หากไม่มี error
         // },
         decoration: InputDecoration(
-          labelText: LanguageBuilder.texts!['register_personal']
-              ['gender_field'],
+          labelText:
+          LanguageBuilder.texts!['register_personal']['gender_field'],
           floatingLabelBehavior: FloatingLabelBehavior.always,
           border: const OutlineInputBorder(),
-          suffixIcon: Row(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              Radio(
-                value: 'ชาย',
-                groupValue: _selectedGender,
-                onChanged: (value) {
-                  setState(() {
-                    _selectedGender = value.toString();
-                  });
-                },
-              ),
-              Text(LanguageBuilder.texts!['register_personal']['gender_male']),
-              Radio(
-                value: 'หญิง',
-                groupValue: _selectedGender,
-                onChanged: (value) {
-                  setState(() {
-                    _selectedGender = value.toString();
-                  });
-                },
-              ),
-              Text(
-                  LanguageBuilder.texts!['register_personal']['gender_female']),
-              Radio(
-                value: 'อื่นๆ',
-                groupValue: _selectedGender,
-                onChanged: (value) {
-                  setState(() {
-                    _selectedGender = value.toString();
-                  });
-                },
-              ),
-              Text(LanguageBuilder.texts!['register_personal']['gender_other']),
-            ],
+          suffixIcon: Padding(
+            padding: const EdgeInsets.only(right: 10),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Radio(
+                      value: 'ชาย',
+                      groupValue: _selectedGender,
+                      onChanged: (value) {
+                        setState(() {
+                          _selectedGender = value.toString();
+                        });
+                      },
+                    ),
+                    Text(LanguageBuilder.texts!['register_personal']['gender_male']),
+                    Radio(
+                      value: 'หญิง',
+                      groupValue: _selectedGender,
+                      onChanged: (value) {
+                        setState(() {
+                          _selectedGender = value.toString();
+                        });
+                      },
+                    ),
+                    Text(
+                        LanguageBuilder.texts!['register_personal']['gender_female']),
+
+                  ],
+                ),
+                Row(
+                  children: [
+                    Radio(
+                      value: 'อื่นๆ',
+                      groupValue: _selectedGender,
+                      onChanged: (value) {
+                        setState(() {
+                          _selectedGender = value.toString();
+                        });
+                      },
+                    ),
+                    Text(LanguageBuilder.texts!['register_personal']['gender_other']),
+                  ],
+                ),
+
+              ],
+            ),
           ),
         ),
       ),
     );
   }
-
+  // Widget selectedGender() {
+  //   return TextFormField(
+  //     validator: (value) {
+  //       if (value == null || value.isEmpty) {
+  //         return 'กรุณาเลือกเพศ';
+  //       }
+  //       return null;
+  //     },
+  //     decoration: InputDecoration(
+  //       labelText: 'เพศ',
+  //       border: const OutlineInputBorder(),
+  //     ),
+  //     readOnly: true,
+  //     onTap: () {
+  //       showDialog(
+  //         context: context,
+  //         builder: (BuildContext context) {
+  //           return AlertDialog(
+  //             title: Text('เลือกเพศ'),
+  //             content: Column(
+  //               mainAxisSize: MainAxisSize.min,
+  //               children: <Widget>[
+  //                 RadioListTile(
+  //                   title: Text('ชาย'),
+  //                   value: 'ชาย',
+  //                   groupValue: _selectedGender,
+  //                   onChanged: (value) {
+  //                     setState(() {
+  //                       _selectedGender = value.toString();
+  //                     });
+  //                     Navigator.pop(context);
+  //                   },
+  //                 ),
+  //                 RadioListTile(
+  //                   title: Text('หญิง'),
+  //                   value: 'หญิง',
+  //                   groupValue: _selectedGender,
+  //                   onChanged: (value) {
+  //                     setState(() {
+  //                       _selectedGender = value.toString();
+  //                     });
+  //                     Navigator.pop(context);
+  //                   },
+  //                 ),
+  //                 RadioListTile(
+  //                   title: Text('อื่นๆ'),
+  //                   value: 'อื่นๆ',
+  //                   groupValue: _selectedGender,
+  //                   onChanged: (value) {
+  //                     setState(() {
+  //                       _selectedGender = value.toString();
+  //                     });
+  //                     Navigator.pop(context);
+  //                   },
+  //                 ),
+  //               ],
+  //             ),
+  //           );
+  //         },
+  //       );
+  //     },
+  //   );
+  // }
   //Calender Widget
   Widget birthDayFormField() {
     return Container(
@@ -657,7 +741,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
     if (picked != null && picked != _selectedDate) {
       setState(() {
         _selectedDate = picked;
-        birthday =
+        dateController.text =
             '${_selectedDate!.year}-${_selectedDate!.month}-${_selectedDate!.day}';
       });
     }
@@ -679,11 +763,17 @@ class _RegistrationPageState extends State<RegistrationPage> {
       body: BlocConsumer<CredentialCubit, CredentialState>(
         listener: (context, credentialState) {},
         builder: (context, credentialState) {
+
           if (credentialState is CredentialSuccess) {
-            print("register Success");
+            toast("register success!");
           }
           if (credentialState is CredentialFailure) {
-            print("register Fail");
+            print("register fail");
+          }
+          if (credentialState is CredentialLoading) {
+            return Scaffold(
+              body: loadingIndicatorProgressBar(),
+            );
           }
           return _bodyWidget();
         },

@@ -51,6 +51,8 @@ dependencies:
   flutter_bloc: ^8.0.1
   get_it: ^7.1.2
   fluttertoast: ^8.1.2
+  cached_network_image: ^3.1.0
+  intl: ^0.17.0
 
 dev_dependencies:
   flutter_test:
@@ -85,6 +87,7 @@ flutter:
     - asset/images/login/avatar_img.png
     - asset/images/login/real-photo.png
     - asset/images/home/logo_appbar.png
+    - asset/images/login/logo_bg.png
 
 
 
