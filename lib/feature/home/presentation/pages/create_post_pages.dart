@@ -2,15 +2,14 @@ import 'dart:io';
 import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
+
 import 'package:intl/intl.dart';
 import 'package:language_builder/language_builder.dart';
-import 'package:mfecinternship/common/config/app_route.dart';
-import 'package:mfecinternship/feature/home/cubit/post/post_cubit.dart';
-import 'package:mfecinternship/feature/home/domain/entities/post_entity.dart';
-import 'package:mfecinternship/feature/home/presentation/pages/home_pages.dart';
-import 'package:mfecinternship/utils/theme.dart';
+
 import 'package:photo_manager/photo_manager.dart';
+import 'package:socialMediaApp/common/config/app_route.dart';
+import 'package:socialMediaApp/feature/home/domain/entities/post_entity.dart';
+import 'package:socialMediaApp/utils/theme.dart';
 import '../../../../common/function/common.dart';
 import '../../cubit/post/post_cubit.dart';
 import '../../data/remote_data_source/storage_provider_createpost.dart';

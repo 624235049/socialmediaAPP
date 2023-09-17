@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:language_builder/language_builder.dart';
-import 'package:mfecinternship/feature/about/presentation/pages/about_pages.dart';
-import 'package:mfecinternship/feature/language_screen/presentation/pages/language_screen.dart';
-import 'package:mfecinternship/feature/term/presentation/pages/term_pages.dart';
-import 'package:mfecinternship/utils/theme.dart';
+import 'package:socialMediaApp/feature/about/presentation/pages/about_pages.dart';
+import 'package:socialMediaApp/feature/language_screen/presentation/pages/language_screen.dart';
+import 'package:socialMediaApp/feature/term/presentation/pages/term_pages.dart';
+import 'package:socialMediaApp/utils/theme.dart';
+
+
+
 
 class Menu {
   final String title;

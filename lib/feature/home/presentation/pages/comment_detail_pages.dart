@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:language_builder/language_builder.dart';
-import 'package:mfecinternship/common/function/time_converting.dart';
-import 'package:mfecinternship/model/data_model.dart';
-import 'package:mfecinternship/utils/theme.dart';
+import 'package:socialMediaApp/common/function/time_converting.dart';
+import 'package:socialMediaApp/model/comment_model.dart';
+import 'package:socialMediaApp/model/data_model.dart';
+import 'package:socialMediaApp/utils/theme.dart';
+
 
 class CommentDetail extends StatefulWidget {
   final Post post;

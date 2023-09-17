@@ -1,8 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:mfecinternship/feature/regis/data/remote_data_source/models/user_model.dart';
+import 'package:socialMediaApp/common/model/user_models.dart';
 
-import '../../../../model/userModel.dart';
+
 import '../../domain/entities/user_entity.dart';
 import 'firebase_remote_data_source.dart';
 

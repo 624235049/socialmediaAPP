@@ -1,4 +1,4 @@
-import 'package:mfecinternship/feature/home/domain/entities/post_entity.dart';
+import 'package:socialMediaApp/feature/home/domain/entities/post_entity.dart';
 
 import '../repositories/firebase_repository_home.dart';
 

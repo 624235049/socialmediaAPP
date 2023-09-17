@@ -3,8 +3,9 @@ import 'dart:io';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
-import 'package:mfecinternship/feature/auth/domain/use_cases/login_usecase.dart';
-import 'package:mfecinternship/feature/auth/domain/use_cases/logout_usecase.dart';
+import 'package:socialMediaApp/feature/auth/domain/use_cases/login_usecase.dart';
+import 'package:socialMediaApp/feature/auth/domain/use_cases/logout_usecase.dart';
+
 
 import '../../domain/entities/user_entity.dart';
 

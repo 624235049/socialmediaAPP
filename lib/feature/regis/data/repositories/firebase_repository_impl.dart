@@ -1,6 +1,12 @@
-import 'package:mfecinternship/feature/regis/data/remote_data_source/firebase_remote_data_source.dart';
-import 'package:mfecinternship/feature/regis/domain/entities/user_entity.dart';
-import 'package:mfecinternship/feature/regis/domain/repositories/firebase_repository.dart';
+
+
+
+
+import 'package:socialMediaApp/feature/auth/domain/entities/user_entity.dart';
+import 'package:socialMediaApp/feature/regis/data/remote_data_source/firebase_remote_data_source.dart';
+import 'package:socialMediaApp/feature/regis/domain/repositories/firebase_repository.dart';
+
+
 
 class FirebaseRepositoryImpl implements FirebaseRepository {
   @override

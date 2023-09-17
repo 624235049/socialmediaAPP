@@ -2,10 +2,12 @@ import 'dart:io';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:mfecinternship/feature/regis/domain/entities/user_entity.dart';
-import '../../domain/usecases/get_current_userId_usecase.dart';
-import '../../domain/usecases/get_current_user_usecase.dart';
-import '../../domain/usecases/regis_usecase.dart';
+import 'package:socialMediaApp/feature/auth/domain/entities/user_entity.dart';
+import 'package:socialMediaApp/feature/regis/domain/usecases/get_current_userId_usecase.dart';
+import 'package:socialMediaApp/feature/regis/domain/usecases/get_current_user_usecase.dart';
+import 'package:socialMediaApp/feature/regis/domain/usecases/regis_usecase.dart';
+
+
 
 part 'credential_state.dart';
 

@@ -1,5 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:mfecinternship/feature/regis/domain/entities/user_entity.dart';
+import 'package:socialMediaApp/feature/regis/domain/entities/user_entity.dart';
 
 class UserModel extends UserEntity {
   UserModel({

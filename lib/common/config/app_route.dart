@@ -1,9 +1,9 @@
 
 import 'package:flutter/material.dart';
-import 'package:mfecinternship/feature/home/presentation/pages/create_post_pages.dart';
-import 'package:mfecinternship/feature/home/presentation/pages/friend_list.dart';
-import 'package:mfecinternship/feature/home/presentation/pages/home_pages.dart';
-import 'package:mfecinternship/feature/regis/presentation/pages/regis_pages.dart';
+import 'package:socialMediaApp/feature/home/presentation/pages/create_post_pages.dart';
+import 'package:socialMediaApp/feature/home/presentation/pages/friend_list.dart';
+import 'package:socialMediaApp/feature/home/presentation/pages/home_pages.dart';
+import 'package:socialMediaApp/feature/regis/presentation/pages/regis_pages.dart';
 
 import '../../feature/auth/presentation/pages/login_pages.dart';
 import '../../feature/home/presentation/pages/gallery_pages.dart';

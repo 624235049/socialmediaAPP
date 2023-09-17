@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:language_builder/language_builder.dart';
+import 'package:socialMediaApp/feature/auth/cubit/credential/credential_auth_cubit.dart';
+import 'package:socialMediaApp/feature/auth/presentation/widget/widget_textformfield.dart';
+import 'package:socialMediaApp/utils/theme.dart';
 
-import 'package:mfecinternship/feature/auth/cubit/credential/credential_auth_cubit.dart';
-import 'package:mfecinternship/feature/auth/presentation/widget/widget_textformfield.dart';
-import 'package:mfecinternship/utils/theme.dart';
+
 import '../../../../common/config/app_route.dart';
 import '../../../../common/function/common.dart';
 import '../../cubit/auth/auth_cubit.dart';

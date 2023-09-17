@@ -4,7 +4,8 @@
 
 
 
-import 'package:mfecinternship/feature/home/domain/entities/post_entity.dart';
+
+import 'package:socialMediaApp/feature/home/domain/entities/post_entity.dart';
 
 import '../../../auth/domain/entities/user_entity.dart';
 

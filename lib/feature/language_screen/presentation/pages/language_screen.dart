@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:language_builder/language_builder.dart';
-import 'package:mfecinternship/utils/theme.dart';
+import 'package:socialMediaApp/utils/theme.dart';
+
 
 class LanguageScreen extends StatefulWidget {
   const LanguageScreen({Key? key}) : super(key: key);

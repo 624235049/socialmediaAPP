@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:language_builder/language_builder.dart';
-import 'package:mfecinternship/utils/theme.dart';
+import 'package:socialMediaApp/utils/theme.dart';
 
 class AboutPages extends StatefulWidget {
   const AboutPages({Key? key}) : super(key: key);

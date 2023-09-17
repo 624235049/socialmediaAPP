@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:mfecinternship/feature/auth/domain/entities/user_entity.dart';
+import 'package:socialMediaApp/feature/auth/domain/entities/user_entity.dart';
 
 import 'firebase_remote_data_sources_auth.dart';
 

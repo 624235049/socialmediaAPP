@@ -1,8 +1,9 @@
 
 import 'package:flutter/material.dart';
 import 'package:language_builder/language_builder.dart';
-import 'package:mfecinternship/feature/home/presentation/widget/widget_small_text.dart';
-import 'package:mfecinternship/utils/theme.dart';
+
+import 'package:socialMediaApp/feature/home/presentation/widget/widget_small_text.dart';
+import 'package:socialMediaApp/utils/theme.dart';
 
 class ExpandableTextWidget extends StatefulWidget {
   final String text;

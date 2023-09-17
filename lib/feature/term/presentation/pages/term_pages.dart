@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
+
 import 'package:language_builder/language_builder.dart';
-import 'package:mfecinternship/utils/theme.dart';
+import 'package:socialMediaApp/utils/theme.dart';
+
 
 class TermPages extends StatelessWidget {
   const TermPages({Key? key}) : super(key: key);

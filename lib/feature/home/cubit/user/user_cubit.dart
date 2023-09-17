@@ -3,9 +3,9 @@ import 'dart:io';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:mfecinternship/common/model/user_models.dart';
-import 'package:mfecinternship/feature/auth/domain/entities/user_entity.dart';
-import 'package:mfecinternship/feature/home/domain/usecases/get_all_users_usecase.dart';
+import 'package:socialMediaApp/feature/auth/domain/entities/user_entity.dart';
+
+import 'package:socialMediaApp/feature/home/domain/usecases/get_all_users_usecase.dart';
 
 part 'user_state.dart';
 

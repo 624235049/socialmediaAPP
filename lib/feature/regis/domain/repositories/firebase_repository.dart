@@ -1,4 +1,5 @@
-import 'package:mfecinternship/feature/regis/domain/entities/user_entity.dart';
+
+import 'package:socialMediaApp/feature/auth/domain/entities/user_entity.dart';
 
 abstract class FirebaseRepository {
   Future<void> register(UserEntity user);

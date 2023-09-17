@@ -3,10 +3,11 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:language_builder/language_builder.dart';
-import 'package:mfecinternship/feature/auth/domain/entities/user_entity.dart';
-import 'package:mfecinternship/feature/home/cubit/post/post_cubit.dart';
-import 'package:mfecinternship/feature/home/cubit/user/user_cubit.dart';
-import 'package:mfecinternship/utils/theme.dart';
+import 'package:socialMediaApp/feature/auth/domain/entities/user_entity.dart';
+import 'package:socialMediaApp/feature/home/cubit/post/post_cubit.dart';
+import 'package:socialMediaApp/feature/home/cubit/user/user_cubit.dart';
+import 'package:socialMediaApp/utils/theme.dart';
+
 import '../../../../common/config/app_route.dart';
 import '../../../../model/data_model.dart';
 import '../widget/widget_exandable.dart';

@@ -1,5 +1,7 @@
-import 'package:mfecinternship/feature/regis/domain/entities/user_entity.dart';
-import 'package:mfecinternship/feature/regis/domain/repositories/firebase_repository.dart';
+
+
+import 'package:socialMediaApp/feature/auth/domain/entities/user_entity.dart';
+import 'package:socialMediaApp/feature/regis/domain/repositories/firebase_repository.dart';
 
 class GetCurrentUserUseCase {
   final FirebaseRepository repository;

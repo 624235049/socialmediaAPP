@@ -1,6 +1,6 @@
 import 'dart:typed_data';
 import 'package:flutter/material.dart';
-import 'package:mfecinternship/common/config/app_route.dart';
+
 import 'package:photo_manager/photo_manager.dart';
 
 import '../../../../utils/theme.dart';

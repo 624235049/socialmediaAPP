@@ -1,4 +1,5 @@
-import 'package:mfecinternship/feature/auth/domain/entities/user_entity.dart';
+
+import 'package:socialMediaApp/feature/auth/domain/entities/user_entity.dart';
 
 import '../../domain/repositories/firebase_repository.dart';
 import '../remote/data_sources_auth/firebase_remote_data_sources_auth.dart';

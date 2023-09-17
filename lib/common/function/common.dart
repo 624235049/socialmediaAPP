@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mfecinternship/utils/theme.dart';
+import 'package:socialMediaApp/utils/theme.dart';
 
 void snackBarNetwork({String? msg, GlobalKey<ScaffoldState>? scaffoldState}) {
   scaffoldState!.currentState!.showSnackBar(

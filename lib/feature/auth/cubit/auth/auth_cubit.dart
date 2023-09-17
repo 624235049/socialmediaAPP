@@ -1,7 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:mfecinternship/feature/auth/domain/use_cases/is_login_usecase.dart';
-import 'package:mfecinternship/feature/auth/domain/use_cases/logout_usecase.dart';
+import 'package:socialMediaApp/feature/auth/domain/use_cases/is_login_usecase.dart';
+import 'package:socialMediaApp/feature/auth/domain/use_cases/logout_usecase.dart';
 
 import '../../domain/use_cases/getcurrent_uid_usecase_auth.dart';
 

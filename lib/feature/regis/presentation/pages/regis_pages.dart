@@ -1,16 +1,14 @@
-// import 'dart:html';
 import 'dart:io';
-import 'dart:math';
 
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:mfecinternship/common/config/app_route.dart';
+
 import 'package:language_builder/language_builder.dart';
-import 'package:mfecinternship/feature/regis/cubit/credential/credential_cubit.dart';
-import 'package:mfecinternship/feature/regis/domain/entities/user_entity.dart';
-import 'package:mfecinternship/utils/theme.dart';
+import 'package:socialMediaApp/feature/auth/domain/entities/user_entity.dart';
+import 'package:socialMediaApp/feature/regis/cubit/credential/credential_cubit.dart';
+import 'package:socialMediaApp/utils/theme.dart';
+
 
 import '../../../../common/function/common.dart';
 import '../../data/remote_data_source/storage_provider.dart';

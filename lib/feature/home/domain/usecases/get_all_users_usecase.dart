@@ -1,7 +1,8 @@
 
 
 
-import 'package:mfecinternship/feature/home/domain/repositories/firebase_repository_home.dart';
+import 'package:socialMediaApp/feature/home/domain/repositories/firebase_repository_home.dart';
+
 import '../../../auth/domain/entities/user_entity.dart';
 
 
